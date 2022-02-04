@@ -1,0 +1,23 @@
+extends layout
+
+block content
+  header
+    h1 Alibazon
+    ul
+      li Category 1
+      li Category 2
+      li Category 3
+    p Breadcrumbs navigation
+  main
+    .main-category
+      h2 Main Category Name 
+      p Descrição main category: Lorem ipsum
+    mixin sub-category
+      p image
+      p Descrição subcategory: Lorem ipsum
+      button view products
+    +sub-category
+    +sub-category
+  footer
+    p Copyright 2021 - OSF Digital
+    //- p Welcome to #{title}
