@@ -7,9 +7,13 @@ block content
       p= mainDescription 
     mixin sub-category
       h3 Subcategories
-      each sub in data
-        img(src='../public/images/#{data.image}')
-        p= data.page_description
-      button view products
-    +sub-category
+      each sub in subDataClothing
+        img(src="/images/" + sub.image)
+        p= sub.page_description
+        button view products
+
+      each sub in subDataAccessories
+        img(src="/images/" + sub.image)
+        p= sub.page_description
+        button view products
     +sub-category
