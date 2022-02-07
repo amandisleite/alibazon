@@ -10,5 +10,7 @@ block categoriesWomen
         each sub in subCat
           img(src="/images/" + sub.image)
           p= sub.page_description
-          button view products
+          form(action=`${sub.id}` method="get")
+            button(type='submit') view products
+          <br><br>
     +sub-category

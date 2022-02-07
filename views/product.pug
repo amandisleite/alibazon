@@ -1,6 +1,6 @@
 extends layout
 
-block categoriesMen
+block categoriesWomen
   .main-category
     h2= mainData.name
     p= mainData.page_description
@@ -10,5 +10,7 @@ block categoriesMen
         each sub in subCat
           img(src="/images/" + sub.image)
           p= sub.page_description
-          button view products
+          form(action=`${sub.id}` method="get")
+            button(type='submit') view products
+          <br><br>
     +sub-category
