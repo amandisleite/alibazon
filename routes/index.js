@@ -6,8 +6,7 @@ router.get('/', (req, res, next) => {
   res.render('index');
 });
 
-router.get('/:category', CategoryController.getSubCategories)
-router.get('/:category', CategoryController.getSubCategories)
+router.get('/:category', CategoryController.getAllSubCategories);
 
 // router.get('/womens', async (req, res, next) => {
 //   try {
