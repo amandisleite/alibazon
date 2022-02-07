@@ -1,3 +1,5 @@
-const MensServices = require('./MensServices');
+const CategoriesServices = require('./CategoriesServices');
 
-module.exports = MensServices;
+module.exports = {
+    CategoriesServices: CategoriesServices
+}
