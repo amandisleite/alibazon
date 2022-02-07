@@ -33,7 +33,7 @@ class CategoryController {
           const products = await CategoriesServices.getData(`${api}products/product_search?primary_category_id=${id}&secretKey=${secretKey}`);
 
           console.log(products)
-          res.render(`${id}`, products)
+          res.render('product', { products: products.data })
         
         } catch (err) { next(err) }
       }

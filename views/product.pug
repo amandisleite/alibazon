@@ -1,16 +1,13 @@
 extends layout
 
-block categoriesWomen
-  .main-category
-    h2= mainData.name
-    p= mainData.page_description
-    mixin sub-category
-      h3 Subcategories
-      each subCat in subResults
-        each sub in subCat
-          img(src="/images/" + sub.image)
-          p= sub.page_description
-          form(action=`${sub.id}` method="get")
-            button(type='submit') view products
-          <br><br>
-    +sub-category
+block products
+  .product
+    mixin product
+      each product in products
+        h3= product.name
+        img(src="/images/" + product.image_groups[0].images[0].link)
+        p= product.page_description
+        form(action=`${product.id}` method="get")
+          button(type='submit') More Info
+        <br><br>
+    +product
