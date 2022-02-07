@@ -6,8 +6,8 @@ router.get('/', (req, res, next) => {
   res.render('index');
 });
 
-const api = "https://osf-digital-backend-academy.herokuapp.com/api/"
-const secretKey = "$2a$08$QOu/RAl4bzs8fGWCYpiN5eYOMfPd2Nwmp4zlL3GPVp/RRkn3Mlgny"
+const api = process.env.API_URL;
+const secretKey = process.env.SECRET_KEY;
 
 async function getApi(url) {
     const response = await axios(url);
@@ -20,7 +20,7 @@ router.get('/mens', async (req, res, next) => {
     const subClothing = await getApi(`${api}categories/parent/mens-clothing?secretKey=${secretKey}`);
     const subAccessories = await getApi(`${api}categories/parent/mens-accessories?secretKey=${secretKey}`);
     
-    res.render('includes/mens', {
+    res.render('mens', {
       mainName: main.data.name,
       mainDescription: main.data.page_description,
       subDataClothing: subClothing.data,
@@ -39,7 +39,7 @@ router.get('/womens', async (req, res, next) => {
     const subAccessories = await getApi(`${api}categories/parent/womens-accessories?secretKey=${secretKey}`);
 
     
-    res.render('includes/womens', {
+    res.render('womens', {
       mainName: main.data.name,
       mainDescription: main.data.page_description,
       subDataClothing: subClothing.data,
