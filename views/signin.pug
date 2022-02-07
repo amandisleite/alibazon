@@ -1,0 +1,16 @@
+extends layout
+
+block signin
+  .breadcrumbs
+    p Home
+    p Sign In
+  .signin
+    h2 Sign In
+    p Login to Alibazon
+  .signin-form
+    form(action="/signin", method="post")
+      label E-mail
+        input(type="email", name="useremail")
+      label Password
+        input(type="password", name="userpassword")
+      button(type='submit') Login now

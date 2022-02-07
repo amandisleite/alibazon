@@ -2,10 +2,10 @@ extends layout
 
 block products
   .breadcrumbs
-  p Home
-  p= category
-  p= subCategory
-  p= product.name
+    p Home
+    p= category
+    p= subCategory
+    p= product.name
   .product
     img(src="/images/" + product.image_groups[0].images[0].link)
     .product-info

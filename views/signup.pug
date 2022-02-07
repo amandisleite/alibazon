@@ -1,0 +1,18 @@
+extends layout
+
+block signup
+  .breadcrumbs
+    p Home
+    p Sign Up
+  .signup
+    h2 Sign Up
+    p Register in Alibazon
+  .signup-form
+    form(action="/signup", method="post")
+      label Name
+        input(type="text", name="username")
+      label E-mail
+        input(type="email", name="useremail")
+      label Password
+        input(type="password", name="userpassword")
+      button(type='submit') Register now
