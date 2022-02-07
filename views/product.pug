@@ -8,7 +8,7 @@ block products
   .product
     mixin product
       each product in products
-        h3= product.name
+        h2= product.name
         img(src="/images/" + product.image_groups[0].images[0].link)
         p= product.page_description
         form(action=`${product.primary_category_id}/${product.id}` method="get")

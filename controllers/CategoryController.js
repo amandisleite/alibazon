@@ -32,7 +32,6 @@ class CategoryController {
 
         try {
           const products = await CategoriesServices.getData(`${api}products/product_search?primary_category_id=${idSubCategory}&secretKey=${secretKey}`);
-          
           const subCategory = idSubCategory.split('-').join(' ')
 
           res.render('product', {
@@ -48,14 +47,13 @@ class CategoryController {
         const { category, idSubCategory, idProduct } = req.params;
 
         try {
-          const productDetail = await CategoriesServices.getData(`${api}products/product_search?${idProduct}&secretKey=${secretKey}`);
+          const productDetail = await CategoriesServices.getData(`${api}products/product_search?id=${idProduct}&secretKey=${secretKey}`);
+          const subCategory = idSubCategory.split('-').join(' ')
 
-          console.log(productDetail)
-
-          res.render('product', {
-            product: productDetail.data,
-            idSubCategory,
-            category
+          res.render('product-page', {
+            product: productDetail.data[0],
+            category,
+            subCategory
            })
         
         } catch (err) { next(err) }
