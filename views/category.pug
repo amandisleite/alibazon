@@ -1,6 +1,9 @@
 extends layout
 
 block categories
+  .breadcrumbs
+  p Home
+  p= category
   .main-category
     h2= mainData.name
     p= mainData.page_description
@@ -10,7 +13,7 @@ block categories
         each sub in subCat
           img(src="/images/" + sub.image)
           p= sub.page_description
-          form(action=`products/${sub.id}` method="get")
+          form(action=`${category}/${sub.id}` method="get")
             button(type='submit') view products
           <br><br>
     +sub-category
