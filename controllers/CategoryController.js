@@ -7,14 +7,14 @@ class CategoryController {
     
     static async getAllSubCategories(req, res, next) {
         const category = req.params.category;
-        const subCategories = ['clothing', 'accessories', 'jewelry'];
+        const subcategories = ['clothing', 'accessories', 'jewelry'];
 
         try {
           const main = await CategoriesServices.getData(`${api}categories/${category}?secretKey=${secretKey}`);
           let subResults = [];
 
-          for (let subCat of subCategories) {
-            const sub = await CategoriesServices.getData(`${api}categories/parent/${category}-${subCat}?secretKey=${secretKey}`)
+          for (let subcat of subcategories) {
+            const sub = await CategoriesServices.getData(`${api}categories/parent/${category}-${subcat}?secretKey=${secretKey}`)
             subResults.push(sub.data)
           }
           
@@ -28,32 +28,32 @@ class CategoryController {
       }
 
       static async getAllProducts(req, res, next) {
-        const { category, idSubCategory } = req.params;
+        const { category, idSubcategory } = req.params;
 
         try {
-          const products = await CategoriesServices.getData(`${api}products/product_search?primary_category_id=${idSubCategory}&secretKey=${secretKey}`);
-          const subCategory = idSubCategory.split('-').join(' ')
+          const products = await CategoriesServices.getData(`${api}products/product_search?primary_category_id=${idSubcategory}&secretKey=${secretKey}`);
+          const subcategory = idSubcategory.split('-').join(' ')
 
           res.render('product', {
             products: products.data,
             category,
-            subCategory
+            subcategory
            })
         
         } catch (err) { next(err) }
       }
 
       static async getOneProduct(req, res, next) {
-        const { category, idSubCategory, idProduct } = req.params;
+        const { category, idSubcategory, idProduct } = req.params;
 
         try {
           const productDetail = await CategoriesServices.getData(`${api}products/product_search?id=${idProduct}&secretKey=${secretKey}`);
-          const subCategory = idSubCategory.split('-').join(' ')
+          const subcategory = idSubcategory.split('-').join(' ')
 
           res.render('product-page', {
             product: productDetail.data[0],
             category,
-            subCategory
+            subcategory
            })
         
         } catch (err) { next(err) }

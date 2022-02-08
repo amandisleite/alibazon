@@ -1,4 +1,5 @@
 const { AuthServices } = require('../services');
+const { createUser, loginUser, validateUser } = require('../services/AuthServices');
 
 const api = process.env.API_URL;
 const secretKey = process.env.SECRET_KEY;
@@ -8,12 +9,7 @@ class AuthController {
   static async signUpUser(req, res, next) {
     const { username, useremail, userpassword } = req.body
 
-    const newUser = {
-      secretKey: secretKey,
-      name: username,
-      email: useremail,
-      password: userpassword
-    }
+    const newUser = createUser(username, useremail, userpassword);
 
     try {
       await AuthServices.sendData(`${api}auth/signup`, newUser)
@@ -26,11 +22,8 @@ class AuthController {
   static async signInUser(req, res, next) {
     const { useremail, userpassword } = req.body
 
-    const user = {
-      secretKey: secretKey,
-      email: useremail,
-      password: userpassword
-    }
+    const user = loginUser(useremail, userpassword);
+    validateUser(user);
 
     try {
       const userLogged = await AuthServices.sendData(`${api}auth/signin`, user)

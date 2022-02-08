@@ -16,8 +16,8 @@ router.get('/', (req, res, next) => {
 });
 
 router.get('/:category', CategoryController.getAllSubCategories);
-router.get('/:category/:idSubCategory', CategoryController.getAllProducts);
-router.get('/:category/:idSubCategory/:idProduct', CategoryController.getOneProduct);
+router.get('/:category/:idSubcategory', CategoryController.getAllProducts);
+router.get('/:category/:idSubcategory/:idProduct', CategoryController.getOneProduct);
 
 
 module.exports = router;

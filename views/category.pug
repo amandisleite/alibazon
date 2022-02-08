@@ -9,8 +9,8 @@ block categories
     p= mainData.page_description
     mixin sub-category
       h3 Subcategories
-      each subCat in subResults
-        each sub in subCat
+      each subcat in subResults
+        each sub in subcat
           img(src="/images/" + sub.image)
           p= sub.page_description
           form(action=`${category}/${sub.id}` method="get")
