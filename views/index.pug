@@ -2,5 +2,9 @@ extends layout
 
 block content
   main
-    p= name
+    .container.px-5.mx-auto
+      ul.breadcrumb.py-3.text-uppercase
+        li.breadcrumb-item
+          a(href='/') Home
+      p= name
     //- block categories

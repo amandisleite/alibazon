@@ -1,9 +1,14 @@
  /* Style the list */
  ul#breadcrumb {
-    padding-left: 15px;
+    padding: 5px 0px 7px 0px;
+    width: 80%;
+    margin: 0 auto;
+    /* padding-left: 15px;
+    padding-bottom: 5px; */
     list-style: none;
-    background-color: #eee;
-    margin-top: 0px;
+    /* background-color: rgb(252, 250, 250); */
+    border-bottom: 1px solid #c7c7c7;
+    border-top: 1px solid #c7c7c7;
   }
   
   /* Display list items side by side */
@@ -15,35 +20,31 @@
   /* Add a slash symbol (/) before/behind each list item */
   ul#breadcrumb li+li:before {
     padding: 8px;
-    color: black;
+    color: rgb(225, 173, 2);
     content: "/\00a0";
   }
   
   /* Add a color to all links inside the list */
   ul#breadcrumb li a {
-    color: #0275d8;
+    color: #787978;
     text-decoration: none;
+    text-transform: uppercase;
   }
   ul#breadcrumb a {
-    color: #0275d8;
+    color: #787978;
     text-decoration: none;
-    font-size: 18px;
+    font-weight: 300;
+    font-size: 12px;
+    letter-spacing: 0.5px;
     padding: 8px;
   }
   ul#breadcrumb  a:hover {
-    color: #01447e;
-    text-decoration: underline;
+    color: #303030;
+    /* text-decoration: underline; */
   }
   
   /* Add a color on mouse-over */
   ul#breadcrumb li a:hover {
-    color: #01447e;
-    text-decoration: underline;
+    color: #303030;
+    /* text-decoration: underline; */
   }
-  ul#breadcrumb {
-    padding-left: 15px;
-    list-style: none;
-    background-color: #eee;
-    margin-top: 0px;
-  };
-  

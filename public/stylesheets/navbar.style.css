@@ -1,33 +1,30 @@
 .menu {
-  display: flex;
-  flex-direction: row;
-  width: 60%;
-  justify-content: flex-end;
-  align-items: center;
-  
-}
-
-
-.main_body {
-  padding-left: 15px;
-}
-
-#topnav {
-    background-color: #f2f1eb;
+    width: 80%;
+    /* background-color: #212121; */
     /* overflow: hidden; */
-    display:flex;
+    display: flex;
+    flex-wrap: wrap;
     flex-direction: row;
+    /* gap: 150px; */
     text-align: center;
     font-size: 17px;
-    padding:10px;
-    margin: 10px 0;
+    padding: 10px 0 5px 0;
+    margin: 10px auto;
     justify-content: space-between;
+    align-items: center;
+  }
+
+  #logo {
+    text-decoration: none;
+    font-size: 30px;
+    font-weight: 700;
+    color: #292929;
   }
   
   /* Style the links inside the navigation bar */
-  #topnav .a-link{
+  .menu .a-link{
     float: left;
-    color: #f2f2f2;
+    color: #292929;
     text-align: center;
     padding: 14px 14px;
     text-decoration: none;
@@ -35,12 +32,11 @@
   }
   
   /* Change the color of links on hover */
-  #topnav .a-link.active, .a-link:hover{
-    background-color: #4CAF50;
-    color: white;
+  .menu .a-link:hover{
+    color: rgb(255, 196, 2);
   }
 
-  #topnav .a-link.inactive{
+  .menu .a-link.inactive{
     background-color: #333;
   }
   
@@ -53,20 +49,21 @@
   .show-cat-btn {
     /* width: 200px; */
     min-width: 100px;
-    height: 2.2rem;
+    padding: 10px 20px;
+    margin: 0 3px;
+    /* height: 2.2rem; */
     font-size: 1rem;
-    border: 1px solid #949084;
-    border-radius: 0.3rem;
-    background-color: #f2f1eb;
+    /* border-radius: 0.3rem; */
+    /* background-color: #3c3c3c; */
     text-align: center;
-    color: #232b2c;
+    color: rgb(225, 173, 2);
     text-decoration: none;
 }
 
 .show-cat-btn:hover{
-    background-color: #4CAF50;
+    border-radius: 0.3rem;
+    background-color: rgb(225, 173, 2);
     color: white;
-    border: 1px solid white;
 }
 
 .container-1{
@@ -150,8 +147,6 @@
   
   justify-content: center;
 }
-
-
 
 .no-button {
    background-color: Transparent;

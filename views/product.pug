@@ -1,17 +1,37 @@
 extends layout
 
 block products
-  .breadcrumbs
-    p Home
-    p= category
-    p= subcategory
-  .product
-    mixin product
+  .container.px-5.mx-auto
+    ul.breadcrumb.ms-4.py-3.text-uppercase
+      li.breadcrumb-item
+        a(href='/') Home
+      li.breadcrumb-item
+        a(href=`/${category}`)= category
+      li.breadcrumb-item
+        a(href=`/${category}/${idSubcategory}`)= subcategory
+
+    .row.row-cols-1.row-cols-md-2.g-4.mx-auto
       each product in products
-        h2= product.name
-        img(src="/images/" + product.image_groups[0].images[0].link)
-        p= product.page_description
-        form(action=`${product.primary_category_id}/${product.id}` method="get")
-          button(type='submit') More Info
-        <br><br>
-    +product
+        .col.card.mb-3.text-left.my-3
+          .row.g-0
+            .col-md-7
+              img.card-img-top.py-3(src="/images/" + product.image_groups[0].images[0].link)
+            .col-md-5
+              .card-body.d-flex.flex-column
+                h2.card-title.fs-4.fw-bold= product.name
+                p.card-text= product.page_description
+                .mt-auto
+                  p.card-text.fs-4.fw-bold.text-muted USD #{(product.price).toFixed(2)}
+                  form(action=`${product.primary_category_id}/${product.id}` method="get")
+                    button.btn.btn-outline-secondary.col-12(type='submit') More Info
+    //- .row.row-cols-1.row-cols-md-4.g-4.mx-auto
+    //-   each product in products
+    //-     .col.card.text-center.my-3.p-3
+    //-       h2.card-title.fs-3= product.name
+    //-       img.card-img-top.py-3(src="/images/" + product.image_groups[0].images[0].link)
+    //-       p.card-text= product.page_description
+    //-       .card-body
+    //-         p.card-text.fw-bold USD #{(product.price).toFixed(2)}
+    //-         form(action=`${product.primary_category_id}/${product.id}` method="get")
+    //-           button.btn.btn-secondary(type='submit') More Info
+      //- +product

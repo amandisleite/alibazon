@@ -1,18 +1,26 @@
 extends layout
 
 block products
-  .breadcrumbs
-    p Home
-    p= category
-    p= subcategory
-    p= product.name
-  .product
-    img(src="/images/" + product.image_groups[0].images[0].link)
-    .product-info
-     h2= product.name
-    p= product.page_description
-    .product-buy
-    form(action=`/` method="get")
-      button(type='submit') Buy now
-    p= product.price
-    p= product.currency
+  .container.px-5.mx-auto
+    ul.breadcrumb.ms-4.py-3.text-uppercase
+      li.breadcrumb-item
+        a(href='/') Home
+      li.breadcrumb-item
+        a(href=`/${category}`)= category
+      li.breadcrumb-item
+        a(href=`/${category}/${idSubcategory}`)= subcategory
+      li.breadcrumb-item
+        a(href=`/${category}/${idSubcategory}/${idProduct}`)= product.name  
+  .row.mx-auto
+    .col.card.text-left.my-3.mb-3.border-0
+        .row.g-0.mx-5
+          .col-md-5
+            img(src="/images/" + product.image_groups[0].images[0].link)
+          .col-md-7
+            .card-body.d-flex.flex-column
+              h2.card-title.fs-2.fw-bold= product.name
+              p.card-text.fs-5.me-5= product.page_description
+              .mt-auto
+                p.card-text.fs-4.fw-bold.text-muted USD #{(product.price).toFixed(2)}
+                form(action=`/` method="get")
+                  button.btn.btn-outline-secondary.col-5(type='submit') Buy now

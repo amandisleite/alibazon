@@ -1,23 +1,11 @@
-var express = require('express');
-var router = express.Router();
+const users = require('./usersRoute');
+const categories = require('./categoriesRoute');
+const main = require('./mainRoutes');
 
-const AuthController = require('../controllers/AuthController');
-const CategoryController = require('../controllers/CategoryController');
-
-
-router.get('/signup', (req, res, next) => { res.render('signup') });
-router.post('/signup', AuthController.signUpUser);
-
-router.get('/signin', (req, res, next) => { res.render('signin') });
-router.post('/signin', AuthController.signInUser);
-
-router.get('/', (req, res, next) => {
-  res.render('index', { name: req.cookies.username });
-});
-
-router.get('/:category', CategoryController.getAllSubCategories);
-router.get('/:category/:idSubcategory', CategoryController.getAllProducts);
-router.get('/:category/:idSubcategory/:idProduct', CategoryController.getOneProduct);
-
-
-module.exports = router;
+module.exports = (app) => {
+  app.use(
+    users,
+    categories,
+    main,
+  )
+}

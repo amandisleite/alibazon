@@ -1,7 +1,14 @@
 header
-    a(href='/') Alibazon
-    ul
-        a(href='/mens') Men
-        a(href='/womens') Women
-        a(href='/signup') Sign Up
-        a(href='/signin') Sign In
+    .row.row-cols-1
+        .navbar.navbar-expand-lg.navbar-light.bg-white
+            .container.px-5.border-bottom
+                a.navbar-brand.mb-0.h1(href='/') Alibazon
+                ul.navbar-nav
+                    li.nav-item
+                        a.nav-link(href='/mens') Mens
+                    li.nav-item
+                        a.nav-link(href='/womens') Womens
+                    li.nav-item
+                        a.nav-link(href='/signup') Sign Up
+                    li.nav-item
+                        a.nav-link(href='/signin') Sign In

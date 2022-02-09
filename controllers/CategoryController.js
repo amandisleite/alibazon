@@ -37,7 +37,8 @@ class CategoryController {
           res.render('product', {
             products: products.data,
             category,
-            subcategory
+            subcategory,
+            idSubcategory
            })
         
         } catch (err) { next(err) }
@@ -53,7 +54,9 @@ class CategoryController {
           res.render('product-page', {
             product: productDetail.data[0],
             category,
-            subcategory
+            subcategory,
+            idSubcategory,
+            idProduct
            })
         
         } catch (err) { next(err) }

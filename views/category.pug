@@ -1,19 +1,23 @@
 extends layout
 
 block categories
-  .breadcrumbs
-    p Home
-    p= category
-  .main-category
-    h2= mainData.name
-    p= mainData.page_description
-    mixin sub-category
-      h3 Subcategories
-      each subcat in subResults
-        each sub in subcat
-          img(src="/images/" + sub.image)
-          p= sub.page_description
-          form(action=`${category}/${sub.id}` method="get")
-            button(type='submit') view products
-          <br><br>
-    +sub-category
+  .container.px-5.mx-auto
+    ul.breadcrumb.py-3.text-uppercase
+      li.breadcrumb-item
+        a(href='/') Home
+      li.breadcrumb-item
+        a(href=`/${category}`)= category
+    .row.row-cols-1.text-center.mx-5
+      h2.fs-1.fw-bold.text-uppercase= mainData.name
+      p.fs-6= mainData.page_description
+      mixin sub-category
+        h3.fs-3.py-4 Subcategories
+        each subcat in subResults
+          each sub in subcat
+            .card.my-4.border-0
+              img.card-img-top(src="/images/" + sub.image)
+              .card-body
+                p.card-text= sub.page_description
+                form(action=`${category}/${sub.id}` method="get")
+                  button.btn.btn-secondary.col-3(type='submit') view products
+      +sub-category
