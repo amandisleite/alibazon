@@ -15,11 +15,24 @@ block signup
         form(action="/signup", method="post")
           .form-group
             label.col-form-label Name
-              input.form-control(type="text", name="username", placeholder="write your name", required)
+              if !errMessage
+                input.form-control(type="text", name="username", placeholder="write your name", required)
+              if errMessage
+                input.form-control.border.border-danger(type="text", name="username", placeholder="write your name", required)
           .form-group
             label.col-form-label E-mail
-              input.form-control(type="email", name="useremail", placeholder="name@email.com", required)
+              if !errMessage
+                input.form-control(type="email", name="useremail", placeholder="name@email.com", required)
+              if errMessage
+                input.form-control.border.border-danger(type="email", name="useremail", placeholder="name@email.com", required)
           .form-group
             label.col-form-label Password
-              input.form-control(type="password", name="userpassword", placeholder="create a password", required)
+              if !errMessage
+                input.form-control(type="password", name="userpassword", placeholder="create a password", required)
+              if errMessage
+                input.form-control.border.border-danger(type="password", name="userpassword", placeholder="create a password", required)
           button.btn.btn-outline-secondary.col-2.mt-3(type='submit') Register now
+    section.pt-4
+      if errMessage
+        h3.fs-6.fw-light.text-danger= errMessage
+        

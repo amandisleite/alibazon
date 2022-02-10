@@ -17,13 +17,21 @@ class CategoryController {
             const sub = await CategoriesServices.getData(`${api}categories/parent/${category}-${subcat}?secretKey=${secretKey}`)
             subResults.push(sub.data)
           }
+
+          for (let i in subResults) {
+            subResults[i].forEach(subcat => {
+              if (subcat.image.includes('categories/category_404.png')) {
+                console.log('img 404')
+                subcat.image = null
+            }}) 
+          }
           
           res.render('category', {
             mainData: main.data,
             subResults,
             category
           })
-        
+      
         } catch (err) { next(err) }
       }
 

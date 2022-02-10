@@ -15,9 +15,14 @@ block categories
         each subcat in subResults
           each sub in subcat
             .card.my-4.border-0
-              img.card-img-top(src="/images/" + sub.image)
+              if sub.image != null
+                img.card-img-top(src="/images/" + sub.image)
+              if sub.name && sub.image == null
+                .d-flex.justify-content-center
+                  p.fs-1.fw-light.text-uppercase #{category}
+                  p.fs-1.fw-bold.text-uppercase #{sub.name}
               .card-body
-                p.card-text= sub.page_description
-                form(action=`${category}/${sub.id}` method="get")
-                  button.btn.btn-secondary.col-3(type='submit') view products
+              p.card-text= sub.page_description
+              form(action=`${category}/${sub.id}` method="get")
+                button.btn.btn-secondary.col-3(type='submit') view products
       +sub-category

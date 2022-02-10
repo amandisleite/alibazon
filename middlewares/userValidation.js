@@ -1,7 +1,6 @@
 module.exports = {
     validateUser(req, res, next) {
         const user = req.body;
-        console.log(user)
         
         try {
             if (user === undefined) {

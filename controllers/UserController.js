@@ -1,3 +1,4 @@
+const { UserAlreadyExists } = require('../errors');
 const { UserServices } = require('../services');
 const { createUser, loginUser } = require('../services/UserServices');
 
@@ -11,13 +12,18 @@ class UserController {
     const newUser = createUser(username, useremail, userpassword);
 
     try {
-      await UserServices.sendData(`${api}auth/signup`, newUser)
-      res.cookie("username", req.body.username)
-      res.render("signin", { name: req.body.username })
-      res.status(200)        
+      const userExists = await UserServices.sendData(`${api}auth/signup`, newUser)
+      console.log(userExists)
+      if (userExists === 'Request failed with status code 400') {
+        throw new UserAlreadyExists(useremail);
+      } else {
+        await UserServices.sendData(`${api}auth/signup`, newUser)
+        res.cookie("username", req.body.username)
+        res.render("signup", { name: req.body.username })
+        res.status(200)        
+      }
     } catch (err) {
-      res.send({ err: err.message })
-      res.status(400)
+      return next(err)
     }
   }
 
@@ -33,8 +39,7 @@ class UserController {
       res.status(200)        
       
     } catch (err) {
-      res.render('index', { err: err.message })
-      res.status(400)
+      return next(err)
     }
   }
 
@@ -45,7 +50,10 @@ class UserController {
 
   //   try {
   //     const userExists = await UserServices.sendData(`${api}auth/signin`, user)
-  //     res.cookie("username", userLogged.data.user.name)
+  //     if (userExists) {
+  //       throw new Error('user already registered')
+  //     }
+      
   //     res.render("index", { name: userLogged.data.user.name})
   //     res.status(200)        
       
