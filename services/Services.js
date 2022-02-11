@@ -2,12 +2,16 @@ const axios = require('axios');
 
 class Services {
     static async getData(url, data = {}) {
-        const response = await axios({
-            method: 'get',
-            url: url,
-            data: data
-        });
-        return response;
+        try {
+            const response = await axios({
+                method: 'get',
+                url: url,
+                data: data
+            });
+            return response;
+        } catch (err) {
+            return { err: err.request.path };
+        }
     }
 
     static async sendData(url, data) {

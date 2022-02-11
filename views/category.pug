@@ -2,27 +2,33 @@ extends layout
 
 block categories
   .container.px-5.mx-auto
-    ul.breadcrumb.py-3.text-uppercase
-      li.breadcrumb-item
-        a(href='/') Home
-      li.breadcrumb-item
-        a(href=`/${category}`)= category
-    .row.row-cols-1.text-center.mx-5
-      h2.fs-1.fw-bold.text-uppercase= mainData.name
-      p.fs-6= mainData.page_description
-      mixin sub-category
-        h3.fs-3.py-4 Subcategories
-        each subcat in subResults
-          each sub in subcat
-            .card.my-4.border-0
-              if sub.image != null
-                img.card-img-top(src="/images/" + sub.image)
-              if sub.name && sub.image == null
-                .d-flex.justify-content-center
-                  p.fs-1.fw-light.text-uppercase #{category}
-                  p.fs-1.fw-bold.text-uppercase #{sub.name}
-              .card-body
-              p.card-text= sub.page_description
-              form(action=`${category}/${sub.id}` method="get")
-                button.btn.btn-secondary.col-3(type='submit') view products
-      +sub-category
+    if !errMessage
+      ul.breadcrumb.py-3.text-uppercase
+        li.breadcrumb-item
+          a(href='/') Home
+        li.breadcrumb-item
+          a(href=`/${category}`)= category
+        .row.row-cols-1.text-center.mx-5
+          h2.fs-1.fw-bold.text-uppercase= mainData.name
+          p.fs-6= mainData.page_description
+          mixin sub-category
+            h3.fs-3.py-4 Subcategories
+            each subcat in subResults
+              each sub in subcat
+                if sub.id !== categoryIdWithProductError
+                  .card.my-4.border-0
+                    if sub.image != null
+                      img.card-img-top(src="/images/" + sub.image)
+                    if sub.image == null
+                      .d-flex.justify-content-center
+                        p.fs-1.fw-light.text-uppercase #{category}
+                        p.fs-1.fw-bold.text-uppercase #{sub.name}
+                    .card-body
+                    p.card-text= sub.page_description
+                    form(action=`${category}/${sub.id}` method="get")
+                      button.btn.btn-secondary.col-3(type='submit') view products
+          +sub-category
+    if errMessage
+      h3.fs-6.fw-light.text-danger= errMessage
+      p= errName
+  

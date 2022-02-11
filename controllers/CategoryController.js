@@ -1,7 +1,49 @@
+const { ProductsDontExist } = require('../errors');
 const { CategoriesServices } = require('../services');
 
 const api = process.env.API_URL;
 const secretKey = process.env.SECRET_KEY;
+const subResults = [];
+let positionOne = 0;
+let positionTwo = 0;
+let categoryIdWithProductError = ''
+
+
+function checkIfTheresImage() {
+  for (let i in subResults) {
+    subResults[i].forEach(subcat => {
+      if (Object.values(subcat) !== null) {
+        if (subcat.image.includes('categories/category_404.png')) {
+          subcat.image = null
+        }
+      }
+    })
+  }
+}
+
+async function checkIfTheresProduct() {
+  for (let i in subResults) {
+    const allProducts = await subResults[i].map(async subcat => {
+
+      await CategoriesServices.getData(`${api}products/product_search?primary_category_id=${subcat.id}&secretKey=${secretKey}`)
+      .then(res => {
+        const error = res.err
+        if (typeof error !== 'undefined' || error !== undefined) {
+          positionOne = error.indexOf('=')
+          positionTwo = error.indexOf('&')
+          categoryIdWithProductError = error.slice(positionOne + 1, positionTwo)
+        }
+        return categoryIdWithProductError
+      }).catch(err => { err })
+      
+      return categoryIdWithProductError
+    })
+    const catId = await Promise.all(allProducts)
+    .then(res => { return res })
+
+    return catId
+  }
+}
 
 class CategoryController {
     
@@ -11,64 +53,58 @@ class CategoryController {
 
         try {
           const main = await CategoriesServices.getData(`${api}categories/${category}?secretKey=${secretKey}`);
-          let subResults = [];
-
           for (let subcat of subcategories) {
             const sub = await CategoriesServices.getData(`${api}categories/parent/${category}-${subcat}?secretKey=${secretKey}`)
             subResults.push(sub.data)
-          }
-
-          for (let i in subResults) {
-            subResults[i].forEach(subcat => {
-              if (subcat.image.includes('categories/category_404.png')) {
-                console.log('img 404')
-                subcat.image = null
-            }}) 
-          }
+          }    
           
+          checkIfTheresImage()
+          await checkIfTheresProduct()
+
           res.render('category', {
             mainData: main.data,
             subResults,
-            category
+            category,
+            categoryIdWithProductError
           })
-      
+
         } catch (err) { next(err) }
-      }
-
-      static async getAllProducts(req, res, next) {
-        const { category, idSubcategory } = req.params;
-
-        try {
-          const products = await CategoriesServices.getData(`${api}products/product_search?primary_category_id=${idSubcategory}&secretKey=${secretKey}`);
-          const subcategory = idSubcategory.split('-').join(' ')
-
-          res.render('product', {
-            products: products.data,
-            category,
-            subcategory,
-            idSubcategory
-           })
-        
-        } catch (err) { next(err) }
-      }
-
-      static async getOneProduct(req, res, next) {
-        const { category, idSubcategory, idProduct } = req.params;
-
-        try {
-          const productDetail = await CategoriesServices.getData(`${api}products/product_search?id=${idProduct}&secretKey=${secretKey}`);
-          const subcategory = idSubcategory.split('-').join(' ')
-
-          res.render('product-page', {
-            product: productDetail.data[0],
-            category,
-            subcategory,
-            idSubcategory,
-            idProduct
-           })
-        
-        } catch (err) { next(err) }
-      }
     }
+
+    static async getAllProducts(req, res, next) {
+      const { category, idSubcategory } = req.params;
+
+      try {
+        const products = await CategoriesServices.getData(`${api}products/product_search?primary_category_id=${idSubcategory}&secretKey=${secretKey}`);
+        const subcategory = idSubcategory.split('-').join(' ')
+
+        res.render('product', {
+          products: products.data,
+          category,
+          subcategory,
+          idSubcategory
+          })
+        
+      } catch (err) { next(err) }
+    }
+
+    static async getOneProduct(req, res, next) {
+      const { category, idSubcategory, idProduct } = req.params;
+
+      try {
+        const productDetail = await CategoriesServices.getData(`${api}products/product_search?id=${idProduct}&secretKey=${secretKey}`);
+        const subcategory = idSubcategory.split('-').join(' ')
+
+        res.render('product-page', {
+          product: productDetail.data[0],
+          category,
+          subcategory,
+          idSubcategory,
+          idProduct
+        })
+        
+      } catch (err) { next(err) }
+    }
+  }
     
     module.exports = CategoryController;

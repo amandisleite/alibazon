@@ -1,5 +1,5 @@
 require('dotenv').config();
-const createError = require('http-errors');
+// const createError = require('http-errors');
 const express = require('express');
 const path = require('path');
 const cookieParser = require('cookie-parser');
@@ -19,7 +19,18 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+app.use( function(req, res, next) {
+
+    if (req.originalUrl && req.originalUrl.split("/").pop() === 'favicon.ico') {
+      return res.sendStatus(204);
+    }
+  
+    return next();
+  
+});
+
 routes(app);
+
 
 // catch 404 and forward to error handler
 // app.use(function(req, res, next) {

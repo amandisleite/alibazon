@@ -1,4 +1,4 @@
-const UserAlreadyExists = require('../errors/UserAlreadyExists');
+const UserAlreadyExists = require('./UserAlreadyExists');
 
 module.exports = {
     UserAlreadyExists
