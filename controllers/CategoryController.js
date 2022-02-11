@@ -4,6 +4,7 @@ const { CategoriesServices } = require('../services');
 const api = process.env.API_URL;
 const secretKey = process.env.SECRET_KEY;
 let subResults = [];
+let parentResults = [];
 let positionOne = 0;
 let positionTwo = 0;
 let categoryIdWithProductError = ''
@@ -13,14 +14,27 @@ class CategoryController {
     static async getAllSubCategories(req, res, next) {
         const category = req.params.category;
         const subcategories = ['clothing', 'accessories', 'jewelry'];
+
         subResults = [];
+        parentResults = [];
+
         try {
-          const main = await CategoriesServices.getData(`${api}categories/${category}?secretKey=${secretKey}`);
+          const main = await CategoriesServices.getData(
+            `${api}categories/${category}?secretKey=${secretKey}`);
           for (let subcat of subcategories) {
-            const sub = await CategoriesServices.getData(`${api}categories/parent/${category}-${subcat}?secretKey=${secretKey}`)
+            const sub = await CategoriesServices.getData(
+              `${api}categories/parent/${category}-${subcat}?secretKey=${secretKey}`)
             subResults.push(sub.data)
-          }    
-          
+          }
+
+          for (let eachCat of subcategories) {
+          const parentId = await CategoriesServices.getData(
+              `${api}categories/${category}-${eachCat}?secretKey=${secretKey}`)
+              if (parentId.data !== undefined) {
+                parentResults.push(parentId.data)
+              }
+        }
+
           checkImage()
           await checkIfTheresProduct()
 
@@ -28,7 +42,8 @@ class CategoryController {
             mainData: main.data,
             subResults,
             category,
-            categoryIdWithProductError
+            categoryIdWithProductError,
+            parentResults
           })
 
         } catch (err) { next(err) }
@@ -38,7 +53,8 @@ class CategoryController {
       const { category, idSubcategory } = req.params;
 
       try {
-        const products = await CategoriesServices.getData(`${api}products/product_search?primary_category_id=${idSubcategory}&secretKey=${secretKey}`);
+        const products = await CategoriesServices.getData(
+          `${api}products/product_search?primary_category_id=${idSubcategory}&secretKey=${secretKey}`);
         const subcategory = idSubcategory.split('-').join(' ')
 
         res.render('product', {
@@ -55,7 +71,8 @@ class CategoryController {
       const { category, idSubcategory, idProduct } = req.params;
 
       try {
-        const productDetail = await CategoriesServices.getData(`${api}products/product_search?id=${idProduct}&secretKey=${secretKey}`);
+        const productDetail = await CategoriesServices.getData(
+          `${api}products/product_search?id=${idProduct}&secretKey=${secretKey}`);
         const subcategory = idSubcategory.split('-').join(' ')
 
         res.render('product-page', {
@@ -73,7 +90,6 @@ class CategoryController {
   const checkImage = () => {
     for (let i in subResults) {
       subResults[i].forEach(subcat => {
-        // console.log(subcat.image)
         if (subcat.image === null) {
           subcat.image = 'categories/category_404.png'
         } if (subcat.image.includes('categories/category_404.png')) {
@@ -81,13 +97,22 @@ class CategoryController {
         }
       })
     }
+
+    for (let parent of parentResults) {
+        if (parent.image === null || parent.image === undefined) {
+          parent.image = 'categories/category_404.png'
+        } if (parent.image.includes('categories/category_404.png')) {
+          parent.image = null
+        }
+    }
   }
     
   const checkIfTheresProduct = async () => {
     for (let i in subResults) {
       const allProducts = await subResults[i].map(async subcat => {
   
-        await CategoriesServices.getData(`${api}products/product_search?primary_category_id=${subcat.id}&secretKey=${secretKey}`)
+        await CategoriesServices.getData(
+          `${api}products/product_search?primary_category_id=${subcat.id}&secretKey=${secretKey}`)
         .then(res => {
           const error = res.err
           if (typeof error !== 'undefined' || error !== undefined) {
