@@ -3,8 +3,9 @@ const CategoryController = require('../controllers/CategoryController');
 
 const router = Router();
 
-router.get('/:category', CategoryController.getAllSubCategories);
-router.get('/:category/:idSubcategory', CategoryController.getAllProducts);
-router.get('/:category/:idSubcategory/:idProduct', CategoryController.getOneProduct);
+router.get('/:category', CategoryController.getParentCategories);
+router.get('/:category/:mainCategory', CategoryController.getAllSubCategories);
+router.get('/:category/:mainCategory/:subcategory', CategoryController.getAllProducts);
+router.get('/:category/:mainCategory/:subcategory/:idProduct', CategoryController.getOneProduct);
 
 module.exports = router;

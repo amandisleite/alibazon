@@ -8,9 +8,11 @@ block products
       li.breadcrumb-item
         a(href=`/${category}`)= category
       li.breadcrumb-item
-        a(href=`/${category}/${idSubcategory}`)= subcategory
+        a(href=`/${category}/${mainCategory}`)= mainCategory
       li.breadcrumb-item
-        a(href=`/${category}/${idSubcategory}/${idProduct}`)= product.name  
+        a(href=`/${category}/${mainCategory}/${subcategory}`)= subcategory
+      li.breadcrumb-item
+        a(href=`/${category}/${mainCategory}/${subcategory}/${idProduct}`)= product.name  
   .row.mx-auto
     .col.card.text-left.my-3.mb-3.border-0
         .row.g-0.mx-5

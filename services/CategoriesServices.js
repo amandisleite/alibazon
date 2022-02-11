@@ -49,6 +49,27 @@ class CategoriesServices extends Services {
         }
         return
     }
+
+    static checkSubcatId(sub) {
+        for (let i in sub) {
+            sub[i].forEach(subcat => {
+                let arrayWithWords = subcat.id.split('-')
+                if (arrayWithWords.length === 2) {
+                    let arrayParentId = subcat.parent_category_id.split('-')[1]
+                    let newSubcatId = arrayWithWords[0] + '-' + arrayParentId + '-' +  arrayWithWords[1] 
+                    subcat.new_id = newSubcatId
+                }
+                if (arrayWithWords.length === 4) {
+                    let subcatIdTogether = arrayWithWords[2] + arrayWithWords[3]
+                    let newSubcatId = arrayWithWords[0] + '-' + arrayWithWords[1] + '-' + subcatIdTogether
+                    subcat.new_id = newSubcatId
+                }
+                if (arrayWithWords.length === 3) {
+                    subcat.new_id = subcat.id
+                }
+            })
+        }
+    }
     
     static async checkIfTheresProduct(sub) {
         for (let i in sub) {
