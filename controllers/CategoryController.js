@@ -3,54 +3,17 @@ const { CategoriesServices } = require('../services');
 
 const api = process.env.API_URL;
 const secretKey = process.env.SECRET_KEY;
-const subResults = [];
+let subResults = [];
 let positionOne = 0;
 let positionTwo = 0;
 let categoryIdWithProductError = ''
-
-
-function checkIfTheresImage() {
-  for (let i in subResults) {
-    subResults[i].forEach(subcat => {
-      if (Object.values(subcat) !== null) {
-        if (subcat.image.includes('categories/category_404.png')) {
-          subcat.image = null
-        }
-      }
-    })
-  }
-}
-
-async function checkIfTheresProduct() {
-  for (let i in subResults) {
-    const allProducts = await subResults[i].map(async subcat => {
-
-      await CategoriesServices.getData(`${api}products/product_search?primary_category_id=${subcat.id}&secretKey=${secretKey}`)
-      .then(res => {
-        const error = res.err
-        if (typeof error !== 'undefined' || error !== undefined) {
-          positionOne = error.indexOf('=')
-          positionTwo = error.indexOf('&')
-          categoryIdWithProductError = error.slice(positionOne + 1, positionTwo)
-        }
-        return categoryIdWithProductError
-      }).catch(err => { err })
-      
-      return categoryIdWithProductError
-    })
-    const catId = await Promise.all(allProducts)
-    .then(res => { return res })
-
-    return catId
-  }
-}
 
 class CategoryController {
     
     static async getAllSubCategories(req, res, next) {
         const category = req.params.category;
         const subcategories = ['clothing', 'accessories', 'jewelry'];
-
+        subResults = [];
         try {
           const main = await CategoriesServices.getData(`${api}categories/${category}?secretKey=${secretKey}`);
           for (let subcat of subcategories) {
@@ -58,7 +21,7 @@ class CategoryController {
             subResults.push(sub.data)
           }    
           
-          checkIfTheresImage()
+          checkImage()
           await checkIfTheresProduct()
 
           res.render('category', {
@@ -106,5 +69,42 @@ class CategoryController {
       } catch (err) { next(err) }
     }
   }
+
+  const checkImage = () => {
+    for (let i in subResults) {
+      subResults[i].forEach(subcat => {
+        // console.log(subcat.image)
+        if (subcat.image === null) {
+          subcat.image = 'categories/category_404.png'
+        } if (subcat.image.includes('categories/category_404.png')) {
+          subcat.image = null
+        }
+      })
+    }
+  }
     
-    module.exports = CategoryController;
+  const checkIfTheresProduct = async () => {
+    for (let i in subResults) {
+      const allProducts = await subResults[i].map(async subcat => {
+  
+        await CategoriesServices.getData(`${api}products/product_search?primary_category_id=${subcat.id}&secretKey=${secretKey}`)
+        .then(res => {
+          const error = res.err
+          if (typeof error !== 'undefined' || error !== undefined) {
+            positionOne = error.indexOf('=')
+            positionTwo = error.indexOf('&')
+            categoryIdWithProductError = error.slice(positionOne + 1, positionTwo)
+          }
+          return categoryIdWithProductError
+        }).catch(err => { err })
+        
+        return categoryIdWithProductError
+      })
+      const catId = await Promise.all(allProducts)
+      .then(res => { return res })
+  
+      return catId
+    }
+  }
+    
+  module.exports = CategoryController;
