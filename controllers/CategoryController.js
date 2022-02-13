@@ -19,70 +19,87 @@ class CategoryController {
             CategoriesServices.checkImage('', parentResults)
 
             res.render('parentCategory', {
-              mainData: main.data,
-              category,
-              parentResults
+                mainData: main.data,
+                category,
+                parentResults
             })
 
         } catch (err) { next(err) }
     }
 
     static async getAllSubCategories(req, res, next) {
-      const { category, mainCategory } = req.params;
-      const subcategories = ['clothing', 'accessories', 'jewelry'];
+        const { category, mainCategory } = req.params;
+        const subcategories = ['clothing', 'accessories', 'jewelry'];
 
-      let subResults = [];
-
-      try {
-          for (let subcat of subcategories) {
-            const sub = await CategoriesServices.getDataSubcategories(category, subcat)
-            subResults.push(sub.data)
-          }
-
-          CategoriesServices.checkImage(subResults, '')
-          let categoryIdWithProductError = await CategoriesServices.checkIfTheresProduct(subResults)
-          CategoriesServices.checkSubcatId(subResults)
-
-          const idMainCategory = `${category}-${mainCategory}`
-
-          res.render('subcategory', {
-            subResults,
-            category,
-            idMainCategory,
-            mainCategory,
-            categoryIdWithProductError: categoryIdWithProductError[1]
-          })
-
-      } catch (err) { next(err) }
-  }
-
-    static async getAllProducts(req, res, next) {
-        const { category, mainCategory, subcategory } = req.params;
+        let subResults = [];
+        let parentResults = [];
 
         try {
-            const idSubcategory = `${category}-${mainCategory}-${subcategory}`
+            for (let subcat of subcategories) {
+              const sub = await CategoriesServices.getDataSubcategories(category, subcat)
+              subResults.push(sub.data)
+            }
+
+            const parentId = await CategoriesServices.getDataParentCategories(category, mainCategory)
+            parentResults.push(parentId.data)
+
+            CategoriesServices.checkImage(subResults, parentResults)
+            let categoryIdWithProductError = await CategoriesServices.checkIfTheresProduct(subResults)
+            // CategoriesServices.checkSubcatId(subResults)
+
             const idMainCategory = `${category}-${mainCategory}`
-            const products = await CategoriesServices.getDataAllProducts(idSubcategory);
+            
+            res.render('subcategory', {
+                subResults,
+                parentResults,
+                category,
+                idMainCategory,
+                mainCategory,
+                categoryIdWithProductError: categoryIdWithProductError[1]
+            })
+
+        } catch (err) { next(err) }
+    }
+
+    static async getAllProducts(req, res, next) {
+        const { category, mainCategory, idSubcategory } = req.params;
+        let subResults = [];
+
+        try {
+            const products = await CategoriesServices.getDataAllProducts(idSubcategory)
+            const sub = await CategoriesServices.getDataSpecificSubcategory(idSubcategory)
+            subResults.push(sub.data)
+            const subcat = subResults[0]
+                        
+            // const idMainCategory = `${category}-${mainCategory}`
+            let subcategory = idSubcategory.split('-')
+            if (subcategory.length === 2) {
+              subcategory = subcategory[1]
+            }
+            if (subcategory.length === 3) {
+              subcategory = subcategory[2]
+            }
 
             res.render('product', {
-              products: products.data,
-              category,
-              mainCategory,
-              idMainCategory,
-              subcategory,
-              idSubcategory
-              })
-          
+                subcat,
+                products: products.data,
+                category,
+                mainCategory,
+                // idMainCategory,
+                subcategory,
+                idSubcategory
+            })
+            
         } catch (err) { next(err) }
     }
 
     static async getOneProduct(req, res, next) {
-        const { category, mainCategory, subcategory, idProduct } = req.params;
+        const { category, mainCategory, idSubcategory, idProduct } = req.params;
 
         try {
             const productDetail = await CategoriesServices.getDataOneProduct(idProduct);
-            const idSubcategory = `${category}-${mainCategory}-${subcategory}`
             const idMainCategory = `${category}-${mainCategory}`
+            const subcategory = `${category}-${mainCategory}-${idSubcategory}`
 
             res.render('product-page', {
               product: productDetail.data[0],

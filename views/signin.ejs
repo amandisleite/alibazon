@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <%- include('partials/head'); %>
+        <title>Alibazon - Sign In</title>
+    </head>
+    <body class="container">
+        <header>
+            <%- include('partials/header'); %>
+        </header>
+        <main>
+          <div class="container px-5 mx-auto">
+            <ul class="breadcrumb py-3 text-uppercase">
+                <li class="breadcrumb-item">
+                    <a href="/">Home</a>
+                </li>
+                <li class="breadcrumb-item">
+                  <a href="/signin">Sign In</a>
+              </li>
+            </ul>
+          
+            <h2>Sign In</h2>
+            <p>Login in Alibazon</p>
+          
+            <% var errMessage %>
+            <section class="row align-items-center">
+              <div class="col">
+                  <form action="/signin" method="post">
+                      <div class="form-group">
+                          <label class="col-form-label" for="name">E-mail</label>
+                          <input class="form-control" type="email" name="useremail" placeholder="name@email.com" required>
+                      </div>
+                      <div class="form-group">
+                        <label class="col-form-label" for="name">Password</label>
+                        <input class="form-control" type="password" name="userpassword" placeholder="your password" required>
+                      </div>
+                      <button class="btn btn-outline-secondary col-2 mt-3" type="submit">Login now</button>
+                  </form>
+              </div>
+          </section>
+          <section class="pt-4">
+            <%- include('partials/error'); %>
+        </section>
+          </div>
+        </main>
+        <footer class="footer">
+            <div class="container text-center mt-5">
+                <p>Copyright 2021 - OSF Digital</p>
+            </div>
+        </footer>
+    </body>
+</html>

@@ -9,7 +9,18 @@ module.exports = (err, req, res, next) => {
 
     let path = req.path.substring(1);
     if (path === 'womens' || path === 'mens') {
-      path = 'category'
+      path = 'parentCategory'
+    } else {
+      let pathSplit = path.split('/')
+      if (pathSplit.length === 2) {
+        path = 'subcategory'
+      }
+      if (pathSplit.length === 3) {
+        path = 'product'
+      }
+      if (pathSplit.length === 4) {
+        path = 'product-page'
+      }
     }
 
     res.status(status);

@@ -1,0 +1,65 @@
+<!-- <% var errMessage, products, category, mainCategory, idSubcategory, subcat, subcategory %> -->
+
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <%- include('partials/head'); %>
+        <title><%= subcat.page_title %></title>
+    </head>
+    <body class="container">
+        <header>
+            <%- include('partials/header'); %>
+        </header>
+        <main>
+            <div class="container px-5 mx-auto">
+                <% if (!errMessage) { %>
+                    <ul class="breadcrumb py-3 text-uppercase">
+                        <li class="breadcrumb-item">
+                            <a href="/">Home</a>
+                        </li>
+                        <li class="breadcrumb-item">
+                            <a href="/<%= category %>"><%= category %></a>
+                        </li>
+                        <li class="breadcrumb-item">
+                            <a href="/<%= category %>/<%= mainCategory %>"><%= mainCategory %></a>
+                        </li>
+                        <li class="breadcrumb-item">
+                            <a href="/<%= category %>/<%= mainCategory %>/<%= idSubcategory %>"><%= subcategory %></a>
+                        </li>
+                    </ul>
+                    <div class="row row-cols-1 row-cols-md-2 g-4 mx-auto">
+                        <% products.forEach((product) => { %>
+                            <div class="col card mb-3 text-left my-3">
+                                <div class="row g-0">
+                                        <div class="col-md-7">
+                                            <img class="card-img-top py-3" src="/images/<%= product.image_groups[0].images[0].link %>" alt="product <%= product.name %> image"> 
+                                        </div>
+                                        <div class="col-md-5">
+                                            <div class="card-body d-flex flex-column">
+                                                <h2 class="card-title fs-4 fw-bold"><%= product.name %></h2>
+                                                <p class="card-text"><%= product.page_description %></p>
+                                                <div class="mt-auto">
+                                                    <p class="card-text fs-5 fw-bold text-muted">USD <%= product.price.toFixed(2) %></p>
+                                                    <form action="/<%= category %>/<%= mainCategory %>/<%= idSubcategory %>/<%= product.id %>" method="get">
+                                                        <button class="btn btn-outline-secondary col-12" type="submit">More Info</button>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
+                                </div>
+                            </div>
+                        <% }) %>
+                    </div>
+                <% } %>
+            </div>
+            <section class="pt-4">
+                <%- include('partials/error'); %>
+            </section>
+        </main>
+        <footer class="footer">
+            <div class="container text-center mt-5">
+                <p>Copyright 2021 - OSF Digital</p>
+            </div>
+        </footer>
+    </body>
+</html>  

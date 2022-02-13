@@ -1,0 +1,74 @@
+<!-- <% var errMessage, subResults, parentResults, category, mainCategory, categoryIdWithProductError, idMainCategory %> -->
+
+<!DOCTYPE html>
+<html lang="en">
+
+    <% parentResults.forEach((parent) => { %>
+    <head>
+        <%- include('partials/head'); %>
+        <title><%= parent.page_title %></title>
+    </head>
+    <% }); %>
+
+    <body class="container">
+        <header>
+            <%- include('partials/header'); %>
+        </header>
+        <main>
+            <div class="container px-5 mx-auto">
+                <% if (!errMessage) { %>
+                    <ul class="breadcrumb py-3 text-uppercase">
+                        <li class="breadcrumb-item">
+                            <a href="/">Home</a>
+                        </li>
+                        <li class="breadcrumb-item">
+                            <a href="/<%= category %>"><%= category %></a>
+                        </li>
+                        <li class="breadcrumb-item">
+                            <a href="/<%= category %>/<%= mainCategory %>"><%= mainCategory %></a>
+                        </li>
+                    </ul>
+                    </ul>
+                    <div class="row row-cols-1 text-center mx-5">
+                        <h2 class="fs-1 fw-bold text-uppercase"><%= category %> <%= mainCategory %></h2>
+                            <div>
+                                <% subResults.forEach((subcat) => { %>
+                                    <% subcat.forEach((sub) => { %>
+                                    <% if (idMainCategory === sub.parent_category_id) { %>
+                                    <% if (sub.id !== categoryIdWithProductError) { %>
+                                        <div class="card my-4 border-0">
+                                            <% if (sub.image !== null) { %>
+                                                <img src="/images/<%= sub.image %>" alt="subcategory <%= sub.name %> image"> 
+                                            <% } %>
+                                            <% if (sub.image === null) { %>
+                                                <div class="d-flex justify-content-center">
+                                                    <p class="fs-1 fw-light text-uppercase"><%= category %></p>
+                                                    <p class="fs-1 fw-bold text-uppercase"><%= sub.name %></p>
+                                                </div>
+                                            <% } %>
+                                            <div class="card-body">
+                                                <p class="card-text"><%= sub.page_description %></p>
+                                                <form action="/<%= category %>/<%= mainCategory %>/<%= sub.id %>" method="get">
+                                                    <button class="btn btn-secondary col-3" type="submit">view products</button>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    <% } %>
+                                    <% } %>
+                                    <% }) %>
+                                <% }) %>
+                            </div>
+                    </div>
+                <% } %>
+            </div>
+            <section class="pt-4">
+                <%- include('partials/error'); %>
+            </section>
+        </main>
+        <footer class="footer">
+            <div class="container text-center mt-5">
+                <p>Copyright 2021 - OSF Digital</p>
+            </div>
+        </footer>
+    </body>
+</html>  

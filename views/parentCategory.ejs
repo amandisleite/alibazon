@@ -1,0 +1,52 @@
+<!-- <% var errMessage, parentResults, mainData, category %> -->
+
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <%- include('partials/head'); %>
+        <title><%= mainData.page_title %></title>
+    </head>
+    <body class="container">
+        <header>
+            <%- include('partials/header'); %>
+        </header>
+        <main>
+            <div class="container px-5 mx-auto">
+                <% if (!errMessage) { %>
+                    <ul class="breadcrumb py-3 text-uppercase">
+                        <li class="breadcrumb-item">
+                            <a href="/">Home</a>
+                        </li>
+                        <li class="breadcrumb-item">
+                            <a href="<%= category %>"><%= category %></a>
+                        </li>
+                    </ul>
+                    <div class="row row-cols-1 text-center mx-5">
+                        <h2 class="fs-1 fw-bold text-uppercase"><%= mainData.name %></h2>
+                        <p class="fs-6"><%= mainData.page_description %></p>
+                            <div>
+                                <% parentResults.forEach((parent) => { %>
+                                <h3 class="fs-3 py-4"><%= parent.name %></h3>
+                                <% if (parent.image !== null) { %>
+                                    <img src="/images/<%= parent.image %>" alt="main category <%= parent.name %> image"> 
+                                <% } %>
+                                <p><%= parent.page_description %></p>
+                                <form action="<%=category%>/<%=(parent.id).split('-')[1]%>" method="get">
+                                    <button class="btn btn-secondary col-3" type="submit">view categories</button>
+                                </form>
+                                <% }); %>
+                            </div>
+                    </div>
+                <% } %>
+            </div>
+            <section class="pt-4">
+                <%- include('partials/error'); %>
+            </section>
+        </main>
+        <footer class="footer">
+            <div class="container text-center mt-5">
+                <p>Copyright 2021 - OSF Digital</p>
+            </div>
+        </footer>
+    </body>
+</html>

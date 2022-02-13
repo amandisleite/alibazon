@@ -21,6 +21,10 @@ class CategoriesServices extends Services {
         return Services.getData(`${api}categories/parent/${category}-${subcat}?secretKey=${secretKey}`)
     }
 
+    static async getDataSpecificSubcategory(subcategory) {
+        return Services.getData(`${api}categories/${subcategory}?secretKey=${secretKey}`)
+    }
+
     static async getDataAllProducts(subcategory) {
         return Services.getData(`${api}products/product_search?primary_category_id=${subcategory}&secretKey=${secretKey}`)
     }
