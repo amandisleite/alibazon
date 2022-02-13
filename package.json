@@ -8,6 +8,8 @@
     "test": "jest --testTimeout 90000"
   },
   "dependencies": {
+    "@sentry/node": "^6.17.7",
+    "@sentry/tracing": "^6.17.7",
     "axios": "^0.25.0",
     "bcrypt": "^5.0.1",
     "cookie-parser": "~1.4.4",

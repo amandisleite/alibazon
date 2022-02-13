@@ -1,6 +1,9 @@
 require('dotenv').config();
+// const Sentry = require('@sentry/browser');
 // const createError = require('http-errors');
 const express = require('express');
+const Sentry = require('@sentry/node');
+const { BrowserTracing } = require('@sentry/tracing');
 const path = require('path');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
@@ -8,6 +11,50 @@ const logger = require('morgan');
 const routes = require('./routes');
 
 const app = express();
+
+Sentry.init({
+  dsn: "https://229a139552de40f39974dd0a9b22d948@o1143057.ingest.sentry.io/6202071",
+  integrations: [
+    new BrowserTracing(),
+    new Sentry.Integrations.Http({ tracing: true })
+  ],
+  debug: true,
+
+  // Set tracesSampleRate to 1.0 to capture 100%
+  // of transactions for performance monitoring.
+  // We recommend adjusting this value in production
+  tracesSampleRate: 1.0,
+});
+
+app.use(Sentry.Handlers.requestHandler());
+
+
+const transaction = Sentry.startTransaction({
+  op: "test",
+  name: "My First Test Transaction",
+});
+Sentry.configureScope(scope => {
+  scope.setSpan(transaction);
+});
+
+let request;
+
+try {
+  // this should generate an http span
+  request = http.get("http://sentry.io", res => {
+    console.log(`STATUS: ${res.statusCode}`);
+    console.log(`HEADERS: ${JSON.stringify(res.headers)}`);
+  });
+
+  // this error event should have trace context
+  foo();
+} catch (err) {
+  Sentry.captureException(err);
+}
+
+request.on("close", () => {
+  transaction.finish();
+});
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -30,6 +77,11 @@ app.use( function(req, res, next) {
 });
 
 routes(app);
+
+app.use(function onError(err, req, res, next) {
+  res.statusCode = 500;
+  res.end(res.sentry + "erro")
+})
 
 
 // catch 404 and forward to error handler
