@@ -18,23 +18,33 @@ describe('Routes', () => {
         expect(res.status).toBe(200)
     })
 
+    it('should return status 200 in a Womens Parent category request', async () => {
+        const res = await request(app).get('/womens/clothing')
+        expect(res.status).toBe(200)
+    })
+
+    it('should return status 200 in a Mens Parent category request', async () => {
+        const res = await request(app).get('/mens/accessories')
+        expect(res.status).toBe(200)
+    })
+
     it('should return status 200 in a Womens Subcategory request', async () => {
-        const res = await request(app).get('/womens/womens-clothing-tops')
+        const res = await request(app).get('/womens/clothing/womens-clothing-tops')
         expect(res.status).toBe(200)
     })
 
     it('should return status 200 in a Mens Subcategory request', async () => {
-        const res = await request(app).get('/mens/mens-accessories-luggage')
+        const res = await request(app).get('/mens/accessories/mens-accessories-gloves')
         expect(res.status).toBe(200)
     })
     
     it('should return status 200 in a Womens Product request', async () => {
-        const res = await request(app).get('/womens/womens-jewelry-earrings/25720029')
+        const res = await request(app).get('/womens/jewelry/womens-jewelry-necklaces/25720078')
         expect(res.status).toBe(200)
     })
 
     it('should return status 200 in a Mens Product request', async () => {
-        const res = await request(app).get('/mens/mens-accessories-ties/25752235')
+        const res = await request(app).get('/mens/accessories/mens-accessories-gloves/TG250')
         expect(res.status).toBe(200)
     })
     

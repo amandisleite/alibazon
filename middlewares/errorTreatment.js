@@ -1,9 +1,11 @@
-const UserAlreadyExists = require('../errors/UserAlreadyExists');
+const { UserAlreadyExists, InvalidField } = require('../errors');
 
 module.exports = (err, req, res, next) => {
     let status = 500;
   
-    if (err instanceof UserAlreadyExists) {
+    if (err instanceof UserAlreadyExists ||
+        err instanceof InvalidField) 
+    {
       status = 400;
     }
 

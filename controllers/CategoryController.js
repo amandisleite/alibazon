@@ -99,7 +99,13 @@ class CategoryController {
         try {
             const productDetail = await CategoriesServices.getDataOneProduct(idProduct);
             const idMainCategory = `${category}-${mainCategory}`
-            const subcategory = `${category}-${mainCategory}-${idSubcategory}`
+            let subcategory = idSubcategory.split('-')
+            if (subcategory.length === 2) {
+              subcategory = subcategory[1]
+            }
+            if (subcategory.length === 3) {
+              subcategory = subcategory[2]
+            }
 
             res.render('product-page', {
               product: productDetail.data[0],

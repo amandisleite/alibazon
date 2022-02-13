@@ -23,16 +23,16 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">58.82% </span>
+                <span class="strong">94.11% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>10/17</span>
+                <span class='fraction'>16/17</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">60% </span>
+                <span class="strong">90.47% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>12/20</span>
+                <span class='fraction'>19/21</span>
             </div>
         
             
@@ -44,9 +44,9 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">58.82% </span>
+                <span class="strong">94.11% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>10/17</span>
+                <span class='fraction'>16/17</span>
             </div>
         
             
@@ -61,7 +61,7 @@
             </div>
         </template>
     </div>
-    <div class='status-line medium'></div>
+    <div class='status-line high'></div>
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -92,66 +92,63 @@
 <a name='L27'></a><a href='#L27'>27</a>
 <a name='L28'></a><a href='#L28'>28</a>
 <a name='L29'></a><a href='#L29'>29</a>
-<a name='L30'></a><a href='#L30'>30</a>
-<a name='L31'></a><a href='#L31'>31</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
+<a name='L30'></a><a href='#L30'>30</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">8x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">8x</span>
-<span class="cline-any cline-yes">8x</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">8x</span>
 <span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">11x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">11x</span>
+<span class="cline-any cline-yes">11x</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">8x</span>
+<span class="cline-any cline-yes">11x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">10x</span>
 <span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">9x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">8x</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">8x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">module.exports = {
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">const { InvalidField } = require("../errors");
+&nbsp;
+module.exports = {
     validateUser(req, res, next) {
         const user = req.body;
         
         try {
             <span class="missing-if-branch" title="if path not taken" >I</span>if (user === undefined) {
-<span class="cstat-no" title="statement not covered" >                throw new Error('user is invalid')</span>
+<span class="cstat-no" title="statement not covered" >                throw new InvalidField('user')</span>
             }
 &nbsp;
             if (user.useremail) {
-                <span class="missing-if-branch" title="if path not taken" >I</span>if (typeof user.useremail !== 'string' || user.useremail.length === 0) {
-<span class="cstat-no" title="statement not covered" >                    throw new Error('e-mail is invalid')</span>
+                if (typeof user.useremail !== 'string' || user.useremail.length === 0 || !user.useremail.includes('@.com')) {
+                    throw new InvalidField('e-mail')
                 }
             }
             if (user.userpassword) {
-                <span class="missing-if-branch" title="if path not taken" >I</span>if (typeof user.userpassword !== 'string' || user.userpassword.length === 0) {
-<span class="cstat-no" title="statement not covered" >                    throw new Error('password is invalid')</span>
+                if (typeof user.userpassword !== 'string' || user.userpassword.length &lt; 6) {
+                    throw new InvalidField('password')
                 }
             }
-            <span class="missing-if-branch" title="if path not taken" >I</span>if(user.username) {
-<span class="cstat-no" title="statement not covered" >                if (typeof user.username !== 'string' || user.username.length === 0) {</span>
-<span class="cstat-no" title="statement not covered" >                    throw new Error('name is invalid')</span>
+            if(user.username) {
+                <span class="missing-if-branch" title="else path not taken" >E</span>if (typeof user.username !== 'string' || user.username.length &lt; 3) {
+                    throw new InvalidField('name')
                 }
             }
             return next();
-        } catch (err) {
-<span class="cstat-no" title="statement not covered" >            next(err)</span>
-<span class="cstat-no" title="statement not covered" >            res.render('index', { err: err.message })</span>
-        }
+        } catch (err) { next(err) }
     }
 }</pre></td></tr></table></pre>
 
@@ -160,7 +157,7 @@
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at Wed Feb 09 2022 19:47:48 GMT-0300 (Horário Padrão de Brasília)
+                at Sun Feb 13 2022 18:21:14 GMT-0300 (Horário Padrão de Brasília)
             </div>
         <script src="../../prettify.js"></script>
         <script>

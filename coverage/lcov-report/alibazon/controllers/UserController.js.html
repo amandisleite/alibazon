@@ -23,9 +23,9 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">59.09% </span>
+                <span class="strong">61.9% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>13/22</span>
+                <span class='fraction'>13/21</span>
             </div>
         
             
@@ -44,9 +44,9 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">59.09% </span>
+                <span class="strong">61.9% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>13/22</span>
+                <span class='fraction'>13/21</span>
             </div>
         
             
@@ -122,10 +122,19 @@
 <a name='L57'></a><a href='#L57'>57</a>
 <a name='L58'></a><a href='#L58'>58</a>
 <a name='L59'></a><a href='#L59'>59</a>
-<a name='L60'></a><a href='#L60'>60</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
+<a name='L60'></a><a href='#L60'>60</a>
+<a name='L61'></a><a href='#L61'>61</a>
+<a name='L62'></a><a href='#L62'>62</a>
+<a name='L63'></a><a href='#L63'>63</a>
+<a name='L64'></a><a href='#L64'>64</a>
+<a name='L65'></a><a href='#L65'>65</a>
+<a name='L66'></a><a href='#L66'>66</a>
+<a name='L67'></a><a href='#L67'>67</a>
+<a name='L68'></a><a href='#L68'>68</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -135,12 +144,17 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -158,7 +172,6 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -180,8 +193,12 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">const { UserServices } = require('../services');
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">const { UserAlreadyExists } = require('../errors');
+const { UserServices } = require('../services');
 const { createUser, loginUser } = require('../services/UserServices');
 &nbsp;
 const api = process.env.API_URL;
@@ -194,13 +211,18 @@ class UserController {
     const newUser = <span class="cstat-no" title="statement not covered" >createUser(username, useremail, userpassword);</span>
 &nbsp;
 <span class="cstat-no" title="statement not covered" >    try {</span>
-<span class="cstat-no" title="statement not covered" >      await UserServices.sendData(`${api}auth/signup`, newUser)</span>
-<span class="cstat-no" title="statement not covered" >      res.cookie("username", req.body.username)</span>
-<span class="cstat-no" title="statement not covered" >      res.render("signin", { name: req.body.username })</span>
-<span class="cstat-no" title="statement not covered" >      res.status(200)        </span>
+      // const userExists = await UserServices.sendData(`${api}auth/signup`, newUser)
+      // console.log(userExists)
+      // if (userExists === 'Request failed with status code 400') {
+      //   throw new UserAlreadyExists(useremail);
+      // } else {
+<span class="cstat-no" title="statement not covered" >        await UserServices.sendData(`${api}auth/signup`, newUser)</span>
+<span class="cstat-no" title="statement not covered" >        res.cookie("username", req.body.username)</span>
+<span class="cstat-no" title="statement not covered" >        res.render("signup", { name: req.body.username })</span>
+<span class="cstat-no" title="statement not covered" >        res.status(200)        </span>
+      // }
     } catch (err) {
-<span class="cstat-no" title="statement not covered" >      res.send({ err: err.message })</span>
-<span class="cstat-no" title="statement not covered" >      res.status(400)</span>
+<span class="cstat-no" title="statement not covered" >      return next(err)</span>
     }
   }
 &nbsp;
@@ -216,8 +238,7 @@ class UserController {
       res.status(200)        
       
     } catch (err) {
-      res.render('index', { err: err.message })
-      res.status(400)
+      return next(err)
     }
   }
 &nbsp;
@@ -228,7 +249,10 @@ class UserController {
 &nbsp;
   //   try {
   //     const userExists = await UserServices.sendData(`${api}auth/signin`, user)
-  //     res.cookie("username", userLogged.data.user.name)
+  //     if (userExists) {
+  //       throw new Error('user already registered')
+  //     }
+      
   //     res.render("index", { name: userLogged.data.user.name})
   //     res.status(200)        
       
@@ -247,7 +271,7 @@ module.exports = UserController;
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at Wed Feb 09 2022 19:47:48 GMT-0300 (Horário Padrão de Brasília)
+                at Sun Feb 13 2022 18:21:14 GMT-0300 (Horário Padrão de Brasília)
             </div>
         <script src="../../prettify.js"></script>
         <script>

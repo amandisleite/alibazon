@@ -12,16 +12,16 @@ class UserController {
     const newUser = createUser(username, useremail, userpassword);
 
     try {
-      const userExists = await UserServices.sendData(`${api}auth/signup`, newUser)
-      console.log(userExists)
-      if (userExists === 'Request failed with status code 400') {
-        throw new UserAlreadyExists(useremail);
-      } else {
+      // const userExists = await UserServices.sendData(`${api}auth/signup`, newUser)
+      // console.log(userExists)
+      // if (userExists === 'Request failed with status code 400') {
+      //   throw new UserAlreadyExists(useremail);
+      // } else {
         await UserServices.sendData(`${api}auth/signup`, newUser)
         res.cookie("username", req.body.username)
         res.render("signup", { name: req.body.username })
         res.status(200)        
-      }
+      // }
     } catch (err) {
       return next(err)
     }
