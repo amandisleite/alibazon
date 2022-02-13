@@ -52,9 +52,9 @@ try {
   Sentry.captureException(err);
 }
 
-request.on("close", () => {
-  transaction.finish();
-});
+// request.on("close", () => {
+//   transaction.finish();
+// });
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
