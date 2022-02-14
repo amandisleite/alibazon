@@ -19,10 +19,6 @@ Sentry.init({
     new Sentry.Integrations.Http({ tracing: true })
   ],
   debug: true,
-
-  // Set tracesSampleRate to 1.0 to capture 100%
-  // of transactions for performance monitoring.
-  // We recommend adjusting this value in production
   tracesSampleRate: 1.0,
 });
 
@@ -37,26 +33,7 @@ Sentry.configureScope(scope => {
   scope.setSpan(transaction);
 });
 
-let request;
 
-try {
-  // this should generate an http span
-  request = http.get("http://sentry.io", res => {
-    console.log(`STATUS: ${res.statusCode}`);
-    console.log(`HEADERS: ${JSON.stringify(res.headers)}`);
-  });
-
-  // this error event should have trace context
-  foo();
-} catch (err) {
-  Sentry.captureException(err);
-}
-
-// request.on("close", () => {
-//   transaction.finish();
-// });
-
-// view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
@@ -78,10 +55,10 @@ app.use( function(req, res, next) {
 
 routes(app);
 
-app.use(function onError(err, req, res, next) {
-  res.statusCode = 500;
-  res.end(res.sentry + "erro")
-})
+// app.use(function onError(err, req, res, next) {
+//   // res.statusCode = 500;
+//   res.end(res.sentry + "erro")
+// })
 
 
 // catch 404 and forward to error handler

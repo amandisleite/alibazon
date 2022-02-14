@@ -1,4 +1,4 @@
-<!-- <% var errMessage, products, category, mainCategory, idSubcategory, subcat, subcategory, idProduct %> -->
+<!-- <% var errMessage, product, category, mainCategory, idSubcategory, subcat, subcategory, idProduct %> -->
 
 <!DOCTYPE html>
 <html lang="en">
@@ -40,9 +40,22 @@
                                         <div class="card-body d-flex flex-column">
                                             <h2 class="card-title fs-2 fw-bold"><%= product.name %></h2>
                                             <p class="card-text fs-5 me-5"><%= product.page_description %></p>
+                                            <div>
+                                                <% const variants = product.variation_attributes %>
+                                                <% for (variant of variants) { %>
+                                                    <p class="text-uppercase fw-bold fs-6 text-muted"><%= variant.name %></p>
+                                                    <% for (eachValue in variant.values) { %>
+                                                    <button
+                                                        value="<%= variant.values[eachValue].value %>"
+                                                        class="btn btn-outline-info mb-4" >
+                                                        <%= variant.values[eachValue].name %>
+                                                    </button>
+                                                    <% } %>
+                                                <% } %>
+                                            </div>
                                             <div class="mt-auto">
                                                 <p class="card-text fs-4 fw-bold text-muted">USD <%= product.price.toFixed(2) %></p>
-                                                <form action="/" method="get">
+                                                <form action="/>" method="get">
                                                     <button class="btn btn-outline-secondary col-5" type="submit">Buy now</button>
                                                 </form>
                                             </div>

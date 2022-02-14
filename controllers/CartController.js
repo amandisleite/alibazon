@@ -10,14 +10,24 @@ class CartController {
           const cart = await CategoriesServices.getData(`${api}cart?secretKey=${secretKey}`);
           
           console.log(cart)
-          res.render('includes/cart', {
-            mainData: main.data,
-            subResults,
-            category
+          res.render('cart', {
+            cart
           })
         
         } catch (err) { next(err) }
       }
+      static async addItemToCart(req, res, next) {
+        try {
+          const addItem = await CategoriesServices.sendData(`${api}cart?secretKey=${secretKey}`);
+          
+          console.log(cart)
+          res.render('cart', {
+            cart
+          })
+        
+        } catch (err) { next(err) }
+      }
+
     }
-    
+   
     module.exports = CartController;
