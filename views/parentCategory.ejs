@@ -24,7 +24,7 @@
                     <div class="row row-cols-1 text-center mx-5">
                         <h2 class="fs-1 fw-bold text-uppercase"><%= mainData.name %></h2>
                         <p class="fs-6"><%= mainData.page_description %></p>
-                            <div>
+                            <div class="card my-4 border-0">
                                 <% parentResults.forEach((parent) => { %>
                                 <h3 class="fs-3 py-4"><%= parent.name %></h3>
                                 <% if (parent.image !== null) { %>
