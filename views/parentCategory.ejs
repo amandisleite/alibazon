@@ -22,17 +22,17 @@
                         </li>
                     </ul>
                     <div class="row row-cols-1 text-center mx-5">
-                        <h2 class="fs-1 fw-bold text-uppercase"><%= mainData.name %></h2>
+                        <h2 class="fs-1 fw-bold text-uppercase text-primary"><%= mainData.name %></h2>
                         <p class="fs-6"><%= mainData.page_description %></p>
                             <div class="card my-4 border-0">
                                 <% parentResults.forEach((parent) => { %>
-                                <h3 class="fs-3 py-4"><%= parent.name %></h3>
+                                <h3 class="fs-2 fw-bold text-uppercase pt-3"><%= parent.name %></h3>
                                 <% if (parent.image !== null) { %>
                                     <img src="/images/<%= parent.image %>" alt="main category <%= parent.name %> image"> 
                                 <% } %>
-                                <p><%= parent.page_description %></p>
+                                <p class="mt-3"><%= parent.page_description %></p>
                                 <form action="<%=category%>/<%=(parent.id).split('-')[1]%>" method="get">
-                                    <button class="btn btn-secondary col-3" type="submit">view categories</button>
+                                    <button class="btn btn-secondary col-3 mb-5" type="submit">view categories</button>
                                 </form>
                                 <% }); %>
                             </div>
