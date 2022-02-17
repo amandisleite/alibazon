@@ -1,3 +1,4 @@
+const axios = require('axios');
 const Services = require('./Services');
 const secretKey = process.env.SECRET_KEY;
 
@@ -10,6 +11,34 @@ class CartServices extends Services {
             quantity: quantity
         }
         return data;
+    }
+
+    static async getData(url, data = {}, token) {
+        try {
+            const response = await axios({
+                method: 'get',
+                url: url,
+                data: data,
+                headers: { 'Authorization': `Bearer ${token}` }
+            });
+            return response;
+        } catch (err) {
+            return { err: err.request.path };
+        }
+    }
+
+    static async sendCartData(url, data, token) {
+        try {
+            const request = await axios({
+                method: 'post',
+                url: url,
+                data: data,
+                headers: { 'Authorization': `Bearer ${token}` }
+            });
+            return request;
+        } catch (err) {
+            return err.message;
+        }
     }
 }
 

@@ -9,8 +9,8 @@ module.exports = (app) => {
   app.use(
     users,
     categories,
-    cart,
     main,
+    cart,
     errors
   )
 }

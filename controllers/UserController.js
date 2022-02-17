@@ -34,13 +34,21 @@ class UserController {
 
     try {
       const userLogged = await UserServices.sendData(`${api}auth/signin`, user)
-      res.cookie("username", userLogged.data.user.name)
-      res.render("index", { name: userLogged.data.user.name})
+      console.log(userLogged.data.token)
+      res.cookie('token', userLogged.data.token)
+      res.locals.name = userLogged.data.user.name
+      res.render("index", { name: res.locals.name})
       res.status(200)        
       
     } catch (err) {
       return next(err)
     }
+  }
+
+  static logoutUser(req, res, next) {
+    console.log(req.cookies.token)   
+    res.clearCookie('token')
+    res.redirect('/')       
   }
 
   // static async userExists(user) {

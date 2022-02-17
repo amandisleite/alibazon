@@ -10,6 +10,13 @@ module.exports = (err, req, res, next) => {
     }
 
     let path = req.path.substring(1);
+
+    if (path.includes('logout')) {
+      path = 'cart'
+    }
+    if (path.includes('cart')) {
+      path = 'cart'
+    }
     if (path === 'womens' || path === 'mens') {
       path = 'parentCategory'
     } else {
