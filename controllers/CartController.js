@@ -37,18 +37,13 @@ class CartController {
           }
           
           const items = CartServices.createCartItem(idProduct, variantId, '1')
-          const config = {
-            headers: { Authorization: `Bearer ${req.cookies.token}` }
-          };
-          console.log(items)
-          console.log(config)
-          // res.set('Authorization', `Bearer ${req.cookies.token}`)
-          const addItem = await CartServices.sendCartData(`${api}cart/addItem`, items, req.cookies.token);
-          console.log(req.cookies.token)
-          console.log(addItem)
+          await CartServices.sendCartData(`${api}cart/addItem`, items, req.cookies.token);
+
           res.render('cart', {
             item,
-            variantId
+            variantId,
+            idProduct,
+            productData
           })
         
         } catch (err) { next(err) }
