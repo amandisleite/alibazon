@@ -1,4 +1,4 @@
-<!-- <% var errMessage, product, category, mainCategory, idSubcategory, subcat, subcategory, idProduct %> -->
+<!-- <% var errMessage, product, category, mainCategory, idSubcategory, subcat, subcategory, idProduct, quantityVariations %> -->
 
 <!DOCTYPE html>
 <html lang="en">
@@ -40,24 +40,56 @@
                                         <div class="card-body d-flex flex-column">
                                             <h2 class="card-title fs-2 fw-bold"><%= product.name %></h2>
                                             <p class="card-text fs-5 me-5"><%= product.page_description %></p>
-                                            <div>
-                                                <% const variants = product.variation_attributes %>
-                                                <% for (variant of variants) { %>
-                                                    <p class="text-uppercase fw-bold fs-6 text-muted"><%= variant.name %></p>
-                                                    <% for (eachValue in variant.values) { %>
-                                                    <button
-                                                        value="<%= variant.values[eachValue].value %>"
-                                                        class="btn btn-outline-info mb-4" >
-                                                        <%= variant.values[eachValue].name %>
-                                                    </button>
-                                                    <% } %>
+                                            <div id="variants">
+                                                <% const variantsAttributes = product.variation_attributes %>
+                                                <% for (variantAttribute of variantsAttributes) { %>
+                                                    <form action="/cart/<%= product.id %>/<%= variantName %>/<%= variantValue %>" method="post">
+                                                        <p class="text-uppercase fw-bold fs-6 text-muted"><%= variantAttribute.name %></p>
+                                                        <select
+                                                        value="<%= variantAttribute.name %>"
+                                                        class="variantsValues form-select btn-outline-info mb-4">
+                                                            <option selected></option>
+                                                            <% for (eachValue in variantAttribute.values) { %>
+                                                                <% var variantValue = variantAttribute.values[eachValue].value %>
+                                                                <% var variantName = variantAttribute.values[eachValue].name %>
+                                                                <option value="<%= variantValue %>">
+                                                                    <%= variantName %>
+                                                                </option>
+                                                            <% } %>
+                                                        </select>                                               
+                                                        <% if (quantityVariations === 2) { %>
+                                                            <% if (variantAttribute.name === 'Color') { %>
+                                                                <div class="mt-auto d-none">
+                                                                    <p class="card-text fs-4 fw-bold text-muted">USD <%= product.price.toFixed(2) %></p>
+                                                                    <button class="btn btn-outline-secondary col-5" type="submit">Buy now</button>
+                                                                </div>
+                                                                <% } else { %>
+                                                                <div class="mt-auto">
+                                                                    <p class="card-text fs-4 fw-bold text-muted">USD <%= product.price.toFixed(2) %></p>
+                                                                    <button class="btn btn-outline-secondary col-5" type="submit">Buy now</button>
+                                                                </div>
+                                                            <% } %>
+                                                        <% } %>
+                                                        <% if (quantityVariations === 3) { %>
+                                                            <% if (variantAttribute.name === 'Color') { %>
+                                                                <div class="mt-auto d-none">
+                                                                    <p class="card-text fs-4 fw-bold text-muted">USD <%= product.price.toFixed(2) %></p>
+                                                                    <button class="btn btn-outline-secondary col-5" type="submit">Buy now</button>
+                                                                </div>
+                                                            <% } else if (variantAttribute.name === 'Size') { %>
+                                                                <div class="mt-auto d-none">
+                                                                    <p class="card-text fs-4 fw-bold text-muted">USD <%= product.price.toFixed(2) %></p>
+                                                                    <button class="btn btn-outline-secondary col-5" type="submit">Buy now</button>
+                                                                </div>
+                                                            <% } %>
+                                                        <% } else { %>
+                                                            <div class="mt-auto">
+                                                                <p class="card-text fs-4 fw-bold text-muted">USD <%= product.price.toFixed(2) %></p>
+                                                                <button class="btn btn-outline-secondary col-5" type="submit">Buy now</button>
+                                                            </div>
+                                                        <% } %>
+                                                    </form>
                                                 <% } %>
-                                            </div>
-                                            <div class="mt-auto">
-                                                <p class="card-text fs-4 fw-bold text-muted">USD <%= product.price.toFixed(2) %></p>
-                                                <form action="/>" method="get">
-                                                    <button class="btn btn-outline-secondary col-5" type="submit">Buy now</button>
-                                                </form>
                                             </div>
                                         </div>
                                     </div>
@@ -76,4 +108,16 @@
             </div>
         </footer>
     </body>
+    <script>
+        const buttons = document.getElementsByClassName('variantsValues');
+        for (let i = 0; i < buttons.length; i++) {
+            let button = buttons[i]
+            button.addEventListener('click', function(event) {
+                button.classList.add("active")
+                variantValues.push(button.value)
+                console.log(variantValues)
+            })
+        }
+
+    </script>
 </html>

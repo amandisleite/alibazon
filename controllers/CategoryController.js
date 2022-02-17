@@ -106,9 +106,12 @@ class CategoryController {
             if (subcategory.length === 3) {
               subcategory = subcategory[2]
             }
+            const product = productDetail.data[0]
+            const quantityVariations = product.variation_attributes.length
 
             res.render('product-page', {
-              product: productDetail.data[0],
+              product,
+              quantityVariations,
               category,
               mainCategory,
               idMainCategory,
