@@ -1,4 +1,5 @@
 const { CartServices } = require('../services');
+const { CategoriesServices } = require('../services');
 
 const api = process.env.API_URL;
 const secretKey = process.env.SECRET_KEY;
@@ -18,16 +19,32 @@ class CartController {
       }
 
       static async addItemToCart(req, res, next) {
-        const { product, variantName, variantValue } = req.params
+        const item = req.body;
+        const { idProduct } = req.params;
+        let variantId = 0
+
+        const product = await CategoriesServices.getDataOneProduct(idProduct);
+        const productData = product.data[0]
+        const productVariants = productData.variants
+        for (let variant of productVariants) {
+          const values = variant.variation_values
+          if (item.color) {
+            if (item.color === values.color && item.size === values.size && item.width === values.width) {
+              variantId = variant.product_id
+            }
+          }
+        }
+        
+
         // const items = CartServices.createCartItem(product, variant, '1')
-        console.log(product, variantName, variantValue)
+        // console.log(productVariants)
 
         try {
-          const addItem = await CartServices.sendData(`${api}cart/addItem`, items);
+          // const addItem = await CartServices.sendData(`${api}cart/addItem`, items);
           
-          console.log(addItem)
+          // console.log(addItem)
           res.render('cart', {
-            cart
+            item
           })
         
         } catch (err) { next(err) }
