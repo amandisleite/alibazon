@@ -11,6 +11,7 @@ class CartController {
         let quantityProduct = 0;
         const productsPrices = [];
         const cartProductsId = [];
+        const cartVariantsId = [];
         const productList = [];
 
         try {
@@ -20,9 +21,11 @@ class CartController {
           for (let eachProduct of cartProducts) {
             cartProductId = eachProduct.productId
             const priceProduct = eachProduct.variant.price
+            const variantId = eachProduct.variant.product_id
             quantityProduct = eachProduct.quantity
             cartProductsId.push(cartProductId)
             productsPrices.push(priceProduct)
+            cartVariantsId.push(variantId)
           }
           for (let productId of cartProductsId) {
             const product = await CategoriesServices.getDataOneProduct(productId);
@@ -37,7 +40,8 @@ class CartController {
           res.render('cart', {
             productList,
             quantityProduct,
-            totalPrice
+            totalPrice,
+            cartVariantsId
           })
         
         } catch (err) { next(err) }
@@ -69,6 +73,12 @@ class CartController {
       } catch (err) { next(err) }
     }
 
+    static async deleteItemFromCart(req, res, next) {
+      console.log(req.body)
+
+     
     }
+
+}
    
-    module.exports = CartController;
+module.exports = CartController;

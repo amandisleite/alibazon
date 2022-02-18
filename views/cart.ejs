@@ -1,4 +1,4 @@
-<!-- <% var errMessage, productList, quantityProduct, totalPrice %> -->
+<!-- <% var errMessage, productList, quantityProduct, totalPrice, cartVariantsId %> -->
 
 <!DOCTYPE html>
 <html lang="en">
@@ -22,8 +22,8 @@
                         </li>
                     </ul>
                     <% if (productList) { %>
-                        <% for (productData of productList) { %>
-                            <% productData = productData[0] %>
+                        <% for (let i = 0; i < productList.length; i++) { %>
+                            <% const productData = productList[i][0] %>
                             <div class="row row-cols-1 row-cols-md-2 g-4 mx-auto">
                                 <% for (let image of productData.image_groups) { %>
                                     <% if (image.view_type === 'small') { %>
@@ -32,8 +32,13 @@
                                 <% } %>
                                 <p><%= productData.name %></p>
                                 <p><%= quantityProduct %></p>
+                                <p><%= cartVariantsId[i] %></p>
                                 <p>USD <%= productData.price.toFixed(2) %></p>
                             </div>
+                            <form action="/cart/delete" method="post">
+                                <input type="submit" name="delete-btn" value="<%= cartVariantsId[i] %>">
+                                <label>Remove item</label>
+                            </form>
                         <% } %>
 
                         <form action='/orders' method='post'>
