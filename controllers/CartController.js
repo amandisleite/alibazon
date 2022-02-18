@@ -9,25 +9,35 @@ class CartController {
     static async getCart(req, res, next) {
         let cartProductId = 0;
         let quantityProduct = 0;
+        const productsPrices = [];
         const cartProductsId = [];
         const productList = [];
 
         try {
           const cart = await CartServices.getCartData(`${api}/cart?secretKey=${secretKey}`, req.cookies.token);
           const cartProducts = cart.data.items
+
           for (let eachProduct of cartProducts) {
             cartProductId = eachProduct.productId
+            const priceProduct = eachProduct.variant.price
             quantityProduct = eachProduct.quantity
             cartProductsId.push(cartProductId)
+            productsPrices.push(priceProduct)
           }
           for (let productId of cartProductsId) {
             const product = await CategoriesServices.getDataOneProduct(productId);
             productList.push(product.data)
           }
 
+          let totalPrice = 0;
+          productsPrices.forEach(price => {
+            totalPrice += price
+          })
+
           res.render('cart', {
             productList,
-            quantityProduct
+            quantityProduct,
+            totalPrice
           })
         
         } catch (err) { next(err) }

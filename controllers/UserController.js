@@ -37,7 +37,6 @@ class UserController {
           res.cookie('token', userLogged.data.token)
           res.locals.token = userLogged.data.token
           res.locals.name = userLogged.data.user.name
-          console.log(res.locals)
           res.redirect('/')
           // res.render('/partials/header', { name: res.locals.name, token })      
           

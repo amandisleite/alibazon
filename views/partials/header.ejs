@@ -1,4 +1,5 @@
 <% var token = locals.token %>
+
 <div class="row row-cols-1">
     <nav class="navbar navbar-expand-lg navbar-light bg-white">
         <div class="container px-5 border-bottom">
@@ -20,10 +21,13 @@
                 <% } %>
                 <% if (token) { %>
                 <li class="nav-item">
-                    <a class="nav-link" href="/logout">Logout</a>
+                    <a class="nav-link fw-bold" href="/cart">Cart</a>
+                </li>
+                <li class="nav-item me-5">
+                    <a class="nav-link fw-bold" href="/orders">Orders</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/cart">Cart</a>
+                    <a class="nav-link" href="/logout">Logout</a>
                 </li>
                 <% } %>
             </ul>
