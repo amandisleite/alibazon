@@ -13,12 +13,11 @@ class CartServices extends Services {
         return data;
     }
 
-    static async getData(url, data = {}, token) {
+    static async getCartData(url, token) {
         try {
             const response = await axios({
                 method: 'get',
                 url: url,
-                data: data,
                 headers: { 'Authorization': `Bearer ${token}` }
             });
             return response;

@@ -7,47 +7,55 @@ const secretKey = process.env.SECRET_KEY;
 class CartController {
     
     static async getCart(req, res, next) {
+        let cartProductId = 0;
+        const cartProductsId = [];
+        const productList = [];
+
         try {
-          const cart = await CartServices.getCartData(`${api}cart?secretKey=${secretKey}`);
-          
-          console.log(cart)
+          const cart = await CartServices.getCartData(`${api}/cart?secretKey=${secretKey}`, req.cookies.token);
+          const cartProducts = cart.data.items
+          for (let eachProduct of cartProducts) {
+            cartProductId = eachProduct.productId
+            cartProductsId.push(cartProductId)
+          }
+          for (let productId of cartProductsId) {
+            const product = await CategoriesServices.getDataOneProduct(productId);
+            productList.push(product.data)
+          }
+          // console.log(productList)
+
           res.render('cart', {
-            cart
+            productList
           })
         
         } catch (err) { next(err) }
-      }
+    }
 
-      static async addItemToCart(req, res, next) {
-        const item = req.body;
-        const { idProduct } = req.params;
-        let variantId = 0
+    static async addItemToCart(req, res, next) {
+      const item = req.body;
+      const { idProduct } = req.params;
+      let variantId = 0
 
-        try {
-          const product = await CategoriesServices.getDataOneProduct(idProduct);
-          const productData = product.data[0]
-          const productVariants = productData.variants
-          for (let variant of productVariants) {
-            const values = variant.variation_values
-            if (item.color) {
-              if (item.color === values.color && item.size === values.size && item.width === values.width) {
-                variantId = variant.product_id
-              }
+      try {
+        const product = await CategoriesServices.getDataOneProduct(idProduct);
+        const productData = product.data[0]
+        const productVariants = productData.variants
+        for (let variant of productVariants) {
+          const values = variant.variation_values
+          if (item.color) {
+            if (item.color === values.color && item.size === values.size && item.width === values.width) {
+              variantId = variant.product_id
             }
           }
-          
-          const items = CartServices.createCartItem(idProduct, variantId, '1')
-          await CartServices.sendCartData(`${api}cart/addItem`, items, req.cookies.token);
-
-          res.render('cart', {
-            item,
-            variantId,
-            idProduct,
-            productData
-          })
+        }
         
-        } catch (err) { next(err) }
-      }
+        const items = CartServices.createCartItem(idProduct, variantId, '1')
+        await CartServices.sendCartData(`${api}cart/addItem`, items, req.cookies.token);
+
+        res.redirect('/cart')
+      
+      } catch (err) { next(err) }
+    }
 
     }
    

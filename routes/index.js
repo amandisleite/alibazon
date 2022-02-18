@@ -8,9 +8,9 @@ const errors = require('../middlewares/errorTreatment')
 module.exports = (app) => {
   app.use(
     users,
+    cart,
     categories,
     main,
-    cart,
     errors
   )
 }
