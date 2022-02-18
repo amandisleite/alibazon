@@ -1,0 +1,43 @@
+<!-- <% var errMessage, orderData %> -->
+
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <%- include('partials/head'); %>
+        <title>Alibazon - Order</title>
+    </head>
+    <body class="container">
+        <header>
+            <%- include('partials/header'); %>
+        </header>
+        <main>
+            <div class="container px-5 mx-auto">
+                <% if (!errMessage) { %>
+                    <ul class="breadcrumb py-3 text-uppercase">
+                        <li class="breadcrumb-item">
+                            <a href="/">Home</a>
+                        </li>
+                        <li class="breadcrumb-item">
+                            <a href="/order>">Order</a>
+                        </li>
+                    </ul>
+                    
+
+                    <h1>Order created!</h1>
+                    <p>Thank you for buying in Alibazon.</p>
+
+
+
+                <% } %>
+            </div>
+            <section class="pt-4">
+                <%- include('partials/error'); %>
+            </section>
+        </main>
+        <footer class="footer">
+            <div class="container text-center mt-5">
+                <p>Copyright 2021 - OSF Digital</p>
+            </div>
+        </footer>
+    </body>
+</html>  

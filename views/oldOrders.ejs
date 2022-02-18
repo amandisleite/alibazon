@@ -1,0 +1,52 @@
+<!-- <% var errMessage, allOrders, totalPrice, allAddresses, allPaymentsIds %> -->
+
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <%- include('partials/head'); %>
+        <title>Alibazon - Order</title>
+    </head>
+    <body class="container">
+        <header>
+            <%- include('partials/header'); %>
+        </header>
+        <main>
+            <div class="container px-5 mx-auto">
+                <% if (!errMessage) { %>
+                    <ul class="breadcrumb py-3 text-uppercase">
+                        <li class="breadcrumb-item">
+                            <a href="/">Home</a>
+                        </li>
+                        <li class="breadcrumb-item">
+                            <a href="/order>">Order</a>
+                        </li>
+                    </ul>
+                    <h1>Check your old orders</h1>
+                    <% for (let i = 0; i < allOrders.length; i++) { %>
+                        <p>Order <%= allPaymentsIds[i] %></p>
+                    <% var eachOrder = allOrders[i] %>
+                        <% for (eachProduct of eachOrder) { %>
+                            <div class="row row-cols-1 row-cols-md-2 g-4 mx-auto">
+                                <p><%= eachProduct.productName %></p>
+                                <p><%= eachProduct.quantity %></p>
+                                <p>USD <%= eachProduct.price.toFixed(2) %></p>
+                            </div>
+                            <% } %>
+                        <div>
+                            <p>Delivery at <%= allAddresses[i] %></p>
+                            <p>Total price: <%= totalPrice[i].toFixed(2) %></p>
+                        </div>
+                    <% } %>
+                <% } %>
+            </div>
+            <section class="pt-4">
+                <%- include('partials/error'); %>
+            </section>
+        </main>
+        <footer class="footer">
+            <div class="container text-center mt-5">
+                <p>Copyright 2021 - OSF Digital</p>
+            </div>
+        </footer>
+    </body>
+</html>  
