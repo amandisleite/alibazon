@@ -6,50 +6,50 @@ const api = process.env.API_URL;
 
 class UserController {
   
-  static async signUpUser(req, res, next) {
-    const { username, useremail, userpassword } = req.body
+    static async signUpUser(req, res, next) {
+        const { username, useremail, userpassword } = req.body
 
-    const newUser = createUser(username, useremail, userpassword);
+        const newUser = createUser(username, useremail, userpassword);
 
-    try {
-      // const userExists = await UserServices.sendData(`${api}auth/signup`, newUser)
-      // console.log(userExists)
-      // if (userExists === 'Request failed with status code 400') {
-      //   throw new UserAlreadyExists(useremail);
-      // } else {
-        await UserServices.sendData(`${api}auth/signup`, newUser)
-        res.cookie("username", req.body.username)
-        res.render("signup", { name: req.body.username })
-        res.status(200)        
-      // }
-    } catch (err) {
-      return next(err)
+        try {
+          // const userExists = await UserServices.sendData(`${api}auth/signup`, newUser)
+          // console.log(userExists)
+          // if (userExists === 'Request failed with status code 400') {
+          //   throw new UserAlreadyExists(useremail);
+          // } else {
+            await UserServices.sendData(`${api}auth/signup`, newUser)
+            res.cookie("username", req.body.username)
+            res.render("signin", { name: req.body.username })       
+
+        } catch (err) {
+          return next(err)
+        }
     }
-  }
 
-  static async signInUser(req, res, next) {
-    const { useremail, userpassword } = req.body
+    static async signInUser(req, res, next) {
+        const { useremail, userpassword } = req.body
 
-    const user = loginUser(useremail, userpassword);
+        const user = loginUser(useremail, userpassword);
 
-    try {
-      const userLogged = await UserServices.sendData(`${api}auth/signin`, user)
-      console.log(userLogged.data.token)
-      res.cookie('token', userLogged.data.token)
-      res.locals.name = userLogged.data.user.name
-      res.render("index", { name: res.locals.name})
-      res.status(200)        
-      
-    } catch (err) {
-      return next(err)
+        try {
+          const userLogged = await UserServices.sendData(`${api}auth/signin`, user)
+
+          res.cookie('token', userLogged.data.token)
+          res.locals.token = userLogged.data.token
+          res.locals.name = userLogged.data.user.name
+          console.log(res.locals)
+          res.redirect('/')
+          // res.render('/partials/header', { name: res.locals.name, token })      
+          
+        } catch (err) {
+          return next(err)
+        }
     }
-  }
 
-  static logoutUser(req, res, next) {
-    console.log(req.cookies.token)   
-    res.clearCookie('token')
-    res.redirect('/')       
-  }
+    static logoutUser(req, res, next) {  
+        res.clearCookie('token')
+        res.redirect('/')       
+    }
 
   // static async userExists(user) {
   //   const { useremail, userpassword } = req.body
