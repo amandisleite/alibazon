@@ -8,6 +8,7 @@ class CartController {
     
     static async getCart(req, res, next) {
         let cartProductId = 0;
+        let quantityProduct = 0;
         const cartProductsId = [];
         const productList = [];
 
@@ -16,16 +17,17 @@ class CartController {
           const cartProducts = cart.data.items
           for (let eachProduct of cartProducts) {
             cartProductId = eachProduct.productId
+            quantityProduct = eachProduct.quantity
             cartProductsId.push(cartProductId)
           }
           for (let productId of cartProductsId) {
             const product = await CategoriesServices.getDataOneProduct(productId);
             productList.push(product.data)
           }
-          // console.log(productList)
 
           res.render('cart', {
-            productList
+            productList,
+            quantityProduct
           })
         
         } catch (err) { next(err) }
