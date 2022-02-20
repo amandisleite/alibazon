@@ -40,53 +40,48 @@
                                         <div class="card-body d-flex flex-column">
                                             <h2 class="card-title fs-2 fw-bold"><%= product.name %></h2>
                                             <p class="card-text fs-5 me-5"><%= product.page_description %></p>
+                                            <% if (product.long_description !== product.page_description) { %>
+                                                <p class="card-text fs-4 me-5"><%- product.long_description %></p>
+                                            <% } %>
                                             <div id="variants">
-                                                
-                                                <% let variantValue = 0 %>
-                                                <% let variantName = 0 %>
-                                                <% let variantNameId = 0 %>
-                                                <% let variantsWithoutRepeat = [] %>
+
                                                 <% const variantsAttributes = product.variation_attributes %>
                                                 <% for (variantAttribute of variantsAttributes) { %>
                                                     <form action="/cart/addItem/<%= product.id %>" method="post">
-                                                <% } %>
+                                                        <% } %>
                                                         
                                                         <% for (variantAttribute of variantsAttributes) { %>
-                                                            <% variantNameId = variantAttribute.id %>
-                                                            <% if (variantAttribute.name === 'Color') { %>
+                                                            <% if (variantAttribute.id === 'color') { %>
+                                                                <% console.log(variantAttribute.name) %>
                                                             <p class="text-uppercase fw-bold fs-6 text-muted"><%= variantAttribute.name %></p>
                                                             <% for (eachValue in variantAttribute.values) { %>
-                                                                <% for (let variant of product.variants) { %>
-                                                                    <% if (variant.variation_values.color === variantAttribute.values[eachValue].value) { %>
-                                                                        <% variantValue = variantAttribute.values[eachValue].value %>
-                                                                        <% variantName = variantAttribute.values[eachValue].name %>
-                                                                    <% } %>
-                                                                        <% } %>
-                                                                        <% } %>
-                                                                        <% } %>
-                                                                        <% } %>
-                                                                        <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
-                                                                            <input
-                                                                            type="radio"
-                                                                            id="select-<%= variantValue %>"
-                                                                            value="<%= variantValue %>"
-                                                                            name="<%= variantNameId %>"
-                                                                            autocomplete="off"
-                                                                            class="btn-check"
-                                                                            >
-                                                                            <label
-                                                                            class="btn btn-outline-info mb-4"
-                                                                            for="select-<%= variantValue %>">
-                                                                            <%= variantName %>
-                                                                            </label>
-                                                                        </div>
-
-
+                                                                
+                                                                
+                                                                <% var variantColor = variantAttribute.values[eachValue].value %>
+                                                            <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
+                                                                <input
+                                                                type="radio"
+                                                                id="select-<%= variantColor %>"
+                                                                value="<%= variantColor %>"
+                                                                name="<%= variantAttribute.id %>"
+                                                                autocomplete="off"
+                                                                class="btn-check"
+                                                                >
+                                                                <label
+                                                                class="btn btn-outline-info mb-4"
+                                                                for="select-<%= variantColor %>">
+                                                                <%= variantAttribute.values[eachValue].name %>
+                                                                </label>
+                                                            </div>
+                                                            
+                                                            <% } %>
+                                                        <% } %>
+                                                        <% } %>
                                                         <% for (variantAttribute of variantsAttributes) { %>
-                                                            <% if (variantAttribute.name === 'Size') { %>
+                                                            <% if (variantAttribute.id === 'size') { %>
                                                             <p class="text-uppercase fw-bold fs-6 text-muted"><%= variantAttribute.name %></p>
                                                         <% for (eachValue in variantAttribute.values) { %>
-                                                                <% const variantSize = variantAttribute.values[eachValue].value %>
+                                                                <% var variantSize = variantAttribute.values[eachValue].value %>
                                                             <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
                                                                 <input
                                                                 type="radio"
@@ -105,13 +100,12 @@
                                                             <% } %>
                                                         <% } %>
                                                         <% } %>
-
    
                                                         <% for (variantAttribute of variantsAttributes) { %>
-                                                            <% if (variantAttribute.name === 'Width') { %>
+                                                            <% if (variantAttribute.id === 'width') { %>
                                                             <p class="text-uppercase fw-bold fs-6 text-muted"><%= variantAttribute.name %></p>
                                                         <% for (eachValue in variantAttribute.values) { %>
-                                                                <% const variantWidth = variantAttribute.values[eachValue].value %>
+                                                                <% var variantWidth = variantAttribute.values[eachValue].value %>
                                                             <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
                                                                 <input
                                                                 type="radio"
@@ -130,6 +124,9 @@
                                                             <% } %>
                                                         <% } %>
                                                         <% } %>
+                                                
+                                                
+                                                        
                                                         
                                                         <div class="mt-auto">
                                                             <p class="card-text fs-4 fw-bold text-muted">USD <%= product.price.toFixed(2) %></p>
