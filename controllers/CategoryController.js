@@ -99,16 +99,19 @@ class CategoryController {
         try {
             const productDetail = await CategoriesServices.getDataOneProduct(idProduct);
             const idMainCategory = `${category}-${mainCategory}`
-            let subcategory = idSubcategory.split('-')
-            if (subcategory.length === 2) {
-              subcategory = subcategory[1]
+            let subcategoryString = idSubcategory.split('-')
+            let subcategory = 0;
+            
+            if (subcategoryString.length === 2) {
+              subcategory = subcategoryString[1]
             }
-            if (subcategory.length === 3) {
-              subcategory = subcategory[2]
+            if (subcategoryString.length === 3) {
+              subcategory = subcategoryString[2]
             }
-            if (subcategory.length === 4) {
-              subcategory = `${subcategory[2]} ${subcategory[3]}`
+            if (subcategoryString.length === 4) {
+              subcategory = `${subcategoryString[2]} ${subcategoryString[3]}`
             }
+
             const product = productDetail.data[0]
             
             let allVariantsColors = [];

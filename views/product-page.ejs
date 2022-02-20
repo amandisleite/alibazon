@@ -49,6 +49,7 @@
                                                 <% for (variantAttribute of variantsAttributes) { %>
                                                     <form action="/cart/addItem/<%= product.id %>" method="post">
                                                         <% } %>
+                                                            <% if (variantsColors.length > 0) { %>
                                                                 <p class="text-uppercase fw-bold fs-6 text-muted">color</p>
                                                          
                                                                 <% for (let color of variantsColors) { %>
@@ -68,9 +69,10 @@
                                                                 </label>
                                                             </div>
                                                             <% } %>
+                                                            <% } %>
 
+                                                            <% if (variantsSizes.length > 0) { %>
                                                             <p class="text-uppercase fw-bold fs-6 text-muted">size</p>
-                                                         
                                                                 <% for (let size of variantsSizes) { %>
                                                             <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
                                                                 <input
@@ -88,7 +90,9 @@
                                                                 </label>
                                                             </div>
                                                             <% } %>
+                                                            <% } %>
 
+                                                            <% if (variantsWidth.length > 0) { %>
                                                             <p class="text-uppercase fw-bold fs-6 text-muted">width</p>
                                                          
                                                                 <% for (let width of variantsWidth) { %>
@@ -108,14 +112,21 @@
                                                                 </label>
                                                             </div>
                                                             <% } %>
+                                                            <% } %>
                                                
 
+                                                            
                                                         <div class="mt-auto">
+                                                            <div class="d-flex justify-content-between align-items-center">
                                                             <p class="card-text fs-4 fw-bold text-muted">USD <%= product.price.toFixed(2) %></p>
-                                                            <button class="btn btn-outline-secondary col-5" type="submit">Buy now</button>
+                                                            <button class="btn btn-secondary col-5" type="submit">Buy now</button>
+                                                            </form>
+                                                            <form action="/wishlist/addItem/<%= product.id %>" method="post">
+                                                                <button class="btn btn-outline-secondary" type="submit">Add to Wishlist</button>
+                                                            </form>
+                                                            </div>
                                                         </div>
                                                         
-                                                    </form>
                                                 
                 
                                             </div>
