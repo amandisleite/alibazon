@@ -14,98 +14,139 @@
         <main>
             <div class="container px-5 mx-auto">
                 
-                    <ul class="breadcrumb py-3 text-uppercase">
-                        <li class="breadcrumb-item">
-                            <a href="/">Home</a>
-                        </li>
-                        <li class="breadcrumb-item">
-                            <a href="/cart>">Cart</a>
-                        </li>
-                    </ul>
-                    <div class="col mx-auto mb-5">
-                        <div class="mx-5">
-                            <div>
-                            <% if (token) { %>
-                            <% if (!errMessage) { %>
-                            <% if (productList) { %>
-                                <% let itemColor = 0 %>
-                                <% const allLinksOfImages = [] %>
-                                <% let allLinksOfImagesWithoutRepeat = [] %>
-                                <% for (let i = 0; i < productList.length; i++) { %>
-                                    <% const productData = productList[i][0] %>
-                                    <div class= "row g-0 py-3 border-bottom">
-                                        <div class="col-md-5">
-                                            <% for (let image of productData.image_groups) { %>
-                                                <% for (let variant of productData.variants) { %>
-                                                    <% if (variant.product_id === cartVariantsId[i]) { %>
-                                                        <% itemColor = variant.variation_values.color %>
-                                                        <% const allImages = [] %>
-                                                        <% if (image.view_type === 'medium') { %>
-                                                            <% allImages.push(image)%>
-                                                            <% const imageToBeDisplayed = allImages[0] %>
-                                                            <% const linkToImage = imageToBeDisplayed.images[0].link %>
-                                                            <% allLinksOfImages.push(linkToImage) %>
-                                                            <% allLinksOfImagesWithoutRepeat = [...new Set(allLinksOfImages)] %>
-                                                        <% } %>
+                <ul class="breadcrumb py-3 text-uppercase">
+                    <li class="breadcrumb-item">
+                        <a href="/">Home</a>
+                    </li>
+                    <li class="breadcrumb-item">
+                        <a href="/cart>">Cart</a>
+                    </li>
+                </ul>
+                <% if (token) { %>
+                <% if (!errMessage) { %>
+                <% if (productList) { %>
+                <div class="col mx-auto mb-5">
+                    <div class="mx-5">
+                        <div>
+                            <% let itemColor = 0 %>
+                            <% let itemSize = 0 %>
+                            <% let itemWidth = 0 %>
+                            <% const allLinksOfImages = [] %>
+                            <% let allLinksOfImagesWithoutRepeat = [] %>
+                            <% for (let i = 0; i < productList.length; i++) { %>
+                                <% const productData = productList[i][0] %>
+                                <div class= "row g-0 py-3 border-bottom">
+                                    <div class="col-md-5">
+                                        <% for (let image of productData.image_groups) { %>
+                                            <% for (let variant of productData.variants) { %>
+                                                <% if (variant.product_id === cartVariantsId[i]) { %>
+                                                    <% itemColor = variant.variation_values.color %>
+                                                    <% const allImages = [] %>
+                                                    <% if (image.view_type === 'medium') { %>
+                                                        <% allImages.push(image)%>
+                                                        <% const imageToBeDisplayed = allImages[0] %>
+                                                        <% const linkToImage = imageToBeDisplayed.images[0].link %>
+                                                        <% allLinksOfImages.push(linkToImage) %>
+                                                        <% allLinksOfImagesWithoutRepeat = [...new Set(allLinksOfImages)] %>
                                                     <% } %>
                                                 <% } %>
                                             <% } %>
-                                            <% for (let link of allLinksOfImagesWithoutRepeat) { %>
-                                                <% if (link.includes(itemColor)) { %>
-                                                <img src="/images/<%= link %>">
+                                        <% } %>
+                                        <% for (let link of allLinksOfImagesWithoutRepeat) { %>
+                                            <% if (link.includes(itemColor)) { %>
+                                            <img src="/images/<%= link %>">
+                                            <% } %>
+                                        <% } %>
+            
+                                    </div>
+                                    <div class="col-md-7">
+                                        <p class="fs-6 fw-bold"><%= productData.name %></p>
+                                        <% for (let variant of productData.variants) { %>
+                                            <% if (variant.product_id === cartVariantsId[i]) { %>
+                                                <% itemVariantColor = variant.variation_values.color %>
+                                                <% itemVariantSize = variant.variation_values.size %>
+                                                <% itemVariantWidth = variant.variation_values.width %>
+                                                <% for (let attributes of productData.variation_attributes) { %>
+                                                        <% if (attributes.name === 'Color') { %>
+                                                            <% for (let values of attributes.values) {%>
+                                                                <% if (values.value === itemVariantColor) { %>
+                                                                    <% itemVariantColor = values.name %>
+                                                                        <% if (itemVariantColor !== 0) { %>
+                                                                        <p class="fs-6 fw-bold"><%= itemVariantColor %></p>
+                                                                        <% } %>
+                                                                <% } %>
+                                                            <% } %>
+                                                        <% } %>
+                                                        <% if (attributes.name === 'Size') { %>
+                                                            <% for (let values of attributes.values) {%>
+                                                                <% if (values.value === itemVariantSize) { %>
+                                                                    <% itemVariantSize = values.name %>
+                                                                        <% if (itemVariantSize !== 0) { %>
+                                                                        <p class="fs-6 fw-bold"><%= itemVariantSize %></p>
+                                                                        <% } %>
+                                                                <% } %>
+                                                            <% } %>
+                                                        <% } %>
+                                                        <% if (attributes.name === 'Width') { %>
+                                                            <% for (let values of attributes.values) {%>
+                                                                <% if (values.value === itemVariantWidth) { %>
+                                                                    <% itemVariantWidth = values.name %>
+                                                                        <% if (itemVariantWidth !== 0) { %>
+                                                                        <p class="fs-6 fw-bold"><%= itemVariantWidth %></p>
+                                                                        <% } %>
+                                                                <% } %>
+                                                            <% } %>
+                                                        <% } %>
                                                 <% } %>
                                             <% } %>
-                
-                                        </div>
-                                        <div class="col-md-7">
-                                            <p class="fs-6 fw-bold"><%= productData.name %></p>
-                                            <form action="/cart/changeQuantity/<%= cartVariantsId[i] %>" method="post">
-                                                <div class="d-flex">
-                                                    <input class="form-control form-control-sm" type="number" name="quantityProduct" min="1" placeholder="<%= quantityProduct %>">
-                                                    <button class="btn btn-outline-secondary btn-sm col-3" type="submit">Change quantity</button>
-                                                </div>
-                                            </form>
-                                            <p class="fs-6 fw-bold text-muted mt-3">USD <%= productData.price.toFixed(2) %></p>
-                                            <form action="/cart/delete" method="post">
-                                                <input class="d-none" name="variantId" value="<%= cartVariantsId[i] %>">
-                                                <button class="btn btn-outline-secondary btn-sm col-3" type="submit">Remove item</label>
-                                            </form>
-                                        </div>
+                                        <% } %>
+                                        <form action="/cart/changeQuantity/<%= cartVariantsId[i] %>" method="post">
+                                            <div class="d-flex">
+                                                <input class="form-control form-control-sm" type="number" name="quantityProduct" min="1" placeholder="<%= quantityProduct %>">
+                                                <button class="btn btn-outline-secondary btn-sm col-3" type="submit">Change quantity</button>
+                                            </div>
+                                        </form>
+                                        <p class="fs-6 fw-bold text-muted mt-3">USD <%= productData.price.toFixed(2) %></p>
+                                        <form action="/cart/delete" method="post">
+                                            <input class="d-none" name="variantId" value="<%= cartVariantsId[i] %>">
+                                            <button class="btn btn-outline-secondary btn-sm col-3" type="submit">Remove item</label>
+                                        </form>
                                     </div>
-                                <% } %>
-                            </div>
+                                </div>
+                            <% } %>
                         </div>
                     </div>
+                </div>
 
-                        <form action="/orders" method="post">
-                            <div class="d-flex justify-content-around align-items-center flex-wrap">
-                                <div>
-                                    <p class="fw-bold text-muted text-uppercase mb-0">Total price:</p>
-                                    <p class="fs-1 fw-bold my-0"><%= totalPrice %></p>
-                                </div>
-                                <div>
-                                    <label class="mt-0 mb-3">Please, provide the delivery address:</label>
-                                    <input class="form-control form-control-sm col-auto" type="textarea" name="address" required>
-                                </div>
-                                <div>
-                                    <button class="btn btn-secondary btn-lg" type="submit">Place order</button>
-                                </div>
-                            </div>
-                        </form>
+                <form action="/orders" method="post">
+                    <div class="d-flex justify-content-around align-items-center flex-wrap">
+                        <div>
+                            <p class="fw-bold text-muted text-uppercase mb-0">Total price:</p>
+                            <p class="fs-1 fw-bold my-0"><%= totalPrice.toFixed(2) %></p>
+                        </div>
+                        <div>
+                            <label class="mt-0 mb-3">Please, provide the delivery address:</label>
+                            <input class="form-control form-control-sm" type="textarea" name="address" required>
+                        </div>
+                        <div>
+                            <button class="btn btn-secondary btn-lg" type="submit">Place order</button>
+                        </div>
+                    </div>
+                </form>
             </div>
-                    <% } %>
-                    <% } else { %>
-                    <section class="pt-5 mt-5 text-center">
-                        <h1>There are no items in your cart yet.</h1>
-                        <p class="mt-3">Check our products for <a href="/mens">Men</a> and <a href="/womens">Women</a> and refresh your looks!</p>
-                    </section>
-                    <% } %>
-                <% } else if (!token) { %>
-                    <section class="pt-5 mt-5 text-center">
-                        <h1>You are not signed in yet.</h1>
-                        <p class="mt-3">Please <a href="/signin">Sign In</a> or <a href="/signup">Sign Up</a> to buy our items.</p>
-                    </section>
-                <% } %>
+            <% } %>
+            <% } else { %>
+            <section class="pt-5 mt-5 text-center">
+                <h1>There are no items in your cart yet.</h1>
+                <p class="mt-3">Check our products for <a href="/mens">Men</a> and <a href="/womens">Women</a> and refresh your looks!</p>
+            </section>
+            <% } %>
+        <% } else if (!token) { %>
+            <section class="pt-5 mt-5 text-center">
+                <h1>You are not signed in yet.</h1>
+                <p class="mt-3">Please <a href="/signin">Sign In</a> or <a href="/signup">Sign Up</a> to buy our items.</p>
+            </section>
+        <% } %>
         </main>
         <footer class="footer">
             <div class="container text-center mt-5">

@@ -1,3 +1,4 @@
+const { consoleSandbox } = require('@sentry/utils');
 const { CartServices } = require('../services');
 const { CategoriesServices } = require('../services');
 
@@ -16,8 +17,8 @@ class CartController {
 
         try {
           const cart = await CartServices.getCartData(`${api}/cart?secretKey=${secretKey}`, req.cookies.token);
-          const cartProducts = cart.data.items
 
+          const cartProducts = cart.data.items
           for (let eachProduct of cartProducts) {
             cartProductId = eachProduct.productId
             let priceProduct = eachProduct.variant.price
@@ -51,8 +52,8 @@ class CartController {
     static async addItemToCart(req, res, next) {
       const item = req.body;
       const { idProduct } = req.params;
-      let variantId = 0
-
+      let variantId = 0;
+      
       try {
         const product = await CategoriesServices.getDataOneProduct(idProduct);
         const productData = product.data[0]
