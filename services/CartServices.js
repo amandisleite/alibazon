@@ -3,7 +3,7 @@ const Services = require('./Services');
 const secretKey = process.env.SECRET_KEY;
 
 class CartServices extends Services {
-    static cartItem(product, variant, quantity = {}) {
+    static cartItem(product, variant, quantity) {
         const data = {
             secretKey: secretKey,
             productId: product,

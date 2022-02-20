@@ -45,7 +45,7 @@
  
                                                 <% const variantsAttributes = product.variation_attributes %>
                                                 <% for (variantAttribute of variantsAttributes) { %>
-                                                    <form action="/cart/<%= product.id %>" method="post">
+                                                    <form action="/cart/addItem/<%= product.id %>" method="post">
                                                         <% } %>
                                                         
                                                         <% for (variantAttribute of variantsAttributes) { %>

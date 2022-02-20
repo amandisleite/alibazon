@@ -34,6 +34,10 @@
                                     <% } %>
                                 <% } %>
                                 <p><%= productData.name %></p>
+                                <form action="/cart/changeQuantity/<%= cartVariantsId[i] %>" method="post">
+                                    <input type="number" name="quantityProduct" min="1" placeholder="<%= quantityProduct %>">
+                                    <button class="btn btn-outline-secondary col-5" type="submit">Change quantity</button>
+                                </form>
                                 <p><%= quantityProduct %></p>
                                 <p><%= cartVariantsId[i] %></p>
                                 <p>USD <%= productData.price.toFixed(2) %></p>

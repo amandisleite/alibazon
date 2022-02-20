@@ -9,6 +9,7 @@ class CartController {
     static async getCart(req, res, next) {
         let cartProductId = 0;
         let quantityProduct = 0;
+        const quantitiesProducts = [];
         const productsPrices = [];
         const cartProductsId = [];
         const cartVariantsId = [];
@@ -20,9 +21,11 @@ class CartController {
 
           for (let eachProduct of cartProducts) {
             cartProductId = eachProduct.productId
-            const priceProduct = eachProduct.variant.price
+            let priceProduct = eachProduct.variant.price
             const variantId = eachProduct.variant.product_id
             quantityProduct = eachProduct.quantity
+            priceProduct = priceProduct * quantityProduct
+            // quantitiesProducts.push(quantityProduct)
             cartProductsId.push(cartProductId)
             productsPrices.push(priceProduct)
             cartVariantsId.push(variantId)
@@ -89,14 +92,37 @@ class CartController {
         }
         
         const itemToBeDeleted = CartServices.deleteCartItem(cartProductId[0], variantId)
-        console.log(itemToBeDeleted)
         const resp = await CartServices.deleteItemCartData(`${api}/cart/removeItem`, itemToBeDeleted, req.cookies.token);
-        console.log(resp)
 
         res.redirect('/cart')
       
       } catch (err) { next(err) }
     }
+
+    static async changeQuantityOfItemFromCart(req, res, next) {
+      const variantId = req.params.idVariant;
+      const quantity = req.body.quantityProduct;
+      let cartProductId = [];
+
+      try {
+        const cart = await CartServices.getCartData(`${api}/cart?secretKey=${secretKey}`, req.cookies.token);
+        const cartProducts = cart.data.items
+
+        for (let eachProduct of cartProducts) {
+          let eachProductVariant = eachProduct.variant.product_id
+          if (eachProductVariant === variantId) {
+            cartProductId.push(eachProduct.productId)
+          }
+        }
+        
+        const itemToBeChanged = CartServices.cartItem(cartProductId[0], variantId, quantity)
+        const resp = await CartServices.sendCartData(`${api}/cart/changeItemQuantity`, itemToBeChanged, req.cookies.token);
+
+        res.redirect('/cart')
+      
+      } catch (err) { next(err) }
+    }
+
 
 }
    
