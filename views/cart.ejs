@@ -22,60 +22,77 @@
                             <a href="/cart>">Cart</a>
                         </li>
                     </ul>
-                <% if (token) { %>
-                    <% if (!errMessage) { %>
-                    <% if (productList) { %>
-                        <% let itemColor = 0 %>
-                        <% const allLinksOfImages = [] %>
-                        <% let allLinksOfImagesWithoutRepeat = [] %>
-                        <% for (let i = 0; i < productList.length; i++) { %>
-                            <% const productData = productList[i][0] %>
-                            <div class="row row-cols-1 row-cols-md-2 g-4 mx-auto">
-                                <% for (let image of productData.image_groups) { %>
-                                    <% for (let variant of productData.variants) { %>
-                                        <% if (variant.product_id === cartVariantsId[i]) { %>
-                                            <% itemColor = variant.variation_values.color %>
-                                            <% const allImages = [] %>
-                                            <% if (image.view_type === 'small') { %>
-                                                <% allImages.push(image)%>
-                                                <% const imageToBeDisplayed = allImages[0] %>
-                                                <% const linkToImage = imageToBeDisplayed.images[0].link %>
-                                                <% allLinksOfImages.push(linkToImage) %>
-                                                <% allLinksOfImagesWithoutRepeat = [...new Set(allLinksOfImages)] %>
+                    <div class="col mx-auto mb-5">
+                        <div class="mx-5">
+                            <div>
+                            <% if (token) { %>
+                            <% if (!errMessage) { %>
+                            <% if (productList) { %>
+                                <% let itemColor = 0 %>
+                                <% const allLinksOfImages = [] %>
+                                <% let allLinksOfImagesWithoutRepeat = [] %>
+                                <% for (let i = 0; i < productList.length; i++) { %>
+                                    <% const productData = productList[i][0] %>
+                                    <div class= "row g-0 py-3 border-bottom">
+                                        <div class="col-md-5">
+                                            <% for (let image of productData.image_groups) { %>
+                                                <% for (let variant of productData.variants) { %>
+                                                    <% if (variant.product_id === cartVariantsId[i]) { %>
+                                                        <% itemColor = variant.variation_values.color %>
+                                                        <% const allImages = [] %>
+                                                        <% if (image.view_type === 'medium') { %>
+                                                            <% allImages.push(image)%>
+                                                            <% const imageToBeDisplayed = allImages[0] %>
+                                                            <% const linkToImage = imageToBeDisplayed.images[0].link %>
+                                                            <% allLinksOfImages.push(linkToImage) %>
+                                                            <% allLinksOfImagesWithoutRepeat = [...new Set(allLinksOfImages)] %>
+                                                        <% } %>
+                                                    <% } %>
+                                                <% } %>
                                             <% } %>
-                                        <% } %>
-                                    <% } %>
+                                            <% for (let link of allLinksOfImagesWithoutRepeat) { %>
+                                                <% if (link.includes(itemColor)) { %>
+                                                <img src="/images/<%= link %>">
+                                                <% } %>
+                                            <% } %>
+                
+                                        </div>
+                                        <div class="col-md-7">
+                                            <p class="fs-6 fw-bold"><%= productData.name %></p>
+                                            <form action="/cart/changeQuantity/<%= cartVariantsId[i] %>" method="post">
+                                                <div class="d-flex">
+                                                    <input class="form-control form-control-sm" type="number" name="quantityProduct" min="1" placeholder="<%= quantityProduct %>">
+                                                    <button class="btn btn-outline-secondary btn-sm col-3" type="submit">Change quantity</button>
+                                                </div>
+                                            </form>
+                                            <p class="fs-6 fw-bold text-muted mt-3">USD <%= productData.price.toFixed(2) %></p>
+                                            <form action="/cart/delete" method="post">
+                                                <input class="d-none" name="variantId" value="<%= cartVariantsId[i] %>">
+                                                <button class="btn btn-outline-secondary btn-sm col-3" type="submit">Remove item</label>
+                                            </form>
+                                        </div>
+                                    </div>
                                 <% } %>
-                                <% for (let link of allLinksOfImagesWithoutRepeat) { %>
-                                    <% if (link.includes(itemColor)) { %>
-                                    <img src="/images/<%= link %>">
-                                    <% } %>
-                                <% } %>
-                                <p><%= productData.name %></p>
-                                <form action="/cart/changeQuantity/<%= cartVariantsId[i] %>" method="post">
-                                    <input type="number" name="quantityProduct" min="1" placeholder="<%= quantityProduct %>">
-                                    <button class="btn btn-outline-secondary col-5" type="submit">Change quantity</button>
-                                </form>
-                                <p><%= quantityProduct %></p>
-                                <p><%= cartVariantsId[i] %></p>
-                                <p>USD <%= productData.price.toFixed(2) %></p>
                             </div>
-                            <form action="/cart/delete" method="post">
-                                <input type="submit" name="variantId" value="<%= cartVariantsId[i] %>">
-                                <label>Remove item</label>
-                            </form>
-                        <% } %>
+                        </div>
+                    </div>
 
                         <form action="/orders" method="post">
-                            <div class="mt-auto">
-                                <p>Total price: <%= totalPrice %></p>
-                                <label>Please, provide the delivery address:</label>
-                                <input type="textarea" name="address" required>
-                                <p class="card-text fs-4 fw-bold text-muted">Submit order</p>
-                                <button class="btn btn-outline-secondary col-5" type="submit">Place order</button>
+                            <div class="d-flex justify-content-around align-items-center flex-wrap">
+                                <div>
+                                    <p class="fw-bold text-muted text-uppercase mb-0">Total price:</p>
+                                    <p class="fs-1 fw-bold my-0"><%= totalPrice %></p>
+                                </div>
+                                <div>
+                                    <label class="mt-0 mb-3">Please, provide the delivery address:</label>
+                                    <input class="form-control form-control-sm col-auto" type="textarea" name="address" required>
+                                </div>
+                                <div>
+                                    <button class="btn btn-secondary btn-lg" type="submit">Place order</button>
+                                </div>
                             </div>
                         </form>
-                    </div>
+            </div>
                     <% } %>
                     <% } else { %>
                     <section class="pt-5 mt-5 text-center">
