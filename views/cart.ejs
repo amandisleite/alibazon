@@ -29,8 +29,11 @@
                             <% const productData = productList[i][0] %>
                             <div class="row row-cols-1 row-cols-md-2 g-4 mx-auto">
                                 <% for (let image of productData.image_groups) { %>
+                                    <% const allImages = [] %>
                                     <% if (image.view_type === 'small') { %>
-                                        <img src="/images/<%= image.images[0].link %>"> 
+                                        <% allImages.push(image)%>
+                                        <% const imageToBeDisplayed = allImages[0] %>
+                                        <img src="/images/<%= imageToBeDisplayed.images[0].link %>"> 
                                     <% } %>
                                 <% } %>
                                 <p><%= productData.name %></p>
