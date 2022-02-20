@@ -10,6 +10,7 @@ class CartController {
     static async getCart(req, res, next) {
         let cartProductId = 0;
         let quantityProduct = 0;
+        const productsQuantities = [];
         const productsPrices = [];
         const cartProductsId = [];
         const cartVariantsId = [];
@@ -25,6 +26,7 @@ class CartController {
             const variantId = eachProduct.variant.product_id
             quantityProduct = eachProduct.quantity
             priceProduct = priceProduct * quantityProduct
+            productsQuantities.push(quantityProduct)
             cartProductsId.push(cartProductId)
             productsPrices.push(priceProduct)
             cartVariantsId.push(variantId)
@@ -34,6 +36,7 @@ class CartController {
             productList.push(product.data)
           }
           
+          console.log(quantityProduct)
           let totalPrice = 0;
           productsPrices.forEach(price => {
             totalPrice += price
@@ -41,7 +44,7 @@ class CartController {
 
           res.render('cart', {
             productList,
-            quantityProduct,
+            productsQuantities,
             totalPrice,
             cartVariantsId
           })
@@ -100,7 +103,7 @@ class CartController {
 
     static async changeQuantityOfItemFromCart(req, res, next) {
       const variantId = req.params.idVariant;
-      const quantity = req.body.quantityProduct;
+      const quantity = req.body.quantity;
       let cartProductId = [];
 
       try {

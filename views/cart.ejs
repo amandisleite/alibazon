@@ -1,4 +1,4 @@
-<!-- <% var errMessage, productList, quantityProduct, totalPrice, cartVariantsId %> -->
+<!-- <% var errMessage, productList, productsQuantities, totalPrice, cartVariantsId %> -->
 <% var token = locals.token %>
 
 <!DOCTYPE html>
@@ -72,7 +72,7 @@
                                                                 <% if (values.value === itemVariantColor) { %>
                                                                     <% itemVariantColor = values.name %>
                                                                         <% if (itemVariantColor !== 0) { %>
-                                                                        <p class="fs-6 fw-bold"><%= itemVariantColor %></p>
+                                                                        <p class="fs-6 text-muted">Color: <%= itemVariantColor %></p>
                                                                         <% } %>
                                                                 <% } %>
                                                             <% } %>
@@ -82,7 +82,7 @@
                                                                 <% if (values.value === itemVariantSize) { %>
                                                                     <% itemVariantSize = values.name %>
                                                                         <% if (itemVariantSize !== 0) { %>
-                                                                        <p class="fs-6 fw-bold"><%= itemVariantSize %></p>
+                                                                        <p class="fs-6 text-muted">Size: <%= itemVariantSize %></p>
                                                                         <% } %>
                                                                 <% } %>
                                                             <% } %>
@@ -92,7 +92,7 @@
                                                                 <% if (values.value === itemVariantWidth) { %>
                                                                     <% itemVariantWidth = values.name %>
                                                                         <% if (itemVariantWidth !== 0) { %>
-                                                                        <p class="fs-6 fw-bold"><%= itemVariantWidth %></p>
+                                                                        <p class="fs-6 text-muted">Width: <%= itemVariantWidth %></p>
                                                                         <% } %>
                                                                 <% } %>
                                                             <% } %>
@@ -102,7 +102,8 @@
                                         <% } %>
                                         <form action="/cart/changeQuantity/<%= cartVariantsId[i] %>" method="post">
                                             <div class="d-flex">
-                                                <input class="form-control form-control-sm" type="number" name="quantityProduct" min="1" placeholder="<%= quantityProduct %>">
+                                                
+                                                <input class="form-control form-control-sm" type="number" name="quantity" min="1" placeholder="<%= productsQuantities[i] %>">
                                                 <button class="btn btn-outline-secondary btn-sm col-3" type="submit">Change quantity</button>
                                             </div>
                                         </form>
