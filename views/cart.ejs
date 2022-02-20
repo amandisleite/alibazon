@@ -25,15 +25,24 @@
                 <% if (token) { %>
                     <% if (!errMessage) { %>
                     <% if (productList) { %>
+                        <% let itemColor = 0 %>
                         <% for (let i = 0; i < productList.length; i++) { %>
                             <% const productData = productList[i][0] %>
                             <div class="row row-cols-1 row-cols-md-2 g-4 mx-auto">
                                 <% for (let image of productData.image_groups) { %>
-                                    <% const allImages = [] %>
-                                    <% if (image.view_type === 'small') { %>
-                                        <% allImages.push(image)%>
-                                        <% const imageToBeDisplayed = allImages[0] %>
-                                        <img src="/images/<%= imageToBeDisplayed.images[0].link %>"> 
+                                    <% for (let variant of productData.variants) { %>
+                                        <% if (variant.product_id === cartVariantsId[i]) { %>
+                                            <% itemColor = variant.variation_values.color %>
+                                            <% const allImages = [] %>
+                                            <% if (image.view_type === 'small') { %>
+                                                <% allImages.push(image)%>
+                                                <% const imageToBeDisplayed = allImages[0] %>
+                                                <% const linkToImage = imageToBeDisplayed.images[0].link %>
+                                                <% if (linkToImage.includes(itemColor)) { %>
+                                                <img src="/images/<%= linkToImage %>">
+                                                <% } %>
+                                            <% } %>
+                                        <% } %>
                                     <% } %>
                                 <% } %>
                                 <p><%= productData.name %></p>
