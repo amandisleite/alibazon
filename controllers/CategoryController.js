@@ -106,18 +106,82 @@ class CategoryController {
             if (subcategory.length === 3) {
               subcategory = subcategory[2]
             }
+            if (subcategory.length === 4) {
+              subcategory = `${subcategory[2]} ${subcategory[3]}`
+            }
             const product = productDetail.data[0]
-            const quantityVariations = product.variation_attributes.length
+            
+            let allVariantsColors = [];
+            let allVariantsSizes = [];
+            let allVariantsWidth = [];
+            let variantsColors = [];
+            let variantsSizes = [];
+            let variantsWidth = [];
+            
+            for (let variantionAttributes of product.variation_attributes) {
+                if (variantionAttributes.id === 'color') {
+                  for (let variant of product.variants) {
+                    for (let value of variantionAttributes.values) {
+                      if (variant.variation_values.color === value.value) {
+                        allVariantsColors.push({
+                          name: value.name,
+                          value: value.value
+                        })
+                      }
+                    }
+                  }
+                }
+
+                if (variantionAttributes.id === 'size') {
+                  for (let variant of product.variants) {
+                    for (let value of variantionAttributes.values) {
+                      if (variant.variation_values.size === value.value) {
+                        allVariantsSizes.push({
+                          name: value.name,
+                          value: value.value
+                        })
+                      }
+                    }
+                  }
+                }
+
+                if (variantionAttributes.id === 'width') {
+                  for (let variant of product.variants) {
+                    for (let value of variantionAttributes.values) {
+                      if (variant.variation_values.width === value.value) {
+                        allVariantsWidth.push({
+                          name: value.name,
+                          value: value.value
+                        })
+                      }
+                    }
+                  }
+                }
+            }
+
+            function removeDuplicatesObjects(arr, comp) {
+            const uniqueArray =  arr.map(e => e[comp])
+            .map((e, i, final) => final.indexOf(e) === i && i)
+           .filter((e) => arr[e]).map(e => arr[e]);
+            return uniqueArray;
+            }
+
+            variantsColors = removeDuplicatesObjects(allVariantsColors, 'value');
+            variantsSizes = removeDuplicatesObjects(allVariantsSizes, 'value');
+            variantsWidth = removeDuplicatesObjects(allVariantsWidth, 'value');
 
             res.render('product-page', {
-              product,
-              quantityVariations,
-              category,
-              mainCategory,
-              idMainCategory,
-              subcategory,
-              idSubcategory,
-              idProduct
+                product,
+                
+                category,
+                mainCategory,
+                idMainCategory,
+                subcategory,
+                idSubcategory,
+                idProduct,
+                variantsColors,
+                variantsSizes,
+                variantsWidth
             })
           
         } catch (err) { next(err) }

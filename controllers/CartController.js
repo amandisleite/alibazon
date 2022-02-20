@@ -52,8 +52,8 @@ class CartController {
     static async addItemToCart(req, res, next) {
       const item = req.body;
       const { idProduct } = req.params;
-      let variantId = 0;
-      
+      let variantId = 0
+
       try {
         const product = await CategoriesServices.getDataOneProduct(idProduct);
         const productData = product.data[0]

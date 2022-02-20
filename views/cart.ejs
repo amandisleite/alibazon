@@ -67,7 +67,7 @@
                                                 <% itemVariantSize = variant.variation_values.size %>
                                                 <% itemVariantWidth = variant.variation_values.width %>
                                                 <% for (let attributes of productData.variation_attributes) { %>
-                                                        <% if (attributes.name === 'Color') { %>
+                                                        <% if (attributes.id === 'color') { %>
                                                             <% for (let values of attributes.values) {%>
                                                                 <% if (values.value === itemVariantColor) { %>
                                                                     <% itemVariantColor = values.name %>
@@ -77,7 +77,7 @@
                                                                 <% } %>
                                                             <% } %>
                                                         <% } %>
-                                                        <% if (attributes.name === 'Size') { %>
+                                                        <% if (attributes.id === 'size') { %>
                                                             <% for (let values of attributes.values) {%>
                                                                 <% if (values.value === itemVariantSize) { %>
                                                                     <% itemVariantSize = values.name %>
@@ -87,7 +87,7 @@
                                                                 <% } %>
                                                             <% } %>
                                                         <% } %>
-                                                        <% if (attributes.name === 'Width') { %>
+                                                        <% if (attributes.id === 'width') { %>
                                                             <% for (let values of attributes.values) {%>
                                                                 <% if (values.value === itemVariantWidth) { %>
                                                                     <% itemVariantWidth = values.name %>
