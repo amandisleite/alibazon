@@ -65,7 +65,7 @@ class CartController {
           }
         }
         
-        const items = CartServices.createCartItem(idProduct, variantId, '1')
+        const items = CartServices.cartItem(idProduct, variantId, '1')
         await CartServices.sendCartData(`${api}cart/addItem`, items, req.cookies.token);
 
         res.redirect('/cart')
@@ -74,9 +74,28 @@ class CartController {
     }
 
     static async deleteItemFromCart(req, res, next) {
-      console.log(req.body)
+      const variantId = req.body.variantId;
+      let cartProductId = [];
 
-     
+      try {
+        const cart = await CartServices.getCartData(`${api}/cart?secretKey=${secretKey}`, req.cookies.token);
+        const cartProducts = cart.data.items
+
+        for (let eachProduct of cartProducts) {
+          let eachProductVariant = eachProduct.variant.product_id
+          if (eachProductVariant === variantId) {
+            cartProductId.push(eachProduct.productId)
+          }
+        }
+        
+        const itemToBeDeleted = CartServices.deleteCartItem(cartProductId[0], variantId)
+        console.log(itemToBeDeleted)
+        const resp = await CartServices.deleteItemCartData(`${api}/cart/removeItem`, itemToBeDeleted, req.cookies.token);
+        console.log(resp)
+
+        res.redirect('/cart')
+      
+      } catch (err) { next(err) }
     }
 
 }

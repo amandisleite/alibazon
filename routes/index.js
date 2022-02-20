@@ -12,7 +12,6 @@ module.exports = (app) => {
     cart,
     order,
     categories,
-    main,
-    errors
+    main
   )
 }

@@ -3,12 +3,21 @@ const Services = require('./Services');
 const secretKey = process.env.SECRET_KEY;
 
 class CartServices extends Services {
-    static createCartItem(product, variant, quantity) {
+    static cartItem(product, variant, quantity = {}) {
         const data = {
             secretKey: secretKey,
             productId: product,
             variantId: variant,
             quantity: quantity
+        }
+        return data;
+    }
+
+    static deleteCartItem(product, variant) {
+        const data = {
+            secretKey: secretKey,
+            productId: product,
+            variantId: variant
         }
         return data;
     }
@@ -30,6 +39,20 @@ class CartServices extends Services {
         try {
             const request = await axios({
                 method: 'post',
+                url: url,
+                data: data,
+                headers: { 'Authorization': `Bearer ${token}` }
+            });
+            return request;
+        } catch (err) {
+            return err.message;
+        }
+    }
+
+    static async deleteItemCartData(url, data, token) {
+        try {
+            const request = await axios({
+                method: 'delete',
                 url: url,
                 data: data,
                 headers: { 'Authorization': `Bearer ${token}` }

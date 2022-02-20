@@ -4,9 +4,9 @@ const auth = require('../middlewares/ensureAuthenticated');
 
 const router = Router();
 
-router.use(auth.ensureAuthenticated)
+
 router.get('/cart', CartController.getCart);
-router.post('/cart/:idProduct', CartController.addItemToCart);
 router.post('/cart/delete', CartController.deleteItemFromCart);
+router.post('/cart/:idProduct', CartController.addItemToCart);
 
 module.exports = router;
