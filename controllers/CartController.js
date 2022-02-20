@@ -32,7 +32,7 @@ class CartController {
             const product = await CategoriesServices.getDataOneProduct(productId);
             productList.push(product.data)
           }
-
+          
           let totalPrice = 0;
           productsPrices.forEach(price => {
             totalPrice += price

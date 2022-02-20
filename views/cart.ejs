@@ -26,6 +26,8 @@
                     <% if (!errMessage) { %>
                     <% if (productList) { %>
                         <% let itemColor = 0 %>
+                        <% const allLinksOfImages = [] %>
+                        <% let allLinksOfImagesWithoutRepeat = [] %>
                         <% for (let i = 0; i < productList.length; i++) { %>
                             <% const productData = productList[i][0] %>
                             <div class="row row-cols-1 row-cols-md-2 g-4 mx-auto">
@@ -38,11 +40,15 @@
                                                 <% allImages.push(image)%>
                                                 <% const imageToBeDisplayed = allImages[0] %>
                                                 <% const linkToImage = imageToBeDisplayed.images[0].link %>
-                                                <% if (linkToImage.includes(itemColor)) { %>
-                                                <img src="/images/<%= linkToImage %>">
-                                                <% } %>
+                                                <% allLinksOfImages.push(linkToImage) %>
+                                                <% allLinksOfImagesWithoutRepeat = [...new Set(allLinksOfImages)] %>
                                             <% } %>
                                         <% } %>
+                                    <% } %>
+                                <% } %>
+                                <% for (let link of allLinksOfImagesWithoutRepeat) { %>
+                                    <% if (link.includes(itemColor)) { %>
+                                    <img src="/images/<%= link %>">
                                     <% } %>
                                 <% } %>
                                 <p><%= productData.name %></p>
