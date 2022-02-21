@@ -1,6 +1,6 @@
-const { consoleSandbox } = require('@sentry/utils');
 const { CartServices } = require('../services');
 const { CategoriesServices } = require('../services');
+const WishlistServices = require('../services/WishlistServices');
 
 class CartController {
     
@@ -52,7 +52,7 @@ class CartController {
       const item = req.body;
       const { idProduct } = req.params;
       let variantId = 0
-
+      
       try {
         const product = await CategoriesServices.getDataOneProduct(idProduct);
         const productData = product.data[0]
@@ -65,8 +65,18 @@ class CartController {
             }
           }
         }
+
+        if (req.headers.referer.includes('wishlist')) {
+          const itemToBeDeleted = WishlistServices.deleteWishlistItem(idProduct, item.variantId)
+          await WishlistServices.deleteDataWishlist(itemToBeDeleted, req.cookies.token);
+        }
         
-        const items = CartServices.cartItem(idProduct, variantId, '1')
+        let items = 0;
+        if (item.quantityProduct) {
+          items = CartServices.cartItem(idProduct, variantId, item.quantityProduct)
+        } else {
+          items = CartServices.cartItem(idProduct, variantId, '1')
+        }
         await CartServices.sendDataCart(items, req.cookies.token);
 
         res.redirect('/cart')

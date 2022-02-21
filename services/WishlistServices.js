@@ -1,9 +1,10 @@
-const axios = require('axios');
 const Services = require('./Services');
+
+const api = process.env.API_URL;
 const secretKey = process.env.SECRET_KEY;
 
 class WishlistServices extends Services {
-    static cartItem(product, variant, quantity) {
+    static wishlistItem(product, variant, quantity) {
         const data = {
             secretKey: secretKey,
             productId: product,
@@ -13,7 +14,7 @@ class WishlistServices extends Services {
         return data;
     }
 
-    static deleteCartItem(product, variant) {
+    static deleteWishlistItem(product, variant) {
         const data = {
             secretKey: secretKey,
             productId: product,
@@ -22,45 +23,20 @@ class WishlistServices extends Services {
         return data;
     }
 
-    static async getCartData(url, token) {
-        try {
-            const response = await axios({
-                method: 'get',
-                url: url,
-                headers: { 'Authorization': `Bearer ${token}` }
-            });
-            return response;
-        } catch (err) {
-            return { err: err.request.path };
-        }
+    static async getDataWishlist(token) {
+        return Services.getDataToken(`${api}wishlist?secretKey=${secretKey}`, token)
     }
 
-    static async sendCartData(url, data, token) {
-        try {
-            const request = await axios({
-                method: 'post',
-                url: url,
-                data: data,
-                headers: { 'Authorization': `Bearer ${token}` }
-            });
-            return request;
-        } catch (err) {
-            return err.message;
-        }
+    static async sendDataWishlist(items, token) {
+        return Services.sendDataToken(`${api}wishlist/addItem`, items, token)
     }
 
-    static async deleteItemCartData(url, data, token) {
-        try {
-            const request = await axios({
-                method: 'delete',
-                url: url,
-                data: data,
-                headers: { 'Authorization': `Bearer ${token}` }
-            });
-            return request;
-        } catch (err) {
-            return err.message;
-        }
+    static async changeQuantityWishlist(items, token) {
+        return Services.sendDataToken(`${api}wishlist/changeItemQuantity`, items, token)
+    }
+
+    static async deleteDataWishlist(items, token) {
+        return Services.deleteDataToken(`${api}wishlist/removeItem`, items, token)
     }
 }
 

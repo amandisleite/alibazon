@@ -1,37 +1,36 @@
 const { WishlistServices } = require('../services');
 const { CategoriesServices } = require('../services');
 
-const api = process.env.API_URL;
-const secretKey = process.env.SECRET_KEY;
-
 class WishlistController {
     
-    static async getCart(req, res, next) {
-        let wishlistProductId = 0;
-        let quantityProduct = 0;
-        const productsPrices = [];
-        const wishlistProductsId = [];
-        const wishlistVariantsId = [];
-        const productList = [];
-
-        try {
-          const wishlist = await WishlistServices.getCartData(`${api}/wishlist?secretKey=${secretKey}`, req.cookies.token);
-
-          const wishlistProducts = wishlist.data.items
-          for (let eachProduct of wishlistProducts) {
-            wishlistProductId = eachProduct.productId
-            let priceProduct = eachProduct.variant.price
-            const variantId = eachProduct.variant.product_id
-            quantityProduct = eachProduct.quantity
-            priceProduct = priceProduct * quantityProduct
-            wishlistProductsId.push(cartProductId)
-            productsPrices.push(priceProduct)
-            wishlistVariantsId.push(variantId)
-          }
-          for (let productId of cartProductsId) {
-            const product = await CategoriesServices.getDataOneProduct(productId);
-            productList.push(product.data)
-          }
+    static async getWishlist(req, res, next) {
+      let wishlistProductId = 0;
+      let quantityProduct = 0;
+      const productsQuantities = [];
+      const productsPrices = [];
+      const wishlistProductsId = [];
+      const wishlistVariantsId = [];
+      const productList = [];
+      
+      try {
+        const wishlist = await WishlistServices.getDataWishlist(req.cookies.token);
+        
+        const wishlistProducts = wishlist.data.items
+        for (let eachProduct of wishlistProducts) {
+          wishlistProductId = eachProduct.productId
+          let priceProduct = eachProduct.variant.price
+          const variantId = eachProduct.variant.product_id
+          quantityProduct = eachProduct.quantity
+          priceProduct = priceProduct * quantityProduct
+          productsQuantities.push(quantityProduct)
+          wishlistProductsId.push(wishlistProductId)
+          productsPrices.push(priceProduct)
+          wishlistVariantsId.push(variantId)
+        }
+        for (let productId of wishlistProductsId) {
+          const product = await CategoriesServices.getDataOneProduct(productId);
+          productList.push(product.data)
+        }
           
           let totalPrice = 0;
           productsPrices.forEach(price => {
@@ -40,15 +39,15 @@ class WishlistController {
 
           res.render('wishlist', {
             productList,
-            quantityProduct,
+            productsQuantities,
             totalPrice,
-            cartVariantsId
+            wishlistVariantsId
           })
         
         } catch (err) { next(err) }
     }
 
-    static async addItemToCart(req, res, next) {
+    static async addItemToWishlist(req, res, next) {
       const item = req.body;
       const { idProduct } = req.params;
       let variantId = 0
@@ -66,55 +65,55 @@ class WishlistController {
           }
         }
         
-        const items = WishlistServices.cartItem(idProduct, variantId, '1')
-        await WishlistServices.sendCartData(`${api}wishlist/addItem`, items, req.cookies.token);
+        const items = WishlistServices.wishlistItem(idProduct, variantId, '1')
+        await WishlistServices.sendDataWishlist(items, req.cookies.token);
 
         res.redirect('/wishlist')
       
       } catch (err) { next(err) }
     }
 
-    static async deleteItemFromCart(req, res, next) {
+    static async deleteItemFromWishlist(req, res, next) {
       const variantId = req.body.variantId;
-      let cartProductId = [];
+      let wishlistProductId = [];
 
       try {
-        const cart = await WishlistServices.getCartData(`${api}/wishlist?secretKey=${secretKey}`, req.cookies.token);
-        const cartProducts = cart.data.items
+        const wishlist = await WishlistServices.getDataWishlist(req.cookies.token);
+        const wishlistProducts = wishlist.data.items
 
-        for (let eachProduct of cartProducts) {
+        for (let eachProduct of wishlistProducts) {
           let eachProductVariant = eachProduct.variant.product_id
           if (eachProductVariant === variantId) {
-            cartProductId.push(eachProduct.productId)
+            wishlistProductId.push(eachProduct.productId)
           }
         }
         
-        const itemToBeDeleted = WishlistServices.deleteCartItem(cartProductId[0], variantId)
-        await WishlistServices.deleteItemCartData(`${api}/wishlist/removeItem`, itemToBeDeleted, req.cookies.token);
+        const itemToBeDeleted = WishlistServices.deleteWishlistItem(wishlistProductId[0], variantId)
+        await WishlistServices.deleteDataWishlist(itemToBeDeleted, req.cookies.token);
 
         res.redirect('/wishlist')
       
       } catch (err) { next(err) }
     }
 
-    static async changeQuantityOfItemFromCart(req, res, next) {
+    static async changeQuantityOfItemFromWishlist(req, res, next) {
       const variantId = req.params.idVariant;
       const quantity = req.body.quantityProduct;
-      let cartProductId = [];
+      let wishlistProductId = [];
 
       try {
-        const cart = await WishlistServices.getCartData(`${api}/wishlist?secretKey=${secretKey}`, req.cookies.token);
-        const cartProducts = cart.data.items
+        const wishlist = await WishlistServices.getDataWishlist(req.cookies.token);
+        const wishlistProducts = wishlist.data.items
 
-        for (let eachProduct of cartProducts) {
+        for (let eachProduct of wishlistProducts) {
           let eachProductVariant = eachProduct.variant.product_id
           if (eachProductVariant === variantId) {
-            cartProductId.push(eachProduct.productId)
+            wishlistProductId.push(eachProduct.productId)
           }
         }
         
-        const itemToBeChanged = WishlistServices.cartItem(cartProductId[0], variantId, quantity)
-        await WishlistServices.sendCartData(`${api}/wishlist/changeItemQuantity`, itemToBeChanged, req.cookies.token);
+        const itemToBeChanged = WishlistServices.wishlistItem(wishlistProductId[0], variantId, quantity)
+        await WishlistServices.changeQuantityWishlist(itemToBeChanged, req.cookies.token);
 
         res.redirect('/wishlist')
       

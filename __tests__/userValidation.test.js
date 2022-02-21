@@ -1,5 +1,3 @@
-const { createUser, loginUser } = require('../services/UserServices');
-const { validateUser } = require('../middlewares/userValidation');
 const request = require('supertest');
 const app = require('../app');
 

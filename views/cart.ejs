@@ -103,7 +103,7 @@
                                         <form action="/cart/changeQuantity/<%= cartVariantsId[i] %>" method="post">
                                             <div class="d-flex">
                                                 
-                                                <input class="form-control form-control-sm" type="number" name="quantity" min="1" placeholder="<%= productsQuantities[i] %>">
+                                                <input class="form-control form-control-sm" type="number" name="quantity" min="1" value="<%= productsQuantities[i] %>">
                                                 <button class="btn btn-outline-secondary btn-sm col-3" type="submit">Change quantity</button>
                                             </div>
                                         </form>
