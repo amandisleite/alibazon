@@ -48,14 +48,14 @@ describe('Routes', () => {
         expect(res.status).toBe(200)
     })
     
-    it('should return status 200 when user already registered signs in', async () => {
+    it('should return status 302 when user already registered signs in', async () => {
             const res = await request(app)
                 .post('/signin')
                 .send({
                     "useremail": "aaa@gmail.com",
                     "userpassword": "123456"
                 })
-            expect(res.status).toBe(200)
+            expect(res.status).toBe(302)
     })
 
     it('should return status 500 when unexisting user tries to sign in', async () => {
@@ -66,5 +66,6 @@ describe('Routes', () => {
                 "userpassword": "121212"
             })
         expect(res.status).toBe(500)
-})
+    })
+
 })
