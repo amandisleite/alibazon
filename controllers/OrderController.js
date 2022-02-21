@@ -34,6 +34,7 @@ class OrderController {
                     eachProductId = eachProduct.productId
                     priceProduct = eachProduct.variant.price
                     quantityProduct = eachProduct.quantity
+                    priceProduct = priceProduct * quantityProduct
                     pricePerOrder.push(priceProduct)
                     addressPerOrder.push(address)
                     paymentIdPerOrder.push(paymentId)

@@ -35,8 +35,7 @@ class CartController {
             const product = await CategoriesServices.getDataOneProduct(productId);
             productList.push(product.data)
           }
-          
-          console.log(quantityProduct)
+
           let totalPrice = 0;
           productsPrices.forEach(price => {
             totalPrice += price

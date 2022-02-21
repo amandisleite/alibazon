@@ -23,18 +23,20 @@
                     </ul>
                     <h1>Check your old orders</h1>
                     <% for (let i = 0; i < allOrders.length; i++) { %>
-                        <p>Order <%= allPaymentsIds[i] %></p>
-                    <% var eachOrder = allOrders[i] %>
-                        <% for (eachProduct of eachOrder) { %>
-                            <div class="row row-cols-1 row-cols-md-2 g-4 mx-auto">
-                                <p><%= eachProduct.productName %></p>
-                                <p><%= eachProduct.quantity %></p>
-                                <p>USD <%= eachProduct.price.toFixed(2) %></p>
+                        <div class="card mt-5">
+                            <p class="card-header fs-5 fw-bold text-uppercase">Order <%= allPaymentsIds[i] %></p>
+                        <% var eachOrder = allOrders[i] %>
+                            <% for (eachProduct of eachOrder) { %>
+                                <div class="card-body border-bottom">
+                                    <p class="card-title my-0 text-muted">Product: <span class="fw-bold"><%= eachProduct.productName %></span></p>
+                                    <p class="card-text my-0 text-muted">Quantiy: <span class="fw-bold"><%= eachProduct.quantity %></span></p>
+                                    <p class="card-text my-0 text-muted">Price: <span class="fw-bold">USD <%= eachProduct.price.toFixed(2) %></span></p>
+                                </div>
+                                <% } %>
+                            <div class="card-footer">
+                                <p class="card-title my-0 text-muted">Delivery at <span class="fw-bold"><%= allAddresses[i] %></span></p>
+                                <p class="card-title my-0 text-muted">Total price: <span class="fw-bold"><%= totalPrice[i].toFixed(2) %></span></p>
                             </div>
-                            <% } %>
-                        <div>
-                            <p>Delivery at <%= allAddresses[i] %></p>
-                            <p>Total price: <%= totalPrice[i].toFixed(2) %></p>
                         </div>
                     <% } %>
                 <% } %>
