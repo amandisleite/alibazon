@@ -1,5 +1,5 @@
 const { WishlistServices } = require('../services');
-const { CategoriesServices } = require('../services');
+const { CategoriesServices, Services } = require('../services');
 
 class WishlistController {
     
@@ -11,27 +11,37 @@ class WishlistController {
       const wishlistProductsId = [];
       const wishlistVariantsId = [];
       const productList = [];
-      
+      const colorProducts = [];
+
       try {
-        const wishlist = await WishlistServices.getDataWishlist(req.cookies.token);
-        
-        const wishlistProducts = wishlist.data.items
-        for (let eachProduct of wishlistProducts) {
-          wishlistProductId = eachProduct.productId
-          let priceProduct = eachProduct.variant.price
-          const variantId = eachProduct.variant.product_id
-          quantityProduct = eachProduct.quantity
-          priceProduct = priceProduct * quantityProduct
-          productsQuantities.push(quantityProduct)
-          wishlistProductsId.push(wishlistProductId)
-          productsPrices.push(priceProduct)
-          wishlistVariantsId.push(variantId)
-        }
-        for (let productId of wishlistProductsId) {
-          const product = await CategoriesServices.getDataOneProduct(productId);
-          productList.push(product.data)
-        }
+          const wishlist = await WishlistServices.getDataWishlist(req.cookies.token);
           
+          const wishlistProducts = wishlist.data.items
+          for (let eachProduct of wishlistProducts) {
+              wishlistProductId = eachProduct.productId
+              let priceProduct = eachProduct.variant.price
+              const variantId = eachProduct.variant.product_id
+              quantityProduct = eachProduct.quantity
+              priceProduct = priceProduct * quantityProduct
+              let colorProduct = eachProduct.variant.variation_values.color
+
+              colorProducts.push({
+                color: colorProduct,
+                variantId: variantId
+              })
+              productsQuantities.push(quantityProduct)
+              wishlistProductsId.push(wishlistProductId)
+              productsPrices.push(priceProduct)
+              wishlistVariantsId.push(variantId)
+          }
+
+          for (let productId of wishlistProductsId) {
+              const product = await CategoriesServices.getDataOneProduct(productId);
+              productList.push(product.data)
+          }
+
+          const imagesLinks = WishlistServices.checkIfVariantImageExists(wishlistVariantsId, productList, colorProducts)
+
           let totalPrice = 0;
           productsPrices.forEach(price => {
             totalPrice += price
@@ -41,7 +51,8 @@ class WishlistController {
             productList,
             productsQuantities,
             totalPrice,
-            wishlistVariantsId
+            wishlistVariantsId,
+            imagesLinks
           })
         
         } catch (err) { next(err) }

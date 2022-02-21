@@ -12,6 +12,7 @@ class CartController {
         const cartProductsId = [];
         const cartVariantsId = [];
         const productList = [];
+        const colorProducts = [];
 
         try {
           const cart = await CartServices.getDataCart(req.cookies.token);
@@ -23,6 +24,12 @@ class CartController {
             const variantId = eachProduct.variant.product_id
             quantityProduct = eachProduct.quantity
             priceProduct = priceProduct * quantityProduct
+            let colorProduct = eachProduct.variant.variation_values.color
+
+            colorProducts.push({
+              color: colorProduct,
+              variantId: variantId
+            })
             productsQuantities.push(quantityProduct)
             cartProductsId.push(cartProductId)
             productsPrices.push(priceProduct)
@@ -33,6 +40,8 @@ class CartController {
             productList.push(product.data)
           }
 
+          const imagesLinks = WishlistServices.checkIfVariantImageExists(cartVariantsId, productList, colorProducts)
+
           let totalPrice = 0;
           productsPrices.forEach(price => {
             totalPrice += price
@@ -42,7 +51,8 @@ class CartController {
             productList,
             productsQuantities,
             totalPrice,
-            cartVariantsId
+            cartVariantsId,
+            imagesLinks
           })
         
         } catch (err) { next(err) }

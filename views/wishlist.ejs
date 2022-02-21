@@ -1,4 +1,4 @@
-<!-- <% var errMessage, productList, productsQuantities, totalPrice, wishlistVariantsId %> -->
+<!-- <% var errMessage, productList, productsQuantities, totalPrice, wishlistVariantsId, imagesLinks %> -->
 <% var token = locals.token %>
 
 <!DOCTYPE html>
@@ -31,33 +31,19 @@
                             <% let itemColor = 0 %>
                             <% let itemSize = 0 %>
                             <% let itemWidth = 0 %>
-                            <% const allLinksOfImages = [] %>
-                            <% let allLinksOfImagesWithoutRepeat = [] %>
                             <% for (let i = 0; i < productList.length; i++) { %>
                                 <% const productData = productList[i][0] %>
                                 <div class= "row g-0 py-3 border-bottom">
                                     <div class="col-md-5">
-                                        <% for (let image of productData.image_groups) { %>
-                                            <% for (let variant of productData.variants) { %>
-                                                <% if (variant.product_id === wishlistVariantsId[i]) { %>
-                                                    <% itemColor = variant.variation_values.color %>
-                                                    <% const allImages = [] %>
-                                                    <% if (image.view_type === 'large') { %>
-                                                        <% allImages.push(image)%>
-                                                        <% const imageToBeDisplayed = allImages[0] %>
-                                                        <% const linkToImage = imageToBeDisplayed.images[0].link %>
-                                                        <% allLinksOfImages.push(linkToImage) %>
-                                                        <% allLinksOfImagesWithoutRepeat = [...new Set(allLinksOfImages)] %>
-                                                    <% } %>
+                                        <% for (let eachImage of imagesLinks) { %>
+                                            <% if (productData.name === eachImage.nameProduct) { %>
+                                                <% if (eachImage.link !== 'undefined') { %>
+                                                    <img src="/images/<%= eachImage.link %>">
+                                                <% } else { %>
+                                                    <p class="fs-1 fw-light text-muted text-center px-5 py-5">Image not found of <%= productData.name %></p>
                                                 <% } %>
                                             <% } %>
                                         <% } %>
-                                        <% for (let link of allLinksOfImagesWithoutRepeat) { %>
-                                            <% if (link.includes(itemColor)) { %>
-                                            <img src="/images/<%= link %>">
-                                            <% } %>
-                                        <% } %>
-            
                                     </div>
                                     <div class="col-md-7">
                                         <form action="/cart/addItem/<%= productData.id %>" method="post">
