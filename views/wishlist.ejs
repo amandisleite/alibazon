@@ -72,7 +72,7 @@
                                                                 <% if (values.value === itemVariantColor) { %>
                                                                     <% itemVariantColor = values.name %>
                                                                         <% if (itemVariantColor !== 0) { %>
-                                                                        <p class="fs-4 fw-bold text-muted"><%= itemVariantColor %></p>
+                                                                        <p class="fs-6 text-muted">Color: <%= itemVariantColor %></p>
                                                                         <% } %>
                                                                 <% } %>
                                                             <% } %>
@@ -82,7 +82,7 @@
                                                                 <% if (values.value === itemVariantSize) { %>
                                                                     <% itemVariantSize = values.name %>
                                                                         <% if (itemVariantSize !== 0) { %>
-                                                                        <p class="fs-4 fw-bold text-muted"><%= itemVariantSize %></p>
+                                                                        <p class="fs-6 text-muted">Size: <%= itemVariantSize %></p>
                                                                         <% } %>
                                                                 <% } %>
                                                             <% } %>
@@ -92,7 +92,7 @@
                                                                 <% if (values.value === itemVariantWidth) { %>
                                                                     <% itemVariantWidth = values.name %>
                                                                         <% if (itemVariantWidth !== 0) { %>
-                                                                        <p class="fs-4 fw-bold text-muted"><%= itemVariantWidth %></p>
+                                                                        <p class="fs-6 text-muted">Width: <%= itemVariantWidth %></p>
                                                                         <% } %>
                                                                 <% } %>
                                                             <% } %>
@@ -106,7 +106,8 @@
                                                 <button class="btn btn-outline-secondary btn-sm col-3" type="submit">Change quantity</button>
                                             </div>
                                         </form>
-                                        <p class="fs-6 fw-bold text-muted mt-3">USD <%= productData.price.toFixed(2) %></p>
+                                        <p class="fs-6 fw-bold text-muted mt-3">Price per item: USD <%= productData.price.toFixed(2) %></p>
+                                        <p class="fs-6 fw-bold text-muted">Total price: USD <%= (productData.price * productsQuantities[i]).toFixed(2) %></p>
                                         <form action="/wishlist/delete" method="post">
                                             <input class="d-none" name="variantId" value="<%= cartVariantsId[i] %>">
                                             <button class="btn btn-outline-secondary btn-sm col-3" type="submit">Remove item</label>

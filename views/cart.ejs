@@ -107,7 +107,8 @@
                                                 <button class="btn btn-outline-secondary btn-sm col-3" type="submit">Change quantity</button>
                                             </div>
                                         </form>
-                                        <p class="fs-6 fw-bold text-muted mt-3">USD <%= productData.price.toFixed(2) %></p>
+                                        <p class="fs-6 text-muted mt-3">Price per item: USD <%= productData.price.toFixed(2) %></p>
+                                        <p class="fs-6 fw-bold text-muted">Total price: USD <%= (productData.price * productsQuantities[i]).toFixed(2) %></p>
                                         <form action="/cart/delete" method="post">
                                             <input class="d-none" name="variantId" value="<%= cartVariantsId[i] %>">
                                             <button class="btn btn-outline-secondary btn-sm col-3" type="submit">Remove item</label>

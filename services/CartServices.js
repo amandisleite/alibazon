@@ -1,5 +1,6 @@
-const axios = require('axios');
 const Services = require('./Services');
+
+const api = process.env.API_URL;
 const secretKey = process.env.SECRET_KEY;
 
 class CartServices extends Services {
@@ -22,45 +23,20 @@ class CartServices extends Services {
         return data;
     }
 
-    static async getCartData(url, token) {
-        try {
-            const response = await axios({
-                method: 'get',
-                url: url,
-                headers: { 'Authorization': `Bearer ${token}` }
-            });
-            return response;
-        } catch (err) {
-            return { err: err.request.path };
-        }
+    static async getDataCart(token) {
+        return Services.getDataToken(`${api}/cart?secretKey=${secretKey}`, token)
     }
 
-    static async sendCartData(url, data, token) {
-        try {
-            const request = await axios({
-                method: 'post',
-                url: url,
-                data: data,
-                headers: { 'Authorization': `Bearer ${token}` }
-            });
-            return request;
-        } catch (err) {
-            return err.message;
-        }
+    static async sendDataCart(items, token) {
+        return Services.sendDataToken(`${api}cart/addItem`, items, token)
     }
 
-    static async deleteItemCartData(url, data, token) {
-        try {
-            const request = await axios({
-                method: 'delete',
-                url: url,
-                data: data,
-                headers: { 'Authorization': `Bearer ${token}` }
-            });
-            return request;
-        } catch (err) {
-            return err.message;
-        }
+    static async changeQuantityCart(items, token) {
+        return Services.sendDataToken(`${api}cart/changeItemQuantity`, items, token)
+    }
+
+    static async deleteDataCart(items, token) {
+        return Services.deleteDataToken(`${api}/cart/removeItem`, items, token)
     }
 }
 

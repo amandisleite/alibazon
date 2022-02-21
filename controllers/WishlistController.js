@@ -7,26 +7,26 @@ const secretKey = process.env.SECRET_KEY;
 class WishlistController {
     
     static async getCart(req, res, next) {
-        let cartProductId = 0;
+        let wishlistProductId = 0;
         let quantityProduct = 0;
         const productsPrices = [];
-        const cartProductsId = [];
-        const cartVariantsId = [];
+        const wishlistProductsId = [];
+        const wishlistVariantsId = [];
         const productList = [];
 
         try {
-          const cart = await WishlistServices.getCartData(`${api}/wishlist?secretKey=${secretKey}`, req.cookies.token);
+          const wishlist = await WishlistServices.getCartData(`${api}/wishlist?secretKey=${secretKey}`, req.cookies.token);
 
-          const cartProducts = cart.data.items
-          for (let eachProduct of cartProducts) {
-            cartProductId = eachProduct.productId
+          const wishlistProducts = wishlist.data.items
+          for (let eachProduct of wishlistProducts) {
+            wishlistProductId = eachProduct.productId
             let priceProduct = eachProduct.variant.price
             const variantId = eachProduct.variant.product_id
             quantityProduct = eachProduct.quantity
             priceProduct = priceProduct * quantityProduct
-            cartProductsId.push(cartProductId)
+            wishlistProductsId.push(cartProductId)
             productsPrices.push(priceProduct)
-            cartVariantsId.push(variantId)
+            wishlistVariantsId.push(variantId)
           }
           for (let productId of cartProductsId) {
             const product = await CategoriesServices.getDataOneProduct(productId);
