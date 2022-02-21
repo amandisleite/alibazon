@@ -42,7 +42,7 @@
                                                 <% if (variant.product_id === cartVariantsId[i]) { %>
                                                     <% itemColor = variant.variation_values.color %>
                                                     <% const allImages = [] %>
-                                                    <% if (image.view_type === 'medium') { %>
+                                                    <% if (image.view_type === 'large') { %>
                                                         <% allImages.push(image)%>
                                                         <% const imageToBeDisplayed = allImages[0] %>
                                                         <% const linkToImage = imageToBeDisplayed.images[0].link %>
