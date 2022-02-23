@@ -22,7 +22,7 @@ class OrderServices extends Services {
         return Services.sendDataToken(`${api}orders`, order, token)
     }
 
-    static uniqueValues(array) {
+    static uniqueValuesAtArray(array) {
         const uniqueValuesArray = [];
         for (let eachValue of array) {
             eachValue = [...new Set(eachValue)]

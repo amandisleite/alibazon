@@ -41,7 +41,7 @@ class CartController {
           }
           
           const imagesLinks = WishlistServices.checkIfVariantImageExists(cartVariantsId, productList, colorProducts)
-
+          
           let totalPrice = 0;
           productsPrices.forEach(price => {
             totalPrice += price

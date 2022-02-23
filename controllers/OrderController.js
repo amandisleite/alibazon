@@ -54,9 +54,9 @@ class OrderController {
                 productsPrices.push(pricePerOrder)
                 allOrders.push(perOrder)
                 }
-              
-                const allPaymentsIds = OrderServices.uniqueValues(everyPaymentId)
-                const allAddresses = OrderServices.uniqueValues(everyAddress)
+
+                const allPaymentsIds = OrderServices.uniqueValuesAtArray(everyPaymentId)
+                const allAddresses = OrderServices.uniqueValuesAtArray(everyAddress)
                 const totalPrice = OrderServices.totalPrice(productsPrices)
 
                 res.render('oldOrders', {
