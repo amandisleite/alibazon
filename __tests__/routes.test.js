@@ -68,4 +68,17 @@ describe('Routes', () => {
         expect(res.status).toBe(500)
     })
 
+    it('should contain token', async () => {
+        const res = await request(app)
+        .post('/signin')
+        .send({
+            "useremail": "aaa@gmail.com",
+            "userpassword": "123456"
+        })
+        const headers = Object.values(res.res.headers)
+        const token = headers[1][0]
+
+        expect(token).toContain('token')
+    })
+
 })
