@@ -4,7 +4,7 @@ const { WishlistServices, UserServices } = require('../services');
 describe('Wishlist', () => {
 
     it('should add item to Wishlist', async () => {
-        const user = UserServices.loginUser('teste3@gmail.com', '123456')
+        const user = UserServices.loginUser('teste2@gmail.com', '123456')
         const resUser = await UserServices.signIn(user)
         const token = resUser.data.token
 
@@ -18,7 +18,7 @@ describe('Wishlist', () => {
     })
 
     it('should return user Wishlist (that already exists) request', async () => {
-        const user = UserServices.loginUser('teste3@gmail.com', '123456')
+        const user = UserServices.loginUser('teste2@gmail.com', '123456')
         const resUser = await UserServices.signIn(user)
         const token = resUser.data.token
         
@@ -28,7 +28,7 @@ describe('Wishlist', () => {
     })
 
     it('should change quantity of item', async () => {
-        const user = UserServices.loginUser('teste3@gmail.com', '123456')
+        const user = UserServices.loginUser('teste2@gmail.com', '123456')
         const resUser = await UserServices.signIn(user)
         const token = resUser.data.token
 
@@ -42,7 +42,7 @@ describe('Wishlist', () => {
     })
 
     it('should delete item', async () => {
-        const user = UserServices.loginUser('teste3@gmail.com', '123456')
+        const user = UserServices.loginUser('teste2@gmail.com', '123456')
         const resUser = await UserServices.signIn(user)
         const token = resUser.data.token
 

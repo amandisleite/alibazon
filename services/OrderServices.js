@@ -31,7 +31,7 @@ class OrderServices extends Services {
         return uniqueValuesArray
     }
 
-    static totalPrice(arrayPrices) {
+    static totalPricePerOrder(arrayPrices) {
         const totalPrice = [];
         for (let priceOrder of arrayPrices) {
             let totalPricePerOrder = 0;

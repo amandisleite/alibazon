@@ -28,7 +28,7 @@ describe('OrderServices', () => {
             [ 192, 384 ],
             [ 276, 1425, 162, 128, 39.99, 59.98 ]
         ]
-        const totalPrice = OrderServices.totalPrice(arr)
+        const totalPrice = OrderServices.totalPricePerOrder(arr)
         expect(totalPrice[0]).toBe(678.99);  
     })
 

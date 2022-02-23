@@ -57,7 +57,7 @@ class OrderController {
 
                 const allPaymentsIds = OrderServices.uniqueValuesAtArray(everyPaymentId)
                 const allAddresses = OrderServices.uniqueValuesAtArray(everyAddress)
-                const totalPrice = OrderServices.totalPrice(productsPrices)
+                const totalPrice = OrderServices.totalPricePerOrder(productsPrices)
 
                 res.render('oldOrders', {
                     orderData,

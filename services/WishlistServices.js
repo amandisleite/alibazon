@@ -38,6 +38,11 @@ class WishlistServices extends Services {
     static async deleteDataWishlist(items, token) {
         return Services.deleteDataToken(`${api}wishlist/removeItem`, items, token)
     }
+
+    static async sendItemToCartAndDeleteFromWishlist(productId, variantId, token) {
+        const itemToBeDeleted = WishlistServices.deleteWishlistItem(productId, variantId)
+        await WishlistServices.deleteDataWishlist(itemToBeDeleted, token);
+    }
 }
 
 module.exports = WishlistServices;
