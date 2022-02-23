@@ -1,6 +1,6 @@
 const { createUser, loginUser } = require('../services/UserServices');
 
-describe('AuthServices', () => {
+describe('UserServices', () => {
    
     it('should be creating user', () => {
         const user = createUser('aaa', 'aaa@gmail.com', '123456')

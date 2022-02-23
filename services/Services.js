@@ -76,7 +76,8 @@ class Services {
         for (let i = 0; i < listOfVariantsIds.length; i++) {
             let product = listOfProducts[i]
             let nameProduct = product[0].name
-            for (let image of product[0].image_groups) { 
+            for (let image of product[0].image_groups) {
+                console.log(image)
                 if (image.view_type === 'large') {
                     if (image.images[0].alt.includes(nameProduct)) {
                         namesProducts.push(nameProduct)

@@ -53,10 +53,4 @@ describe('userValidation', () => {
                 .send(user)
         await expect(res.text).toContain('already exists')
     })
-
-    it('should show error that user is not authenticated', async () => {
-        const res = await request(app)
-                .get('/cart')
-        await expect(res.text).toContain('not authenticated')
-    })
 })
