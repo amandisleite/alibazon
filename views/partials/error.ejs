@@ -1,6 +1,6 @@
 <% var errMessage %>
 <% if (errMessage) { %>
-    <h3 class="fs-2 fw-light text-danger text-center mt-5 pt-5"><%= errMessage %></h3>
+    <h3 class="fs-2 fw-light text-danger text-center"><%= errMessage %></h3>
     <div class="text-center mt-5">
         <% if (errMessage.includes('sign in')) { %>
             <p>Already registered? <a href='/signin'>Sign in</a></p>

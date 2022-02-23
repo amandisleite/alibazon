@@ -10,17 +10,17 @@ module.exports = {
             }
 
             if (user.useremail) {
-                if (typeof user.useremail !== 'string' || user.useremail.length === 0 || !user.useremail.includes('@.com')) {
+                if (user.useremail.length === 0 || !user.useremail.includes('@')) {
                     throw new InvalidField('e-mail')
                 }
             }
             if (user.userpassword) {
-                if (typeof user.userpassword !== 'string' || user.userpassword.length < 6) {
+                if (user.userpassword.length < 6) {
                     throw new InvalidField('password')
                 }
             }
             if(user.username) {
-                if (typeof user.username !== 'string' || user.username.length < 3) {
+                if (user.username.length < 3) {
                     throw new InvalidField('name')
                 }
             }

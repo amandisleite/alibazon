@@ -12,15 +12,12 @@ class UserController {
         const newUser = createUser(username, useremail, userpassword);
 
         try {
-          // const userExists = await UserServices.sendData(`${api}auth/signup`, newUser)
-          // console.log(userExists)
-          // if (userExists === 'Request failed with status code 400') {
-          //   throw new UserAlreadyExists(useremail);
-          // } else {
-            await UserServices.sendData(`${api}auth/signup`, newUser)
-            res.cookie("username", req.body.username)
-            res.render("signin", { name: req.body.username })       
-
+          const userExists = await UserServices.sendData(`${api}auth/signup`, newUser)
+          if (userExists === 'Request failed with status code 400') {
+            throw new UserAlreadyExists(useremail);
+          } else {
+            await UserServices.sendData(`${api}auth/signup`, newUser)    
+          }
         } catch (err) {
           return next(err)
         }
@@ -37,8 +34,7 @@ class UserController {
           res.cookie('token', userLogged.data.token)
           res.locals.token = userLogged.data.token
           res.locals.name = userLogged.data.user.name
-          res.redirect('/')
-          // res.render('/partials/header', { name: res.locals.name, token })      
+          res.redirect('/')     
           
         } catch (err) {
           return next(err)
@@ -49,26 +45,6 @@ class UserController {
         res.clearCookie('token')
         res.redirect('/')       
     }
-
-  // static async userExists(user) {
-  //   const { useremail, userpassword } = req.body
-
-  //   const user = loginUser(useremail, userpassword);
-
-  //   try {
-  //     const userExists = await UserServices.sendData(`${api}auth/signin`, user)
-  //     if (userExists) {
-  //       throw new Error('user already registered')
-  //     }
-      
-  //     res.render("index", { name: userLogged.data.user.name})
-  //     res.status(200)        
-      
-  //   } catch (err) {
-  //     res.send({ err: err.message })
-  //     res.status(400)
-  //   }
-  // }
 }
     
 module.exports = UserController;

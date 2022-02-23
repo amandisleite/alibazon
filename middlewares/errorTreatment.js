@@ -11,7 +11,7 @@ module.exports = (err, req, res, next) => {
 
     let path = req.path.substring(1);
     if (path.includes('logout')) {
-      path = 'cart'
+      path = 'index'
     }
     if (path.includes('cart')) {
       path = 'cart'
