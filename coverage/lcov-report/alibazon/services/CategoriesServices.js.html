@@ -23,9 +23,9 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">13.46% </span>
+                <span class="strong">23.07% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>7/52</span>
+                <span class='fraction'>12/52</span>
             </div>
         
             
@@ -37,16 +37,16 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">0% </span>
+                <span class="strong">33.33% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>0/15</span>
+                <span class='fraction'>5/15</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">13.46% </span>
+                <span class="strong">23.07% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>7/52</span>
+                <span class='fraction'>12/52</span>
             </div>
         
             
@@ -178,7 +178,11 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">5x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -186,19 +190,15 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">17x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">17x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">17x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -280,28 +280,28 @@ let categoryIdWithProductError = ''
 &nbsp;
 class CategoriesServices extends Services {
 &nbsp;
-<span class="fstat-no" title="function not covered" >    st</span>atic async getDataMainCategories(category) {
-<span class="cstat-no" title="statement not covered" >        return Services.getData(`${api}categories/${category}?secretKey=${secretKey}`)</span>
+    static async getDataMainCategories(category) {
+        return Services.getData(`${api}categories/${category}?secretKey=${secretKey}`)
     }
 &nbsp;
-<span class="fstat-no" title="function not covered" >    st</span>atic async getDataParentCategories(category, eachCat) {
-<span class="cstat-no" title="statement not covered" >        return Services.getData(`${api}categories/${category}-${eachCat}?secretKey=${secretKey}`)</span>
+    static async getDataParentCategories(category, eachCat) {
+        return Services.getData(`${api}categories/${category}-${eachCat}?secretKey=${secretKey}`)
     }
 &nbsp;
 <span class="fstat-no" title="function not covered" >    st</span>atic async getDataSubcategories(category, subcat) {
 <span class="cstat-no" title="statement not covered" >        return Services.getData(`${api}categories/parent/${category}-${subcat}?secretKey=${secretKey}`)</span>
     }
 &nbsp;
-<span class="fstat-no" title="function not covered" >    st</span>atic async getDataSpecificSubcategory(subcategory) {
-<span class="cstat-no" title="statement not covered" >        return Services.getData(`${api}categories/${subcategory}?secretKey=${secretKey}`)</span>
+    static async getDataSpecificSubcategory(subcategory) {
+        return Services.getData(`${api}categories/${subcategory}?secretKey=${secretKey}`)
     }
 &nbsp;
-<span class="fstat-no" title="function not covered" >    st</span>atic async getDataAllProducts(subcategory) {
-<span class="cstat-no" title="statement not covered" >        return Services.getData(`${api}products/product_search?primary_category_id=${subcategory}&amp;secretKey=${secretKey}`)</span>
+    static async getDataAllProducts(subcategory) {
+        return Services.getData(`${api}products/product_search?primary_category_id=${subcategory}&amp;secretKey=${secretKey}`)
     }
 &nbsp;
-<span class="fstat-no" title="function not covered" >    st</span>atic async getDataOneProduct(product) {
-<span class="cstat-no" title="statement not covered" >        return Services.getData(`${api}products/product_search?id=${product}&amp;secretKey=${secretKey}`)</span>
+    static async getDataOneProduct(product) {
+        return Services.getData(`${api}products/product_search?id=${product}&amp;secretKey=${secretKey}`)
     }
 &nbsp;
 <span class="fstat-no" title="function not covered" >    st</span>atic checkImage(sub, main) {
@@ -379,7 +379,7 @@ module.exports = CategoriesServices;</pre></td></tr></table></pre>
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at Wed Feb 23 2022 13:58:55 GMT-0300 (Horário Padrão de Brasília)
+                at Wed Feb 23 2022 14:15:49 GMT-0300 (Horário Padrão de Brasília)
             </div>
         <script src="../../prettify.js"></script>
         <script>
