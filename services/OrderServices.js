@@ -21,6 +21,15 @@ class OrderServices extends Services {
     static async sendDataOrder(order, token) {
         return Services.sendDataToken(`${api}orders`, order, token)
     }
+
+    static uniqueValues(array) {
+        const uniqueValuesArray = [];
+        for (let eachValue of array) {
+            eachValue = [...new Set(eachValue)]
+            uniqueValuesArray.push(eachValue)
+        }
+        return uniqueValuesArray
+    }
 }
 
 module.exports = OrderServices;

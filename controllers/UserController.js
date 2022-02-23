@@ -23,12 +23,10 @@ class UserController {
 
     static async signInUser(req, res, next) {
         const { useremail, userpassword } = req.body
-
         const user = loginUser(useremail, userpassword);
 
         try {
           const userLogged = await UserServices.signIn(user)
-
           res.cookie('token', userLogged.data.token)
           res.redirect('/')     
           

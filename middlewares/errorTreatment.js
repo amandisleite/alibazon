@@ -16,6 +16,9 @@ module.exports = (err, req, res, next) => {
     if (path.includes('cart')) {
       path = 'cart'
     }
+    if (path.includes('orders')) {
+      path = 'oldOrders'
+    }
     if (path === 'womens' || path === 'mens') {
       path = 'parentCategory'
     } else {

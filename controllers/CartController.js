@@ -39,7 +39,7 @@ class CartController {
             const product = await CategoriesServices.getDataOneProduct(productId);
             productList.push(product.data)
           }
-          console.log(productList)
+          
           const imagesLinks = WishlistServices.checkIfVariantImageExists(cartVariantsId, productList, colorProducts)
 
           let totalPrice = 0;
