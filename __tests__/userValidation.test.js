@@ -40,4 +40,23 @@ describe('userValidation', () => {
                 .send(user)
         await expect(res.text).toContain('invalid')
     })
+
+    it('should show error that e-mail is already registered', async () => {
+        const user = {
+            "username": 'aaa',
+            "useremail": 'aaa@gmail.com',
+            "userpassword": '123456'
+        }
+    
+        const res = await request(app)
+                .post('/signup')
+                .send(user)
+        await expect(res.text).toContain('already exists')
+    })
+
+    it('should show error that user is not authenticated', async () => {
+        const res = await request(app)
+                .get('/cart')
+        await expect(res.text).toContain('not authenticated')
+    })
 })

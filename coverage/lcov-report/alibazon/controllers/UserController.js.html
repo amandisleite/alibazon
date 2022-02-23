@@ -30,9 +30,9 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">0% </span>
+                <span class="strong">50% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>0/2</span>
+                <span class='fraction'>1/2</span>
             </div>
         
             
@@ -109,39 +109,23 @@
 <a name='L44'></a><a href='#L44'>44</a>
 <a name='L45'></a><a href='#L45'>45</a>
 <a name='L46'></a><a href='#L46'>46</a>
-<a name='L47'></a><a href='#L47'>47</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">7x</span>
-<span class="cline-any cline-yes">7x</span>
-<span class="cline-any cline-yes">7x</span>
+<a name='L47'></a><a href='#L47'>47</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">3x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">3x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">3x</span>
-<span class="cline-any cline-yes">3x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">3x</span>
-<span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
@@ -150,47 +134,63 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">7x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">const { UserAlreadyExists } = require('../errors');
 const { UserServices } = require('../services');
 const { createUser, loginUser } = require('../services/UserServices');
 &nbsp;
 class UserController {
   
-<span class="fstat-no" title="function not covered" >    st</span>atic async signUpUser(req, res, next) {
-        const { username, useremail, userpassword } = <span class="cstat-no" title="statement not covered" >req.body</span>
+    static async signUpUser(req, res, next) {
+        const { username, useremail, userpassword } = req.body
 &nbsp;
-        const newUser = <span class="cstat-no" title="statement not covered" >createUser(username, useremail, userpassword);</span>
+        const newUser = createUser(username, useremail, userpassword);
 &nbsp;
-<span class="cstat-no" title="statement not covered" >        try {</span>
-          const userExists = <span class="cstat-no" title="statement not covered" >await UserServices.signUp(newUser)</span>
-<span class="cstat-no" title="statement not covered" >          if (userExists === 'Request failed with status code 400') {</span>
-<span class="cstat-no" title="statement not covered" >            throw new UserAlreadyExists(useremail);</span>
-          } else {
+        try {
+          const userExists = await UserServices.signUp(newUser)
+          if (userExists === 'Request failed with status code 400') {
+            throw new UserAlreadyExists(useremail);
+          } else <span class="missing-if-branch" title="else path not taken" >E</span>{
 <span class="cstat-no" title="statement not covered" >            await UserServices.signUp(newUser)    </span>
           }
         } catch (err) {
-<span class="cstat-no" title="statement not covered" >          return next(err)</span>
+          return next(err)
         }
     }
 &nbsp;
-    static async signInUser(req, res, next) {
-        const { useremail, userpassword } = req.body
+<span class="fstat-no" title="function not covered" >    st</span>atic async signInUser(req, res, next) {
+        const { useremail, userpassword } = <span class="cstat-no" title="statement not covered" >req.body</span>
 &nbsp;
-        const user = loginUser(useremail, userpassword);
+        const user = <span class="cstat-no" title="statement not covered" >loginUser(useremail, userpassword);</span>
 &nbsp;
-        try {
-          const userLogged = await UserServices.signIn(user)
+<span class="cstat-no" title="statement not covered" >        try {</span>
+          const userLogged = <span class="cstat-no" title="statement not covered" >await UserServices.signIn(user)</span>
 &nbsp;
-          res.cookie('token', userLogged.data.token)
-          res.redirect('/')     
+<span class="cstat-no" title="statement not covered" >          res.cookie('token', userLogged.data.token)</span>
+<span class="cstat-no" title="statement not covered" >          res.redirect('/')     </span>
           
         } catch (err) {
-          return next(err)
+<span class="cstat-no" title="statement not covered" >          return next(err)</span>
         }
     }
 &nbsp;
@@ -208,7 +208,7 @@ module.exports = UserController;
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at Wed Feb 23 2022 14:29:45 GMT-0300 (Horário Padrão de Brasília)
+                at Wed Feb 23 2022 14:36:19 GMT-0300 (Horário Padrão de Brasília)
             </div>
         <script src="../../prettify.js"></script>
         <script>
