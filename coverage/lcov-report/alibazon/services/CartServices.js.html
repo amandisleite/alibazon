@@ -23,9 +23,9 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">33.33% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>4/12</span>
+                <span class='fraction'>12/12</span>
             </div>
         
             
@@ -37,16 +37,16 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">0% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>0/6</span>
+                <span class='fraction'>6/6</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">33.33% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>4/12</span>
+                <span class='fraction'>12/12</span>
             </div>
         
             
@@ -61,7 +61,7 @@
             </div>
         </template>
     </div>
-    <div class='status-line low'></div>
+    <div class='status-line high'></div>
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -112,38 +112,38 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -153,39 +153,39 @@ const api = process.env.API_URL;
 const secretKey = process.env.SECRET_KEY;
 &nbsp;
 class CartServices extends Services {
-<span class="fstat-no" title="function not covered" >    st</span>atic cartItem(product, variant, quantity) {
-        const data = <span class="cstat-no" title="statement not covered" >{</span>
+    static cartItem(product, variant, quantity) {
+        const data = {
             secretKey: secretKey,
             productId: product,
             variantId: variant,
             quantity: quantity
         }
-<span class="cstat-no" title="statement not covered" >        return data;</span>
+        return data;
     }
 &nbsp;
-<span class="fstat-no" title="function not covered" >    st</span>atic deleteCartItem(product, variant) {
-        const data = <span class="cstat-no" title="statement not covered" >{</span>
+    static deleteCartItem(product, variant) {
+        const data = {
             secretKey: secretKey,
             productId: product,
             variantId: variant
         }
-<span class="cstat-no" title="statement not covered" >        return data;</span>
+        return data;
     }
 &nbsp;
-<span class="fstat-no" title="function not covered" >    st</span>atic async getDataCart(token) {
-<span class="cstat-no" title="statement not covered" >        return Services.getDataToken(`${api}/cart?secretKey=${secretKey}`, token)</span>
+    static async getDataCart(token) {
+        return Services.getDataToken(`${api}/cart?secretKey=${secretKey}`, token)
     }
 &nbsp;
-<span class="fstat-no" title="function not covered" >    st</span>atic async sendDataCart(items, token) {
-<span class="cstat-no" title="statement not covered" >        return Services.sendDataToken(`${api}cart/addItem`, items, token)</span>
+    static async sendDataCart(items, token) {
+        return Services.sendDataToken(`${api}cart/addItem`, items, token)
     }
 &nbsp;
-<span class="fstat-no" title="function not covered" >    st</span>atic async changeQuantityCart(items, token) {
-<span class="cstat-no" title="statement not covered" >        return Services.sendDataToken(`${api}cart/changeItemQuantity`, items, token)</span>
+    static async changeQuantityCart(items, token) {
+        return Services.sendDataToken(`${api}cart/changeItemQuantity`, items, token)
     }
 &nbsp;
-<span class="fstat-no" title="function not covered" >    st</span>atic async deleteDataCart(items, token) {
-<span class="cstat-no" title="statement not covered" >        return Services.deleteDataToken(`${api}/cart/removeItem`, items, token)</span>
+    static async deleteDataCart(items, token) {
+        return Services.deleteDataToken(`${api}/cart/removeItem`, items, token)
     }
 }
 &nbsp;
@@ -196,7 +196,7 @@ module.exports = CartServices;</pre></td></tr></table></pre>
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at Wed Feb 23 2022 12:35:04 GMT-0300 (Horário Padrão de Brasília)
+                at Wed Feb 23 2022 13:31:40 GMT-0300 (Horário Padrão de Brasília)
             </div>
         <script src="../../prettify.js"></script>
         <script>

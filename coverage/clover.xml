@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1645630504218" clover="3.2.0">
-  <project timestamp="1645630504218" name="All files">
-    <metrics statements="642" coveredstatements="153" conditionals="123" coveredconditionals="0" methods="79" coveredmethods="7" elements="844" coveredelements="160" complexity="0" loc="642" ncloc="642" packages="6" files="27" classes="27"/>
+<coverage generated="1645633900207" clover="3.2.0">
+  <project timestamp="1645633900207" name="All files">
+    <metrics statements="642" coveredstatements="166" conditionals="123" coveredconditionals="0" methods="79" coveredmethods="14" elements="844" coveredelements="180" complexity="0" loc="642" ncloc="642" packages="6" files="27" classes="27"/>
     <package name="alibazon">
       <metrics statements="27" coveredstatements="24" conditionals="4" coveredconditionals="0" methods="2" coveredmethods="1"/>
       <file name="app.js" path="D:\Users\mandi\Documents\AMANDA\EU\EU_CURSOS\OSF\alibazon\app.js">
@@ -570,20 +570,20 @@
       </file>
     </package>
     <package name="alibazon.services">
-      <metrics statements="150" coveredstatements="41" conditionals="27" coveredconditionals="0" methods="41" coveredmethods="5"/>
+      <metrics statements="150" coveredstatements="54" conditionals="27" coveredconditionals="0" methods="41" coveredmethods="12"/>
       <file name="CartServices.js" path="D:\Users\mandi\Documents\AMANDA\EU\EU_CURSOS\OSF\alibazon\services\CartServices.js">
-        <metrics statements="12" coveredstatements="4" conditionals="0" coveredconditionals="0" methods="6" coveredmethods="0"/>
+        <metrics statements="12" coveredstatements="12" conditionals="0" coveredconditionals="0" methods="6" coveredmethods="6"/>
         <line num="1" count="1" type="stmt"/>
         <line num="3" count="1" type="stmt"/>
         <line num="4" count="1" type="stmt"/>
-        <line num="8" count="0" type="stmt"/>
-        <line num="14" count="0" type="stmt"/>
-        <line num="18" count="0" type="stmt"/>
-        <line num="23" count="0" type="stmt"/>
-        <line num="27" count="0" type="stmt"/>
-        <line num="31" count="0" type="stmt"/>
-        <line num="35" count="0" type="stmt"/>
-        <line num="39" count="0" type="stmt"/>
+        <line num="8" count="2" type="stmt"/>
+        <line num="14" count="2" type="stmt"/>
+        <line num="18" count="1" type="stmt"/>
+        <line num="23" count="1" type="stmt"/>
+        <line num="27" count="1" type="stmt"/>
+        <line num="31" count="1" type="stmt"/>
+        <line num="35" count="1" type="stmt"/>
+        <line num="39" count="1" type="stmt"/>
         <line num="43" count="1" type="stmt"/>
       </file>
       <file name="CategoriesServices.js" path="D:\Users\mandi\Documents\AMANDA\EU\EU_CURSOS\OSF\alibazon\services\CategoriesServices.js">
@@ -659,27 +659,27 @@
         <line num="44" count="1" type="stmt"/>
       </file>
       <file name="Services.js" path="D:\Users\mandi\Documents\AMANDA\EU\EU_CURSOS\OSF\alibazon\services\Services.js">
-        <metrics statements="44" coveredstatements="6" conditionals="7" coveredconditionals="0" methods="7" coveredmethods="1"/>
+        <metrics statements="44" coveredstatements="14" conditionals="7" coveredconditionals="0" methods="7" coveredmethods="4"/>
         <line num="1" count="1" type="stmt"/>
         <line num="5" count="0" type="stmt"/>
         <line num="6" count="0" type="stmt"/>
         <line num="11" count="0" type="stmt"/>
         <line num="13" count="0" type="stmt"/>
-        <line num="18" count="2" type="stmt"/>
-        <line num="19" count="2" type="stmt"/>
-        <line num="24" count="1" type="stmt"/>
-        <line num="26" count="1" type="stmt"/>
-        <line num="31" count="0" type="stmt"/>
-        <line num="32" count="0" type="stmt"/>
-        <line num="37" count="0" type="stmt"/>
+        <line num="18" count="4" type="stmt"/>
+        <line num="19" count="4" type="stmt"/>
+        <line num="24" count="4" type="stmt"/>
+        <line num="26" count="0" type="stmt"/>
+        <line num="31" count="1" type="stmt"/>
+        <line num="32" count="1" type="stmt"/>
+        <line num="37" count="1" type="stmt"/>
         <line num="39" count="0" type="stmt"/>
-        <line num="44" count="0" type="stmt"/>
-        <line num="45" count="0" type="stmt"/>
-        <line num="51" count="0" type="stmt"/>
+        <line num="44" count="2" type="stmt"/>
+        <line num="45" count="2" type="stmt"/>
+        <line num="51" count="2" type="stmt"/>
         <line num="53" count="0" type="stmt"/>
-        <line num="58" count="0" type="stmt"/>
-        <line num="59" count="0" type="stmt"/>
-        <line num="65" count="0" type="stmt"/>
+        <line num="58" count="1" type="stmt"/>
+        <line num="59" count="1" type="stmt"/>
+        <line num="65" count="1" type="stmt"/>
         <line num="67" count="0" type="stmt"/>
         <line num="72" count="0" type="stmt"/>
         <line num="73" count="0" type="stmt"/>
@@ -706,16 +706,16 @@
         <line num="113" count="1" type="stmt"/>
       </file>
       <file name="UserServices.js" path="D:\Users\mandi\Documents\AMANDA\EU\EU_CURSOS\OSF\alibazon\services\UserServices.js">
-        <metrics statements="10" coveredstatements="10" conditionals="0" coveredconditionals="0" methods="4" coveredmethods="4"/>
+        <metrics statements="10" coveredstatements="7" conditionals="0" coveredconditionals="0" methods="4" coveredmethods="2"/>
         <line num="1" count="1" type="stmt"/>
         <line num="3" count="1" type="stmt"/>
         <line num="4" count="1" type="stmt"/>
-        <line num="9" count="1" type="stmt"/>
-        <line num="13" count="1" type="stmt"/>
-        <line num="17" count="1" type="stmt"/>
-        <line num="23" count="1" type="stmt"/>
-        <line num="27" count="1" type="stmt"/>
-        <line num="33" count="1" type="stmt"/>
+        <line num="9" count="0" type="stmt"/>
+        <line num="13" count="4" type="stmt"/>
+        <line num="17" count="0" type="stmt"/>
+        <line num="23" count="0" type="stmt"/>
+        <line num="27" count="4" type="stmt"/>
+        <line num="33" count="4" type="stmt"/>
         <line num="37" count="1" type="stmt"/>
       </file>
       <file name="WishlistServices.js" path="D:\Users\mandi\Documents\AMANDA\EU\EU_CURSOS\OSF\alibazon\services\WishlistServices.js">
