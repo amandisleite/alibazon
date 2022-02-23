@@ -1,8 +1,4 @@
-const { OrderServices, CartServices } = require('../services');
-const { CategoriesServices } = require('../services');
-
-const api = process.env.API_URL;
-const secretKey = process.env.SECRET_KEY;
+const { OrderServices, CartServices, CategoriesServices } = require('../services');
 
 class OrderController {
     
@@ -19,7 +15,7 @@ class OrderController {
         const everyPaymentId = [];
 
         try {
-            const orders = await OrderServices.getOrderData(`${api}/orders?secretKey=${secretKey}`, req.cookies.token)
+            const orders = await OrderServices.getDataOrder(req.cookies.token)
             const orderData = orders.data
             
             for (let orderItems of orderData) {
@@ -93,10 +89,10 @@ class OrderController {
       let paymentId = 0;
 
       try {
-        const cart = await CartServices.getCartData(`${api}/cart?secretKey=${secretKey}`, req.cookies.token);
+        const cart = await CartServices.getDataCart(req.cookies.token);
         const cartProducts = cart.data.items
 
-        const olderOrders = await OrderServices.getOrderData(`${api}/orders?secretKey=${secretKey}`, req.cookies.token)
+        const olderOrders = await OrderServices.getDataOrder(req.cookies.token)
         if (olderOrders.data.length > 0) {
           console.log(olderOrders.data.length)
           paymentId = olderOrders.data.length
@@ -106,7 +102,7 @@ class OrderController {
 
         const newOrder = OrderServices.createOrder(address, paymentId, cartProducts)
 
-        const order = await OrderServices.sendOrderData(`${api}orders`, newOrder, req.cookies.token)
+        const order = await OrderServices.sendDataOrder(newOrder, req.cookies.token)
         const orderData = order.data
 
         res.render('orders', {
