@@ -30,6 +30,29 @@ class OrderServices extends Services {
         }
         return uniqueValuesArray
     }
+
+    static totalPrice(arrayPrices) {
+        const totalPrice = [];
+        for (let priceOrder of arrayPrices) {
+            let totalPricePerOrder = 0;
+            priceOrder.forEach(price => {
+                totalPricePerOrder += price
+            })
+            totalPrice.push(totalPricePerOrder)
+        }
+        return totalPrice;
+    }
+
+    static createPaymentId(orders) {
+        let paymentId = 0;
+        if (orders.data.length > 0) {
+            paymentId = orders.data.length
+        } else {
+            paymentId = 1;
+        }
+        return paymentId;
+    }
+
 }
 
 module.exports = OrderServices;

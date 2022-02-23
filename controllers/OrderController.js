@@ -20,93 +20,80 @@ class OrderController {
             const orderData = orders.data
             
             if (orderData) {
-              for (let orderItems of orderData) {
-                  const orderItem = orderItems.items
-                  paymentId = orderItems.paymentId
-                  address = orderItems.address
-                  const perOrder = [];
-                  const pricePerOrder = [];
-                  const addressPerOrder = [];
-                  const paymentIdPerOrder = [];
-                  for (let eachProduct of orderItem) {
-                      eachProductId = eachProduct.productId
-                      priceProduct = eachProduct.variant.price
-                      quantityProduct = eachProduct.quantity
-                      priceProduct = priceProduct * quantityProduct
-                      pricePerOrder.push(priceProduct)
-                      addressPerOrder.push(address)
-                      paymentIdPerOrder.push(paymentId)
+                for (let orderItems of orderData) {
+                    const orderItem = orderItems.items
+                    paymentId = orderItems.paymentId
+                    address = orderItems.address
+                    const perOrder = [];
+                    const pricePerOrder = [];
+                    const addressPerOrder = [];
+                    const paymentIdPerOrder = [];
+                    for (let eachProduct of orderItem) {
+                        eachProductId = eachProduct.productId
+                        priceProduct = eachProduct.variant.price
+                        quantityProduct = eachProduct.quantity
+                        priceProduct = priceProduct * quantityProduct
+                        pricePerOrder.push(priceProduct)
+                        addressPerOrder.push(address)
+                        paymentIdPerOrder.push(paymentId)
 
-                      const product = await CategoriesServices.getDataOneProduct(eachProductId);
-                      productObj = {
-                          productName: product.data[0].name,
-                          productId: product.data[0].id,
-                          price: priceProduct,
-                          quantity: quantityProduct,
-                          address: address, 
-                          paymentId: paymentId
-                      }
+                        const product = await CategoriesServices.getDataOneProduct(eachProductId);
+                        productObj = {
+                            productName: product.data[0].name,
+                            productId: product.data[0].id,
+                            price: priceProduct,
+                            quantity: quantityProduct,
+                            address: address, 
+                            paymentId: paymentId
+                        }
 
-                      perOrder.push(productObj)
-                  }
-                  everyPaymentId.push(paymentIdPerOrder)
-                  everyAddress.push(addressPerOrder)
-                  productsPrices.push(pricePerOrder)
-                  allOrders.push(perOrder)
-              }
+                        perOrder.push(productObj)
+                    }
+                everyPaymentId.push(paymentIdPerOrder)
+                everyAddress.push(addressPerOrder)
+                productsPrices.push(pricePerOrder)
+                allOrders.push(perOrder)
+                }
               
-              const allPaymentsIds = OrderServices.uniqueValues(everyPaymentId)
-              const allAddresses = OrderServices.uniqueValues(everyAddress)
+                const allPaymentsIds = OrderServices.uniqueValues(everyPaymentId)
+                const allAddresses = OrderServices.uniqueValues(everyAddress)
+                const totalPrice = OrderServices.totalPrice(productsPrices)
 
-              const totalPrice = [];
-              for (let priceOrder of productsPrices) {
-                let totalPricePerOrder = 0;
-                priceOrder.forEach(price => {
-                  totalPricePerOrder += price
+                res.render('oldOrders', {
+                    orderData,
+                    allOrders,
+                    totalPrice,
+                    allAddresses,
+                    allPaymentsIds
                 })
-                totalPrice.push(totalPricePerOrder)
-              }
 
-              res.render('oldOrders', {
-                orderData,
-                allOrders,
-                totalPrice,
-                allAddresses,
-                allPaymentsIds
-              })
             } else {
-              throw new OrderNotAvailable();
+                throw new OrderNotAvailable();
             }
             
         } catch (err) { next(err) }
     }
 
     static async createOrder(req, res, next) {
-      const address = req.body.address;
-      let paymentId = 0;
+        const address = req.body.address;
 
-      try {
-        const cart = await CartServices.getDataCart(req.cookies.token);
-        const cartProducts = cart.data.items
+        try {
+            const cart = await CartServices.getDataCart(req.cookies.token);
+            const cartProducts = cart.data.items
 
-        const olderOrders = await OrderServices.getDataOrder(req.cookies.token)
-        if (olderOrders.data.length > 0) {
-          console.log(olderOrders.data.length)
-          paymentId = olderOrders.data.length
-        } else {
-          paymentId = 1;
-        }
+            const olderOrders = await OrderServices.getDataOrder(req.cookies.token)
+            const paymentId = OrderServices.createPaymentId(olderOrders)
 
-        const newOrder = OrderServices.createOrder(address, paymentId, cartProducts)
+            const newOrder = OrderServices.createOrder(address, paymentId, cartProducts)
 
-        const order = await OrderServices.sendDataOrder(newOrder, req.cookies.token)
-        const orderData = order.data
+            const order = await OrderServices.sendDataOrder(newOrder, req.cookies.token)
+            const orderData = order.data
 
-        res.render('orders', {
-          orderData
-        })
-      
-      } catch (err) { next(err) }
+            res.render('orders', {
+              orderData
+            })
+        
+        } catch (err) { next(err) }
     }
 
 }
