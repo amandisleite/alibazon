@@ -1,36 +1,6 @@
 const { CategoriesServices } = require('../services');
 
 describe('CategoriesServices', () => {
-    it('getDataMainCategories should return something defined', async () => {
-        const data = await CategoriesServices.getDataMainCategories('womens')
-        expect(data).toBeDefined()
-    })
-
-    it('getDataSubcategories should return something defined', async () => {
-        const data = await CategoriesServices.getDataSubcategories('mens', 'clothing')
-        expect(data).toBeDefined()
-    })
-
-    it('getDataParentCategories should return something defined', async () => {
-        const data = await CategoriesServices.getDataParentCategories('womens', 'jewelry')
-        expect(data).toBeDefined()
-    })
-
-    it('getDataSpecificSubcategory should return something defined', async () => {
-        const data = await CategoriesServices.getDataSpecificSubcategory('mens', 'accessories')
-        expect(data).toBeDefined()
-    })
-
-    it('getDataAllProducts should return something defined', async () => {
-        const data = await CategoriesServices.getDataAllProducts('womens-clothing-tops')
-        expect(data).toBeDefined()
-    })
-
-    it('getDataOneProduct should return something defined', async () => {
-        const data = await CategoriesServices.getDataOneProduct('34536828')
-        expect(data).toBeDefined()
-    })
-
     it('should transform sub images name to null', async () => {
         const imageSub = [[{ image: 'categories/category_404.png'}], [{ image: 'categories/category_404.png'}]]
         CategoriesServices.checkImage(imageSub, '')
