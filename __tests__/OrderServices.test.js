@@ -32,7 +32,7 @@ describe('OrderServices', () => {
         expect(totalPrice[0]).toBe(678.99);  
     })
 
-    it('should create payment id 3', () => {
+    it('should create payment id 4', () => {
         const arr = {
             data: [
                 { obj: 'item' },
@@ -41,7 +41,7 @@ describe('OrderServices', () => {
             ]
         }
         const paymentId = OrderServices.createPaymentId(arr)
-        expect(paymentId).toBe(3);  
+        expect(paymentId).toBe(4);  
     })
 
     it('should be returning attribute data of object', () => {

@@ -4,7 +4,7 @@ const { CartServices, UserServices } = require('../services');
 describe('Cart', () => {
 
     it('should add item to Cart', async () => {
-        const resUser = await UserServices.signIn('teste2@gmail.com', '123456')
+        const resUser = await UserServices.signIn('teste3@gmail.com', '123456')
         const token = resUser.data.token
 
         const cart = CartServices.cartItem('25592211', '701643843459', '3')
@@ -17,7 +17,7 @@ describe('Cart', () => {
     })
 
     it('should return user Cart (that already exists) request', async () => {
-        const resUser = await UserServices.signIn('teste2@gmail.com', '123456')
+        const resUser = await UserServices.signIn('teste3@gmail.com', '123456')
         const token = resUser.data.token
         
         const res = await CartServices.getDataCart(token)
@@ -26,7 +26,7 @@ describe('Cart', () => {
     })
 
     it('should change quantity of item', async () => {
-        const resUser = await UserServices.signIn('teste2@gmail.com', '123456')
+        const resUser = await UserServices.signIn('teste3@gmail.com', '123456')
         const token = resUser.data.token
 
         const cart = CartServices.cartItem('25592211', '701643843459', '5')
@@ -39,7 +39,7 @@ describe('Cart', () => {
     })
 
     it('should delete item', async () => {
-        const resUser = await UserServices.signIn('teste2@gmail.com', '123456')
+        const resUser = await UserServices.signIn('teste3@gmail.com', '123456')
         const token = resUser.data.token
 
         const cart = CartServices.deleteCartItem('25592211', '701643843459')

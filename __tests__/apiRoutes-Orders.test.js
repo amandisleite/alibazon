@@ -4,7 +4,7 @@ const { OrderServices, UserServices } = require('../services');
 describe('Orders', () => {
 
     it('should add item to Order', async () => {
-        const resUser = await UserServices.signIn('teste3@gmail.com', '123456')
+        const resUser = await UserServices.signIn('teste2@gmail.com', '123456')
         const token = resUser.data.token
 
         const items = [
@@ -33,7 +33,7 @@ describe('Orders', () => {
     })
 
     it('should return user Order (that already exists) request', async () => {
-        const resUser = await UserServices.signIn('teste3@gmail.com', '123456')
+        const resUser = await UserServices.signIn('teste2@gmail.com', '123456')
         const token = resUser.data.token
         
         const res = await OrderServices.getDataOrder(token)
