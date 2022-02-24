@@ -1,4 +1,4 @@
-<!-- <% var errMessage, productList, productsQuantities, totalPrice, cartVariantsId, imagesLinks %> -->
+<!-- <% var errMessage, productList, productsQuantities, totalPrice, cartVariantsId, imagesLinks, allColors, allSizes, allWidths %> -->
 <% var token = locals.token %>
 
 <!DOCTYPE html>
@@ -28,9 +28,6 @@
                 <div class="col mx-auto mb-5">
                     <div class="mx-5">
                         <div>
-                            <% let itemColor = 0 %>
-                            <% let itemSize = 0 %>
-                            <% let itemWidth = 0 %>
                             <% for (let i = 0; i < productList.length; i++) { %>
                                 <% const productData = productList[i][0] %>
                                 <div class= "row g-0 py-3 border-bottom">
@@ -47,45 +44,17 @@
                                     </div>
                                     <div class="col-md-7">
                                         <p class="fs-6 fw-bold"><%= productData.name %></p>
-                                        <% for (let variant of productData.variants) { %>
-                                            <% if (variant.product_id === cartVariantsId[i]) { %>
-                                                <% itemVariantColor = variant.variation_values.color %>
-                                                <% itemVariantSize = variant.variation_values.size %>
-                                                <% itemVariantWidth = variant.variation_values.width %>
-                                                <% for (let attributes of productData.variation_attributes) { %>
-                                                        <% if (attributes.id === 'color') { %>
-                                                            <% for (let values of attributes.values) {%>
-                                                                <% if (values.value === itemVariantColor) { %>
-                                                                    <% itemVariantColor = values.name %>
-                                                                        <% if (itemVariantColor !== 0) { %>
-                                                                        <p class="fs-6 text-muted">Color: <%= itemVariantColor %></p>
-                                                                        <% } %>
-                                                                <% } %>
-                                                            <% } %>
-                                                        <% } %>
-                                                        <% if (attributes.id === 'size') { %>
-                                                            <% for (let values of attributes.values) {%>
-                                                                <% if (values.value === itemVariantSize) { %>
-                                                                    <% itemVariantSize = values.name %>
-                                                                        <% if (itemVariantSize !== 0) { %>
-                                                                        <p class="fs-6 text-muted">Size: <%= itemVariantSize %></p>
-                                                                        <% } %>
-                                                                <% } %>
-                                                            <% } %>
-                                                        <% } %>
-                                                        <% if (attributes.id === 'width') { %>
-                                                            <% for (let values of attributes.values) {%>
-                                                                <% if (values.value === itemVariantWidth) { %>
-                                                                    <% itemVariantWidth = values.name %>
-                                                                        <% if (itemVariantWidth !== 0) { %>
-                                                                        <p class="fs-6 text-muted">Width: <%= itemVariantWidth %></p>
-                                                                        <% } %>
-                                                                <% } %>
-                                                            <% } %>
-                                                        <% } %>
-                                                <% } %>
+                                            <% if (allColors[i] !== 0) { %>
+                                            <p class="fs-6 text-muted">Color: <%= allColors[i].variantColor %></p>
                                             <% } %>
-                                        <% } %>
+
+                                            <% if (allSizes[i] !== 0 && allSizes[i].variantSize !== undefined) { %>
+                                            <p class="fs-6 text-muted">Size: <%= allSizes[i].variantSize %></p>
+                                            <% } %>
+
+                                            <% if (allWidths[i] !== 0 && allWidths[i].variantWidth !== undefined) { %>
+                                            <p class="fs-6 text-muted">Width: <%= allWidths[i].variantWidth %></p>
+                                            <% } %>
                                         <form action="/cart/changeQuantity/<%= cartVariantsId[i] %>" method="post">
                                             <div class="d-flex">
                                                 

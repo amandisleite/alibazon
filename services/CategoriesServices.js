@@ -99,6 +99,128 @@ class CategoriesServices extends Services {
         return catId
         }
     }
+
+    static async getEachParentCategoryResult(category, subcategories) {
+        const parentResults = [];
+        for (let eachCat of subcategories) {
+            const parentId = await CategoriesServices.getDataParentCategories(category, eachCat)
+            if (parentId.data !== undefined) {
+                parentResults.push(parentId.data)
+            }
+        }
+        return parentResults;
+    }
+
+    static async getEachSubcategoryResult(category, subcategories) {
+        const subResults = [];
+        for (let subcat of subcategories) {
+            const sub = await CategoriesServices.getDataSubcategories(category, subcat)
+            subResults.push(sub.data)
+        }
+        return subResults;
+    }
+
+    static async getSpecificSubcategoryResult(idSubcategory) {
+        const subResults = [];
+        const sub = await CategoriesServices.getDataSpecificSubcategory(idSubcategory)
+        subResults.push(sub.data)
+        const subcat = subResults[0]
+        return subcat;
+    }
+
+    static async getProductResult(idProduct) {
+        const productDetail = await CategoriesServices.getDataOneProduct(idProduct);
+        const product = productDetail.data[0]
+        return product;
+    }
+
+    static checkSubcatNameId(idSubcategory) {
+        let subcategoryString = idSubcategory.split('-')
+        let subcategory = 0;
+        
+        if (subcategoryString.length === 2) {
+            subcategory = subcategoryString[1]
+        }
+        if (subcategoryString.length === 3) {
+            subcategory = subcategoryString[2]
+        }
+        if (subcategoryString.length === 4) {
+            subcategory = `${subcategoryString[2]} ${subcategoryString[3]}`
+        }
+        return subcategory;
+    }
+
+    static returnMainCategoryId(category, mainCategory) {
+        const idMainCategory = `${category}-${mainCategory}`
+        return idMainCategory;
+    }
+
+    static getVariantColors(product) {
+        const allVariantsColors = [];
+        for (let variantionAttributes of product.variation_attributes) {
+            if (variantionAttributes.id === 'color') {
+                for (let variant of product.variants) {
+                    for (let value of variantionAttributes.values) {
+                        if (variant.variation_values.color === value.value) {
+                            allVariantsColors.push({
+                            name: value.name,
+                            value: value.value
+                            })
+                        }
+                    }
+                }
+            }
+        }
+        const variantsColors = this.removeDuplicatesObjects(allVariantsColors, 'value');
+        return variantsColors;
+    }
+
+    static getVariantSizes(product) {
+        const allVariantsSizes = [];
+        for (let variantionAttributes of product.variation_attributes) {
+            if (variantionAttributes.id === 'size') {
+                for (let variant of product.variants) {
+                    for (let value of variantionAttributes.values) {
+                        if (variant.variation_values.size === value.value) {
+                            allVariantsSizes.push({
+                            name: value.name,
+                            value: value.value
+                            })
+                        }
+                    }
+                }
+            }
+        }
+        const variantsSizes = this.removeDuplicatesObjects(allVariantsSizes, 'value');
+        return variantsSizes;
+    }
+
+    static getVariantWidths(product) {
+        const allVariantsWidths = [];
+        for (let variantionAttributes of product.variation_attributes) {
+            if (variantionAttributes.id === 'width') {
+                for (let variant of product.variants) {
+                    for (let value of variantionAttributes.values) {
+                        if (variant.variation_values.width === value.value) {
+                            allVariantsWidths.push({
+                            name: value.name,
+                            value: value.value
+                            })
+                        }
+                    }
+                }
+            }
+        }
+        const variantsWidths = this.removeDuplicatesObjects(allVariantsWidths, 'value');
+        return variantsWidths;
+    }
+
+    static removeDuplicatesObjects(arr, comp) {
+        const uniqueArray =  arr.map(e => e[comp])
+        .map((e, i, final) => final.indexOf(e) === i && i)
+        .filter((e) => arr[e]).map(e => arr[e]);
+        return uniqueArray;
+    }
 }
 
 module.exports = CategoriesServices;

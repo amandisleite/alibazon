@@ -8,13 +8,13 @@ const wishlist = require('./wishlistRoutes');
 const errors = require('../middlewares/errorTreatment')
 
 module.exports = (app) => {
-  app.use(
-    users,
-    cart,
-    wishlist,
-    order,
-    categories,
-    main,
-    errors
-  )
+    app.use(
+        users,
+        cart,
+        wishlist,
+        order,
+        categories,
+        main,
+        errors
+    )
 }

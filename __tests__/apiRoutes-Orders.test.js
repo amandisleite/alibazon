@@ -10,15 +10,15 @@ describe('Orders', () => {
 
         const items = [
             {
-              "variant": {
-                "variation_values": {
-                  "color": "C43",
-                  "size": "33"
+                "variant": {
+                    "variation_values": {
+                    "color": "C43",
+                    "size": "33"
+                    },
+                    "price": 145,
+                    "product_id": "883360544250",
+                    "orderable": true
                 },
-                "price": 145,
-                "product_id": "883360544250",
-                "orderable": true
-              },
               "_id": "5e7abe59ffc73c0e4453aa65",
               "productId": "86736845",
               "quantity": 3

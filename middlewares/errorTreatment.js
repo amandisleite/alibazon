@@ -1,44 +1,45 @@
-const { UserAlreadyExists, InvalidField } = require('../errors');
+const { UserAlreadyExists, InvalidField, OrderNotAvailable } = require('../errors');
 
 module.exports = (err, req, res, next) => {
     let status = 500;
   
     if (err instanceof UserAlreadyExists ||
-        err instanceof InvalidField) 
+        err instanceof InvalidField ||
+        err instanceof OrderNotAvailable) 
     {
-      status = 400;
+        status = 400;
     }
 
     let path = req.path.substring(1);
     if (path.includes('logout')) {
-      path = 'index'
+        path = 'index'
     }
     if (path.includes('cart')) {
-      path = 'cart'
+        path = 'cart'
     }
     if (path.includes('orders')) {
-      path = 'oldOrders'
+        path = 'oldOrders'
     }
     if (path === 'womens' || path === 'mens') {
-      path = 'parentCategory'
+        path = 'parentCategory'
     } else {
-      let pathSplit = path.split('/')
-      if (pathSplit.length === 2) {
-        path = 'subcategory'
-      }
-      if (pathSplit.length === 3) {
-        path = 'product'
-      }
-      if (pathSplit.length === 4) {
-        path = 'product-page'
-      }
+        let pathSplit = path.split('/')
+        if (pathSplit.length === 2) {
+            path = 'subcategory'
+        }
+        if (pathSplit.length === 3) {
+            path = 'product'
+        }
+        if (pathSplit.length === 4) {
+            path = 'product-page'
+        }
     }
 
     res.status(status);
     res.render(`${path}`, {
-      errMessage: err.message,
-      errId: err.errId,
-      errName: err.name
+        errMessage: err.message,
+        errId: err.errId,
+        errName: err.name
     });
     
   };

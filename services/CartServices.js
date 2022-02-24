@@ -154,6 +154,93 @@ class CartServices extends Services {
         return colorProducts;
     }
 
+    static getVariantColorInfo(productList, variantsId) {
+        let itemVariantColor = 0
+        let itemColor = 0
+        const allColors = [];
+        for (let i = 0; i < productList.length; i++) {
+            const productData = productList[i][0]
+            for (let variant of productData.variants) {
+                if (variant.product_id === variantsId[i]) {
+                    itemVariantColor = variant.variation_values.color
+                    for (let attributes of productData.variation_attributes) {
+                        if (attributes.id === 'color') {
+                            for (let values of attributes.values) {
+                                if (values.value === itemVariantColor) {
+                                    itemVariantColor = values.name
+                                    itemColor = values.value
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            allColors.push({
+                variantColor: itemVariantColor,
+                valueColor: itemColor
+            })
+        }
+        return allColors;
+    }
+    
+    static getVariantSizeInfo(productList, variantsId) {
+        let itemVariantSize = 0
+        let itemSize = 0
+        const allSizes = [];
+        for (let i = 0; i < productList.length; i++) {
+            const productData = productList[i][0]
+            for (let variant of productData.variants) {
+                if (variant.product_id === variantsId[i]) {
+                    itemVariantSize = variant.variation_values.size
+                    for (let attributes of productData.variation_attributes) {
+                        if (attributes.id === 'size') {
+                            for (let values of attributes.values) {
+                                if (values.value === itemVariantSize) {
+                                    itemVariantSize = values.name
+                                    itemSize = values.value
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            allSizes.push({
+                variantSize: itemVariantSize,
+                valueSize: itemSize
+            })
+        }
+        return allSizes;
+    }   
+    
+    static getVariantWidthInfo(productList, variantsId) {
+        let itemVariantWidth = 0
+        let itemWidth = 0
+        const allWidths = [];
+        for (let i = 0; i < productList.length; i++) {
+            const productData = productList[i][0]
+            for (let variant of productData.variants) {
+                if (variant.product_id === variantsId[i]) {
+                    itemVariantWidth = variant.variation_values.width
+                    for (let attributes of productData.variation_attributes) {
+                        if (attributes.id === 'width') {
+                            for (let values of attributes.values) {
+                                if (values.value === itemVariantWidth) {
+                                    itemVariantWidth = values.name
+                                    itemWidth = values.value
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            allWidths.push({
+                variantWidth: itemVariantWidth,
+                valueWidth: itemWidth
+            })
+        }
+        return allWidths;
+    }  
+
     static discoveringVariantIt(item, product) {
         let variantId = 0
 

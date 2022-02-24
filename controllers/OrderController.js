@@ -1,5 +1,5 @@
-const { OrderNotAvailable } = require('../errors');
 const { OrderServices, CartServices } = require('../services');
+const { OrderNotAvailable } = require('../errors');
 
 class OrderController {
     
@@ -51,7 +51,6 @@ class OrderController {
         
         } catch (err) { next(err) }
     }
-
 }
    
 module.exports = OrderController;

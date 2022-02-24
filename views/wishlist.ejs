@@ -1,4 +1,4 @@
-<!-- <% var errMessage, productList, productsQuantities, totalPrice, wishlistVariantsId, imagesLinks %> -->
+<!-- <% var errMessage, productList, productsQuantities, totalPrice, wishlistVariantsId, imagesLinks, allColors, allSizes, allWidths %> -->
 <% var token = locals.token %>
 
 <!DOCTYPE html>
@@ -48,51 +48,20 @@
                                     <div class="col-md-7">
                                         <form action="/cart/addItem/<%= productData.id %>" method="post">
                                             <p class="fs-6 fw-bold"><%= productData.name %></p>
-                                            <% for (let variant of productData.variants) { %>
-                                                <% if (variant.product_id === wishlistVariantsId[i]) { %>
-                                                    <% itemVariantColor = variant.variation_values.color %>
-                                                    <% itemVariantSize = variant.variation_values.size %>
-                                                    <% itemVariantWidth = variant.variation_values.width %>
-                                                    <% for (let attributes of productData.variation_attributes) { %>
-                                                            <% if (attributes.id === 'color') { %>
-                                                                <% for (let values of attributes.values) {%>
-                                                                    <% if (values.value === itemVariantColor) { %>
-                                                                        <% itemVariantColor = values.name %>
-                                                                        <% itemColor = values.value %>
-                                                                            <% if (itemVariantColor !== 0) { %>
-                                                                            <input class="d-none" name="color" value="<%= itemColor %>">
-                                                                            <p class="fs-6 text-muted">Color: <%= itemVariantColor %></p>
-                                                                            <% } %>
-                                                                    <% } %>
-                                                                <% } %>
-                                                            <% } %>
-                                                            <% if (attributes.id === 'size') { %>
-                                                                <% for (let values of attributes.values) {%>
-                                                                    <% if (values.value === itemVariantSize) { %>
-                                                                        <% itemVariantSize = values.name %>
-                                                                        <% itemSize = values.value %>
-                                                                            <% if (itemVariantSize !== 0) { %>
-                                                                            <input class="d-none" name="size" value="<%= itemSize %>">
-                                                                            <p class="fs-6 text-muted">Size: <%= itemVariantSize %></p>
-                                                                            <% } %>
-                                                                    <% } %>
-                                                                <% } %>
-                                                            <% } %>
-                                                            <% if (attributes.id === 'width') { %>
-                                                                <% for (let values of attributes.values) {%>
-                                                                    <% if (values.value === itemVariantWidth) { %>
-                                                                        <% itemVariantWidth = values.name %>
-                                                                        <% itemWidth = values.value %>
-                                                                            <% if (itemVariantWidth !== 0) { %>
-                                                                            <input class="d-none" name="width" value="<%= itemWidth %>">
-                                                                            <p class="fs-6 text-muted">Width: <%= itemVariantWidth %></p>
-                                                                            <% } %>
-                                                                    <% } %>
-                                                                <% } %>
-                                                            <% } %>
-                                                    <% } %>
+                                            <% if (allColors[i] !== 0) { %>
+                                                <input class="d-none" name="color" value="<%= allColors[i].valueColor %>">
+                                                <p class="fs-6 text-muted">Color: <%= allColors[i].variantColor %></p>
                                                 <% } %>
-                                            <% } %>
+    
+                                                <% if (allSizes[i] !== 0 && allSizes[i].variantSize !== undefined) { %>
+                                                <input class="d-none" name="color" value="<%= allSizes[i].valueSize %>">
+                                                <p class="fs-6 text-muted">Size: <%= allSizes[i].variantSize %></p>
+                                                <% } %>
+    
+                                                <% if (allWidths[i] !== 0 && allWidths[i].variantWidth !== undefined) { %>
+                                                <input class="d-none" name="color" value="<%= allWidths[i].valueWidth %>">
+                                                <p class="fs-6 text-muted">Width: <%= allWidths[i].variantWidth %></p>
+                                                <% } %>
                                             <div class="d-flex">
                                                 <input class="form-control form-control-sm" type="number" name="quantityProduct" min="1" value="<%= productsQuantities[i] %>">
                                                 <button class="btn btn-outline-secondary btn-sm col-3" formaction="/wishlist/changeQuantity/<%= wishlistVariantsId[i] %>" formmethod="post" type="submit">Change quantity</button>
@@ -120,12 +89,12 @@
                 <p class="mt-3">Check our products for <a href="/mens">Men</a> and <a href="/womens">Women</a> and refresh your looks!</p>
             </section>
             <% } %>
-        <% } else if (!token) { %>
-            <section class="pt-5 mt-5 text-center">
-                <h1>You are not signed in yet.</h1>
-                <p class="mt-3">Please <a href="/signin">Sign In</a> or <a href="/signup">Sign Up</a> to buy our items.</p>
-            </section>
-        <% } %>
+            <% } else if (!token) { %>
+                <section class="pt-5 mt-5 text-center">
+                    <h1>You are not signed in yet.</h1>
+                    <p class="mt-3">Please <a href="/signin">Sign In</a> or <a href="/signup">Sign Up</a> to buy our items.</p>
+                </section>
+            <% } %>
         </main>
         <footer class="footer">
             <div class="container text-center mt-5">

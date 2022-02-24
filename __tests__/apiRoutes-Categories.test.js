@@ -6,7 +6,6 @@ afterEach(() => {
     jest.useRealTimers();
   });
 
-
 describe('Main Categories', () => {
     jest.useFakeTimers('legacy');
 

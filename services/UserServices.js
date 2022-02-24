@@ -29,7 +29,6 @@ class UserServices extends Services {
             email: email,
             password: password
         }
-
         return data;
     }
 }

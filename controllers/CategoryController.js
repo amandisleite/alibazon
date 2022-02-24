@@ -6,16 +6,9 @@ class CategoryController {
         const category = req.params.category;
         const subcategories = ['clothing', 'accessories', 'jewelry'];
 
-        let parentResults = [];
-
         try {
             const main = await CategoriesServices.getDataMainCategories(category);
-            for (let eachCat of subcategories) {
-            const parentId = await CategoriesServices.getDataParentCategories(category, eachCat)
-                if (parentId.data !== undefined) {
-                  parentResults.push(parentId.data)
-                }
-            }
+            const parentResults = await CategoriesServices.getEachParentCategoryResult(category, subcategories);
             CategoriesServices.checkImage('', parentResults)
 
             res.render('parentCategory', {
@@ -30,24 +23,13 @@ class CategoryController {
     static async getAllSubCategories(req, res, next) {
         const { category, mainCategory } = req.params;
         const subcategories = ['clothing', 'accessories', 'jewelry'];
-
-        let subResults = [];
-        let parentResults = [];
-
+    
         try {
-            for (let subcat of subcategories) {
-              const sub = await CategoriesServices.getDataSubcategories(category, subcat)
-              subResults.push(sub.data)
-            }
-
-            const parentId = await CategoriesServices.getDataParentCategories(category, mainCategory)
-            parentResults.push(parentId.data)
-
+            const subResults = await CategoriesServices.getEachSubcategoryResult(category, subcategories)
+            const parentResults = await CategoriesServices.getEachParentCategoryResult(category, subcategories);
             CategoriesServices.checkImage(subResults, parentResults)
             let categoryIdWithProductError = await CategoriesServices.checkIfTheresProduct(subResults)
-            // CategoriesServices.checkSubcatId(subResults)
-
-            const idMainCategory = `${category}-${mainCategory}`
+            const idMainCategory = CategoriesServices.returnMainCategoryId(category, mainCategory)
             
             res.render('subcategory', {
                 subResults,
@@ -63,29 +45,17 @@ class CategoryController {
 
     static async getAllProducts(req, res, next) {
         const { category, mainCategory, idSubcategory } = req.params;
-        let subResults = [];
 
         try {
             const products = await CategoriesServices.getDataAllProducts(idSubcategory)
-            const sub = await CategoriesServices.getDataSpecificSubcategory(idSubcategory)
-            subResults.push(sub.data)
-            const subcat = subResults[0]
-                        
-            // const idMainCategory = `${category}-${mainCategory}`
-            let subcategory = idSubcategory.split('-')
-            if (subcategory.length === 2) {
-              subcategory = subcategory[1]
-            }
-            if (subcategory.length === 3) {
-              subcategory = subcategory[2]
-            }
+            const subcat = await CategoriesServices.getSpecificSubcategoryResult(idSubcategory)
+            const subcategory = CategoriesServices.checkSubcatNameId(idSubcategory)
 
             res.render('product', {
                 subcat,
                 products: products.data,
                 category,
                 mainCategory,
-                // idMainCategory,
                 subcategory,
                 idSubcategory
             })
@@ -97,85 +67,16 @@ class CategoryController {
         const { category, mainCategory, idSubcategory, idProduct } = req.params;
 
         try {
-            const productDetail = await CategoriesServices.getDataOneProduct(idProduct);
-            const idMainCategory = `${category}-${mainCategory}`
-            let subcategoryString = idSubcategory.split('-')
-            let subcategory = 0;
-            
-            if (subcategoryString.length === 2) {
-              subcategory = subcategoryString[1]
-            }
-            if (subcategoryString.length === 3) {
-              subcategory = subcategoryString[2]
-            }
-            if (subcategoryString.length === 4) {
-              subcategory = `${subcategoryString[2]} ${subcategoryString[3]}`
-            }
+            const idMainCategory = CategoriesServices.returnMainCategoryId(category, mainCategory)
+            const subcategory = CategoriesServices.checkSubcatNameId(idSubcategory)
+            const product = await CategoriesServices.getProductResult(idProduct);
 
-            const product = productDetail.data[0]
-            
-            let allVariantsColors = [];
-            let allVariantsSizes = [];
-            let allVariantsWidth = [];
-            let variantsColors = [];
-            let variantsSizes = [];
-            let variantsWidth = [];
-            
-            for (let variantionAttributes of product.variation_attributes) {
-                if (variantionAttributes.id === 'color') {
-                  for (let variant of product.variants) {
-                    for (let value of variantionAttributes.values) {
-                      if (variant.variation_values.color === value.value) {
-                        allVariantsColors.push({
-                          name: value.name,
-                          value: value.value
-                        })
-                      }
-                    }
-                  }
-                }
-
-                if (variantionAttributes.id === 'size') {
-                  for (let variant of product.variants) {
-                    for (let value of variantionAttributes.values) {
-                      if (variant.variation_values.size === value.value) {
-                        allVariantsSizes.push({
-                          name: value.name,
-                          value: value.value
-                        })
-                      }
-                    }
-                  }
-                }
-
-                if (variantionAttributes.id === 'width') {
-                  for (let variant of product.variants) {
-                    for (let value of variantionAttributes.values) {
-                      if (variant.variation_values.width === value.value) {
-                        allVariantsWidth.push({
-                          name: value.name,
-                          value: value.value
-                        })
-                      }
-                    }
-                  }
-                }
-            }
-
-            function removeDuplicatesObjects(arr, comp) {
-            const uniqueArray =  arr.map(e => e[comp])
-            .map((e, i, final) => final.indexOf(e) === i && i)
-           .filter((e) => arr[e]).map(e => arr[e]);
-            return uniqueArray;
-            }
-
-            variantsColors = removeDuplicatesObjects(allVariantsColors, 'value');
-            variantsSizes = removeDuplicatesObjects(allVariantsSizes, 'value');
-            variantsWidth = removeDuplicatesObjects(allVariantsWidth, 'value');
+            const variantsColors = CategoriesServices.getVariantColors(product)
+            const variantsSizes = CategoriesServices.getVariantSizes(product)
+            const variantsWidth = CategoriesServices.getVariantWidths(product)
 
             res.render('product-page', {
                 product,
-                
                 category,
                 mainCategory,
                 idMainCategory,
