@@ -28,38 +28,37 @@
                             <a href="/<%= category %>/<%= mainCategory %>"><%= mainCategory %></a>
                         </li>
                     </ul>
-                    </ul>
                     <div class="row row-cols-1 text-center mx-5">
                         <h2 class="fs-1 fw-bold text-uppercase"><%= category %> <%= mainCategory %></h2>
-                            <div>
-                                <% subResults.forEach((subcat) => { %>
-                                    <% subcat.forEach((sub) => { %>
-                                    <% if (idMainCategory === sub.parent_category_id) { %>
-                                    <% if (sub.id !== 'womens-outfits') { %>
-                                    <% if (sub.id !== categoryIdWithProductError) { %>
-                                        <div class="card my-4 border-0">
-                                            <% if (sub.image !== null) { %>
-                                                <img src="/images/<%= sub.image %>" alt="subcategory <%= sub.name %> image"> 
-                                            <% } %>
-                                            <% if (sub.image === null) { %>
-                                                <div class="d-flex justify-content-center">
-                                                    <p class="fs-1 fw-light text-uppercase"><%= category %></p>
-                                                    <p class="fs-1 fw-bold text-uppercase"><%= sub.name %></p>
-                                                </div>
-                                            <% } %>
-                                            <div class="card-body">
-                                                <p class="card-text"><%= sub.page_description %></p>
-                                                <form action="/<%= category %>/<%= mainCategory %>/<%= sub.id %>" method="get">
-                                                    <button class="btn btn-secondary col-3" type="submit">view products</button>
-                                                </form>
+                        <div>
+                            <% subResults.forEach((subcat) => { %>
+                                <% subcat.forEach((sub) => { %>
+                                <% if (idMainCategory === sub.parent_category_id) { %>
+                                <% if (sub.id !== 'womens-outfits') { %>
+                                <% if (sub.id !== categoryIdWithProductError) { %>
+                                    <div class="card my-4 border-0">
+                                        <% if (sub.image !== null) { %>
+                                            <img src="/images/<%= sub.image %>" alt="subcategory <%= sub.name %> image"> 
+                                        <% } %>
+                                        <% if (sub.image === null) { %>
+                                            <div class="d-flex justify-content-center">
+                                                <p class="fs-1 fw-light text-uppercase"><%= category %></p>
+                                                <p class="fs-1 fw-bold text-uppercase"><%= sub.name %></p>
                                             </div>
+                                        <% } %>
+                                        <div class="card-body">
+                                            <p class="card-text"><%= sub.page_description %></p>
+                                            <form action="/<%= category %>/<%= mainCategory %>/<%= sub.id %>" method="get">
+                                                <button class="btn btn-secondary col-3" type="submit">view products</button>
+                                            </form>
                                         </div>
-                                    <% } %>
-                                    <% } %>
-                                    <% } %>
-                                    <% }) %>
+                                    </div>
+                                <% } %>
+                                <% } %>
+                                <% } %>
                                 <% }) %>
-                            </div>
+                            <% }) %>
+                        </div>
                     </div>
                 <% } %>
             </div>

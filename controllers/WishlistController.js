@@ -1,4 +1,3 @@
-const { ItemAlreadyChosen, ItemOutOfStock } = require('../errors');
 const { WishlistServices, CategoriesServices, CartServices } = require('../services');
 
 class WishlistController {
@@ -40,19 +39,12 @@ class WishlistController {
 
         try {
             const product = await CategoriesServices.getDataOneProduct(idProduct);
-            const variantId = CartServices.discoveringVariantIt(item, product)
-            if (variantId !== 0) {   
-                const items = WishlistServices.wishlistItem(idProduct, variantId, '1')
-                const addItem = await WishlistServices.sendDataWishlist(items, req.cookies.token);
-                if (addItem.err) {
-                    throw new ItemAlreadyChosen();
-                }
+            const variantId = CartServices.discoveringVariantIt(item, product) 
+            const items = WishlistServices.wishlistItem(idProduct, variantId, '1')
+            const addItem = await WishlistServices.sendDataWishlist(items, req.cookies.token);
+            CartServices.checkIfItemAlreadyChosen(addItem);
+            res.redirect('/wishlist')
 
-                res.redirect('/wishlist')
-            } else {
-                throw new ItemOutOfStock();
-            }
-        
         } catch (err) { next(err) }
     }
 

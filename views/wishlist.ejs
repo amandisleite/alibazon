@@ -50,12 +50,12 @@
                                                     <% } %>
         
                                                     <% if (allSizes[i] !== 0 && allSizes[i].variantSize !== undefined) { %>
-                                                        <input class="d-none" name="color" value="<%= allSizes[i].valueSize %>">
+                                                        <input class="d-none" name="size" value="<%= allSizes[i].valueSize %>">
                                                         <p class="fs-6 text-muted">Size: <%= allSizes[i].variantSize %></p>
                                                     <% } %>
         
                                                     <% if (allWidths[i] !== 0 && allWidths[i].variantWidth !== undefined) { %>
-                                                        <input class="d-none" name="color" value="<%= allWidths[i].valueWidth %>">
+                                                        <input class="d-none" name="width" value="<%= allWidths[i].valueWidth %>">
                                                         <p class="fs-6 text-muted">Width: <%= allWidths[i].variantWidth %></p>
                                                     <% } %>
                                                     <div class="d-flex">

@@ -1,5 +1,5 @@
 const { UserServices } = require('../services');
-const { UserAlreadyExists } = require('../errors');
+const { UserAlreadyExists, CredentialsAreIncorrect } = require('../errors');
 
 class UserController {
   
@@ -26,6 +26,9 @@ class UserController {
 
         try {
             const userLogged = await UserServices.signIn(user)
+            if (userLogged === 'Request failed with status code 400') {
+                throw new CredentialsAreIncorrect();
+            }
             res.cookie('token', userLogged.data.token)
             res.redirect('/')     
         } catch (err) {

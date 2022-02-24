@@ -1,5 +1,8 @@
 const Services = require('./Services');
 const CategoriesServices = require('./CategoriesServices')
+const WishlistServices = require('./WishlistServices')
+
+const { ItemAlreadyChosen, ItemOutOfStock } = require('../errors');
 
 const api = process.env.API_URL;
 const secretKey = process.env.SECRET_KEY;
@@ -254,7 +257,28 @@ class CartServices extends Services {
             }
           }
         }
-        return variantId;
+        if (variantId === 0 ) {
+            throw new ItemOutOfStock();
+        } else {
+            return variantId;
+        }
+    }
+
+    static checkIfItemAlreadyChosen(addItem) {
+        if (addItem.err) {
+            throw new ItemAlreadyChosen();
+        } else {
+            return addItem;
+        }
+    }
+
+    static checkQuantityOfProduct(item) {
+        if (item.quantityProduct) {
+            return item.quantityProduct
+        } else {
+            item.quantityProduct = '1'
+        }
+        return item.quantityProduct;
     }
 
     static checkIfVariantIdMatch(allProducts, variantId) {
@@ -267,6 +291,12 @@ class CartServices extends Services {
             }
         }
         return productsIds;
+    }
+
+    static async checkIfRequestComesFromWishlist(path, idProduct, variantId, token) {
+        if (path.includes('wishlist')) {
+            await WishlistServices.sendItemToCartAndDeleteFromWishlist(idProduct, variantId, token)
+        }
     }
 }
 

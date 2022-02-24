@@ -1,4 +1,5 @@
 <!-- <% var errMessage, allOrders, totalPrice, allAddresses, allPaymentsIds %> -->
+<% var token = locals.token %>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -20,31 +21,39 @@
                         <a href="/order>">Order</a>
                     </li>
                 </ul>
+                <% if (token) { %>
                 <% if (!errMessage) { %>
                     <h1>Check your old orders</h1>
                     <% for (let i = 0; i < allOrders.length; i++) { %>
                         <div class="card mt-5">
                             <p class="card-header fs-5 fw-bold text-uppercase">Order <%= allPaymentsIds[i] %></p>
-                        <% var eachOrder = allOrders[i] %>
+                            <% const eachOrder = allOrders[i] %>
                             <% for (eachProduct of eachOrder) { %>
                                 <div class="card-body border-bottom">
                                     <p class="card-title my-0 text-muted">Product: <span class="fw-bold"><%= eachProduct.productName %></span></p>
                                     <p class="card-text my-0 text-muted">Quantiy: <span class="fw-bold"><%= eachProduct.quantity %></span></p>
                                     <p class="card-text my-0 text-muted">Price: <span class="fw-bold">USD <%= eachProduct.price.toFixed(2) %></span></p>
                                 </div>
-                                <% } %>
+                            <% } %>
                             <div class="card-footer">
                                 <p class="card-title my-0 text-muted">Delivery at <span class="fw-bold"><%= allAddresses[i] %></span></p>
                                 <p class="card-title my-0 text-muted">Total price: <span class="fw-bold"><%= totalPrice[i].toFixed(2) %></span></p>
                             </div>
                         </div>
                     <% } %>
+                <% } else { %>
+                    <section class="pt-5 mt-5 text-center">
+                        <h1><%= errMessage %></h1>
+                        <p class="mt-3">Check our products for <a href="/mens">Men</a> and <a href="/womens">Women</a> and refresh your looks!</p>
+                    </section>
+                <% } %>
+                <% } else if (!token) { %>
+                    <section class="pt-5 mt-5 text-center">
+                        <h1>You are not signed in yet.</h1>
+                        <p class="mt-3">Please <a href="/signin">Sign In</a> or <a href="/signup">Sign Up</a> to buy our items.</p>
+                    </section>
                 <% } %>
             </div>
-            <section class="pt-5 mt-5 text-center">
-                <h1><%= errMessage %></h1>
-                <p class="mt-3">Check our products for <a href="/mens">Men</a> and <a href="/womens">Women</a> and refresh your looks!</p>
-            </section>
         </main>
         <footer class="footer">
             <div class="container text-center mt-5">
