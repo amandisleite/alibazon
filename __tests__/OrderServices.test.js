@@ -43,4 +43,153 @@ describe('OrderServices', () => {
         const paymentId = OrderServices.createPaymentId(arr)
         expect(paymentId).toBe(3);  
     })
+
+    it('should be returning attribute data of object', () => {
+        const obj = {
+            data: 'hello'
+        }
+
+        const item = OrderServices.returnItemsFromRequest(obj)
+        expect(item).toBe('hello')
+    })
+
+    it('should get every payment id', () => {
+        const orders = [
+            {
+                items: [
+                    {
+                        variant: {
+                            variation_values: {
+                            },
+                            price: 145,
+                        },
+                        quantity: 3
+                    }
+                ],
+              address: "address",
+              paymentId: "1"
+            },
+            {
+                items: [
+                    {
+                        variant: {
+                            variation_values: {
+                            },
+                            price: 145,
+                        },
+                        quantity: 3
+                    }
+                ],
+              address: "address",
+              paymentId: "7"
+            },
+            {
+                items: [
+                    {
+                        variant: {
+                            variation_values: {
+                            },
+                            price: 145,
+                        },
+                        quantity: 3
+                    }
+                ],
+              address: "address",
+              paymentId: "10"
+            }
+        ]
+
+        const res = OrderServices.getOrderPaymentId(orders)
+        expect(res[2]).toEqual(['10'])
+    })
+
+    it('should get every address', () => {
+        const orders = [
+            {
+                items: [
+                    {
+                        variant: {
+                            variation_values: {
+                            },
+                            price: 145,
+                        },
+                        quantity: 3
+                    }
+                ],
+              address: "brazil",
+              paymentId: "1"
+            },
+            {
+                items: [
+                    {
+                        variant: {
+                            variation_values: {
+                            },
+                            price: 145,
+                        },
+                        quantity: 3
+                    }
+                ],
+                address: "turkey",
+                paymentId: "7"
+            },
+            {
+                items: [
+                    {
+                        variant: {
+                            variation_values: {
+                            },
+                            price: 145,
+                        },
+                        quantity: 3
+                    }
+                ],
+                address: "india",
+                paymentId: "10"
+            }
+        ]
+
+        const res = OrderServices.getOrderAddress(orders)
+        expect(res[1]).toEqual(['turkey'])
+    })
+
+    it('should get every order price', () => {
+        const orders = [
+            {
+              items: [
+                {
+                  variant: {
+                    variation_values: {
+                    },
+                    price: 145,
+                  },
+                  quantity: 3
+                }
+              ],
+            },
+            {
+              items: [
+                {
+                  variant: {
+                    price: 50,
+                  },
+                  quantity: 2
+                }
+              ],
+            },
+            {
+              items: [
+                {
+                  variant: {
+                    price: 38.60,
+                  },
+                  quantity: 7
+                }
+              ],
+            }
+        ]
+
+        const res = OrderServices.getOrderPrice(orders)
+        expect(res[0]).toEqual([435])
+    })
 })

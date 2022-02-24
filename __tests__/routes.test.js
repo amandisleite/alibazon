@@ -76,7 +76,6 @@ describe('Routes', () => {
             "userpassword": "123456"
         })
         const headers = Object.values(res.res.headers)
-        console.log(headers)
         const token = headers[1][0]
 
         expect(token).toContain('token')
