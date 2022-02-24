@@ -100,6 +100,17 @@ class CategoriesServices extends Services {
         }
     }
 
+    static checkIfThereIsVariantsOfProduct(product) {
+        const products = []
+        const productData = product.data
+        for (let eachProduct of productData) {
+            if (eachProduct.variants.length !== 0 || eachProduct.variation_attributes.length !== 0) {
+                products.push(eachProduct)
+            }
+        }
+        return products;
+    }
+
     static async getEachParentCategoryResult(category, subcategories) {
         const parentResults = [];
         for (let eachCat of subcategories) {

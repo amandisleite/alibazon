@@ -47,13 +47,14 @@ class CategoryController {
         const { category, mainCategory, idSubcategory } = req.params;
 
         try {
-            const products = await CategoriesServices.getDataAllProducts(idSubcategory)
+            const allProducts = await CategoriesServices.getDataAllProducts(idSubcategory)
+            const products = CategoriesServices.checkIfThereIsVariantsOfProduct(allProducts)
             const subcat = await CategoriesServices.getSpecificSubcategoryResult(idSubcategory)
             const subcategory = CategoriesServices.checkSubcatNameId(idSubcategory)
 
             res.render('product', {
                 subcat,
-                products: products.data,
+                products,
                 category,
                 mainCategory,
                 subcategory,
