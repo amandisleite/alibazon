@@ -1,3 +1,4 @@
+const { ItemAlreadyChosen, ItemOutOfStock } = require('../errors');
 const { CartServices, CategoriesServices, WishlistServices } = require('../services');
 
 class CartController {
@@ -41,19 +42,24 @@ class CartController {
             const product = await CategoriesServices.getDataOneProduct(idProduct);
             const variantId = CartServices.discoveringVariantIt(item, product)
 
-            if (req.headers.referer.includes('wishlist')) {
-            await WishlistServices.sendItemToCartAndDeleteFromWishlist(idProduct, item.variantId, req.cookies.token)
-            }
-            
-            let items = 0;
-            if (item.quantityProduct) {
-            items = CartServices.cartItem(idProduct, variantId, item.quantityProduct)
+            if (variantId !== 0) {
+                if (req.headers.referer.includes('wishlist')) {
+                await WishlistServices.sendItemToCartAndDeleteFromWishlist(idProduct, item.variantId, req.cookies.token)
+                }
+                let items = 0;
+                if (item.quantityProduct) {
+                items = CartServices.cartItem(idProduct, variantId, item.quantityProduct)
+                } else {
+                items = CartServices.cartItem(idProduct, variantId, '1')
+                }
+                const addItem = await CartServices.sendDataCart(items, req.cookies.token);
+                if (addItem.err) {
+                    throw new ItemAlreadyChosen();
+                }
+                res.redirect('/cart')
             } else {
-            items = CartServices.cartItem(idProduct, variantId, '1')
+                throw new ItemOutOfStock();
             }
-            await CartServices.sendDataCart(items, req.cookies.token);
-
-            res.redirect('/cart')
         
         } catch (err) { next(err) }
     }

@@ -24,77 +24,82 @@
                 </ul>
                 <% if (token) { %>
                 <% if (!errMessage) { %>
-                <% if (productList) { %>
-                <div class="col mx-auto mb-5">
-                    <div class="mx-5">
-                        <div>
-                            <% let itemColor = 0 %>
-                            <% let itemSize = 0 %>
-                            <% let itemWidth = 0 %>
-                            <% for (let i = 0; i < productList.length; i++) { %>
-                                <% const productData = productList[i][0] %>
-                                <div class= "row g-0 py-3 border-bottom">
-                                    <div class="col-md-5">
-                                        <% for (let eachImage of imagesLinks) { %>
-                                            <% if (productData.name === eachImage.nameProduct) { %>
-                                                <% if (eachImage.link !== 'undefined') { %>
-                                                    <img src="/images/<%= eachImage.link %>">
-                                                <% } else { %>
-                                                    <p class="fs-1 fw-light text-muted text-center px-5 py-5">Image not found of <%= productData.name %></p>
+                    <% if (productList) { %>
+                        <div class="col mx-auto mb-5">
+                            <div class="mx-5">
+                                <div>
+                                    <% for (let i = 0; i < productList.length; i++) { %>
+                                        <% const productData = productList[i][0] %>
+                                        <div class= "row g-0 py-3 border-bottom">
+                                            <div class="col-md-5">
+                                                <% const eachImage = imagesLinks[i] %>
+                                                <% if (productData.name === eachImage.nameProduct) { %>
+                                                    <% if (eachImage.link !== 'undefined') { %>
+                                                        <img src="/images/<%= eachImage.link %>">
+                                                    <% } else { %>
+                                                        <p class="fs-1 fw-light text-muted text-center px-5 py-5">Image not found of <%= productData.name %></p>
+                                                    <% } %>
                                                 <% } %>
-                                            <% } %>
-                                        <% } %>
-                                    </div>
-                                    <div class="col-md-7">
-                                        <form action="/cart/addItem/<%= productData.id %>" method="post">
-                                            <p class="fs-6 fw-bold"><%= productData.name %></p>
-                                            <% if (allColors[i] !== 0) { %>
-                                                <input class="d-none" name="color" value="<%= allColors[i].valueColor %>">
-                                                <p class="fs-6 text-muted">Color: <%= allColors[i].variantColor %></p>
-                                                <% } %>
-    
-                                                <% if (allSizes[i] !== 0 && allSizes[i].variantSize !== undefined) { %>
-                                                <input class="d-none" name="color" value="<%= allSizes[i].valueSize %>">
-                                                <p class="fs-6 text-muted">Size: <%= allSizes[i].variantSize %></p>
-                                                <% } %>
-    
-                                                <% if (allWidths[i] !== 0 && allWidths[i].variantWidth !== undefined) { %>
-                                                <input class="d-none" name="color" value="<%= allWidths[i].valueWidth %>">
-                                                <p class="fs-6 text-muted">Width: <%= allWidths[i].variantWidth %></p>
-                                                <% } %>
-                                            <div class="d-flex">
-                                                <input class="form-control form-control-sm" type="number" name="quantityProduct" min="1" value="<%= productsQuantities[i] %>">
-                                                <button class="btn btn-outline-secondary btn-sm col-3" formaction="/wishlist/changeQuantity/<%= wishlistVariantsId[i] %>" formmethod="post" type="submit">Change quantity</button>
                                             </div>
-                                            <p class="fs-6 text-muted mt-3">Price per item: USD <%= productData.price.toFixed(2) %></p>
-                                            <p class="fs-6 fw-bold text-muted">Total price: USD <%= (productData.price * productsQuantities[i]).toFixed(2) %></p>
-                                            <div class="d-flex justify-content-between align-items-center">
-                                                <input class="d-none" name="variantId" value="<%= wishlistVariantsId[i] %>">
-                                                <button class="btn btn-outline-secondary btn-sm" formaction="/wishlist/delete" formmethod="post" type="submit">Remove item</label>
-                                                <button class="btn btn-secondary btn-lg" type="submit">Add to cart</button>
-                                            </form>
+                                            <div class="col-md-7">
+                                                <form action="/cart/addItem/<%= productData.id %>" method="post">
+                                                    <p class="fs-6 fw-bold"><%= productData.name %></p>
+                                                    <% if (allColors[i] !== 0) { %>
+                                                        <input class="d-none" name="color" value="<%= allColors[i].valueColor %>">
+                                                        <p class="fs-6 text-muted">Color: <%= allColors[i].variantColor %></p>
+                                                    <% } %>
+        
+                                                    <% if (allSizes[i] !== 0 && allSizes[i].variantSize !== undefined) { %>
+                                                        <input class="d-none" name="color" value="<%= allSizes[i].valueSize %>">
+                                                        <p class="fs-6 text-muted">Size: <%= allSizes[i].variantSize %></p>
+                                                    <% } %>
+        
+                                                    <% if (allWidths[i] !== 0 && allWidths[i].variantWidth !== undefined) { %>
+                                                        <input class="d-none" name="color" value="<%= allWidths[i].valueWidth %>">
+                                                        <p class="fs-6 text-muted">Width: <%= allWidths[i].variantWidth %></p>
+                                                    <% } %>
+                                                    <div class="d-flex">
+                                                        <input class="form-control form-control-sm" type="number" name="quantityProduct" min="1" value="<%= productsQuantities[i] %>">
+                                                        <button class="btn btn-outline-secondary btn-sm col-3" formaction="/wishlist/changeQuantity/<%= wishlistVariantsId[i] %>" formmethod="post" type="submit">Change quantity</button>
+                                                    </div>
+                                                    <p class="fs-6 text-muted mt-3">Price per item: USD <%= productData.price.toFixed(2) %></p>
+                                                    <p class="fs-6 fw-bold text-muted">Total price: USD <%= (productData.price * productsQuantities[i]).toFixed(2) %></p>
+                                                    <div class="d-flex justify-content-between align-items-center">
+                                                        <input class="d-none" name="variantId" value="<%= wishlistVariantsId[i] %>">
+                                                        <button class="btn btn-outline-secondary btn-sm" formaction="/wishlist/delete" formmethod="post" type="submit">Remove item</label>
+                                                        <button class="btn btn-secondary btn-lg" type="submit">Add to cart</button>
+                                                    </div>
+                                                </form>
+                                            </div>
                                         </div>
-                                    </div>
+                                    <% } %>
                                 </div>
-                            <% } %>
+                            </div>
                         </div>
-                    </div>
-                </div>
-
+                    <% } %>
+                <% } else if (errMessage.includes('already')) { %>
+                    <section class="pt-5 mt-5 text-center">
+                        <h1><%= errMessage %></h1>
+                        <p class="mt-3">Check your <a href="/wishlist">Wishlist</a> and try change its quantity there.</p>
+                    </section>
+                <% } else if (errMessage.includes('stock')) { %>
+                    <section class="pt-5 mt-5 text-center">
+                        <h1><%= errMessage %></h1>
+                        <p class="mt-3">Check if our other <a href="/mens">Men</a> and <a href="/womens">Women</a> options may help you out.</p>
+                    </section>
+                <% } else { %>
+                    <section class="pt-5 mt-5 text-center">
+                        <h1>There are no items in your wishlist yet.</h1>
+                        <p class="mt-3">Check our products for <a href="/mens">Men</a> and <a href="/womens">Women</a> and refresh your looks!</p>
+                    </section>
+                <% } %>
+                <% } else if (!token) { %>
+                    <section class="pt-5 mt-5 text-center">
+                        <h1>You are not signed in yet.</h1>
+                        <p class="mt-3">Please <a href="/signin">Sign In</a> or <a href="/signup">Sign Up</a> to buy our items.</p>
+                    </section>
+                <% } %>
             </div>
-            <% } %>
-            <% } else { %>
-            <section class="pt-5 mt-5 text-center">
-                <h1>There are no items in your wishlist yet.</h1>
-                <p class="mt-3">Check our products for <a href="/mens">Men</a> and <a href="/womens">Women</a> and refresh your looks!</p>
-            </section>
-            <% } %>
-            <% } else if (!token) { %>
-                <section class="pt-5 mt-5 text-center">
-                    <h1>You are not signed in yet.</h1>
-                    <p class="mt-3">Please <a href="/signin">Sign In</a> or <a href="/signup">Sign Up</a> to buy our items.</p>
-                </section>
-            <% } %>
         </main>
         <footer class="footer">
             <div class="container text-center mt-5">

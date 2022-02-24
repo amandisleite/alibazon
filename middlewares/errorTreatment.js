@@ -1,11 +1,12 @@
-const { UserAlreadyExists, InvalidField, OrderNotAvailable } = require('../errors');
+const { UserAlreadyExists, InvalidField, OrderNotAvailable, ItemAlreadyChosen } = require('../errors');
 
 module.exports = (err, req, res, next) => {
     let status = 500;
   
     if (err instanceof UserAlreadyExists ||
         err instanceof InvalidField ||
-        err instanceof OrderNotAvailable) 
+        err instanceof OrderNotAvailable ||
+        err instanceof ItemAlreadyChosen) 
     {
         status = 400;
     }
@@ -13,6 +14,9 @@ module.exports = (err, req, res, next) => {
     let path = req.path.substring(1);
     if (path.includes('logout')) {
         path = 'index'
+    }
+    if (path.includes('wishlist')) {
+        path = 'wishlist'
     }
     if (path.includes('cart')) {
         path = 'cart'

@@ -50,7 +50,7 @@ class Services {
             });
             return request;
         } catch (err) {
-            return err.message;
+            return { err: err.message };
         }
     }
 
