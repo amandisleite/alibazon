@@ -46,7 +46,7 @@ class OrderServices extends Services {
 
     static createPaymentId(orders) {
         let paymentId = 0;
-        if (orders.data.length > 0) {
+        if (orders.data) {
             paymentId = orders.data.length
         } else {
             paymentId = 1;

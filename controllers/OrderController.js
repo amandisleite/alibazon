@@ -35,7 +35,7 @@ class OrderController {
 
     static async createOrder(req, res, next) {
         const address = req.body.address;
-
+        
         try {
             const cart = await CartServices.getDataCart(req.cookies.token);
             const cartProducts = CartServices.returnItemsFromRequest(cart);
