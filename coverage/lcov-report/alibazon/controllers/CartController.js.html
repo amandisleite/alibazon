@@ -23,16 +23,16 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">5.35% </span>
+                <span class="strong">4.08% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>3/56</span>
+                <span class='fraction'>2/49</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">0% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>0/8</span>
+                <span class='fraction'>0/0</span>
             </div>
         
             
@@ -44,9 +44,9 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">5.35% </span>
+                <span class="strong">4.08% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>3/56</span>
+                <span class='fraction'>2/49</span>
             </div>
         
             
@@ -148,22 +148,7 @@
 <a name='L83'></a><a href='#L83'>83</a>
 <a name='L84'></a><a href='#L84'>84</a>
 <a name='L85'></a><a href='#L85'>85</a>
-<a name='L86'></a><a href='#L86'>86</a>
-<a name='L87'></a><a href='#L87'>87</a>
-<a name='L88'></a><a href='#L88'>88</a>
-<a name='L89'></a><a href='#L89'>89</a>
-<a name='L90'></a><a href='#L90'>90</a>
-<a name='L91'></a><a href='#L91'>91</a>
-<a name='L92'></a><a href='#L92'>92</a>
-<a name='L93'></a><a href='#L93'>93</a>
-<a name='L94'></a><a href='#L94'>94</a>
-<a name='L95'></a><a href='#L95'>95</a>
-<a name='L96'></a><a href='#L96'>96</a>
-<a name='L97'></a><a href='#L97'>97</a>
-<a name='L98'></a><a href='#L98'>98</a>
-<a name='L99'></a><a href='#L99'>99</a>
-<a name='L100'></a><a href='#L100'>100</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">7x</span>
-<span class="cline-any cline-yes">7x</span>
+<a name='L86'></a><a href='#L86'>86</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -205,25 +190,12 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -260,9 +232,8 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">7x</span>
-<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">const { ItemAlreadyChosen, ItemOutOfStock } = require('../errors');
-const { CartServices, CategoriesServices, WishlistServices } = require('../services');
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">const { CartServices, CategoriesServices } = require('../services');
 &nbsp;
 class CartController {
     
@@ -304,26 +275,13 @@ class CartController {
 <span class="cstat-no" title="statement not covered" >        try {</span>
             const product = <span class="cstat-no" title="statement not covered" >await CategoriesServices.getDataOneProduct(idProduct);</span>
             const variantId = <span class="cstat-no" title="statement not covered" >CartServices.discoveringVariantIt(item, product)</span>
+<span class="cstat-no" title="statement not covered" >            await CartServices.checkIfRequestComesFromWishlist(req.headers.referer, idProduct, item.variantId, req.cookies.token)</span>
+            const quantity = <span class="cstat-no" title="statement not covered" >CartServices.checkQuantityOfProduct(item)</span>
+            const items = <span class="cstat-no" title="statement not covered" >CartServices.cartItem(idProduct, variantId, quantity)</span>
+            const addItem = <span class="cstat-no" title="statement not covered" >await CartServices.sendDataCart(items, req.cookies.token);</span>
+<span class="cstat-no" title="statement not covered" >            CartServices.checkIfItemAlreadyChosen(addItem)</span>
+<span class="cstat-no" title="statement not covered" >            res.redirect('/cart')</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >            if (variantId !== 0) {</span>
-<span class="cstat-no" title="statement not covered" >                if (req.headers.referer.includes('wishlist')) {</span>
-<span class="cstat-no" title="statement not covered" >                await WishlistServices.sendItemToCartAndDeleteFromWishlist(idProduct, item.variantId, req.cookies.token)</span>
-                }
-                let items = <span class="cstat-no" title="statement not covered" >0;</span>
-<span class="cstat-no" title="statement not covered" >                if (item.quantityProduct) {</span>
-<span class="cstat-no" title="statement not covered" >                items = CartServices.cartItem(idProduct, variantId, item.quantityProduct)</span>
-                } else {
-<span class="cstat-no" title="statement not covered" >                items = CartServices.cartItem(idProduct, variantId, '1')</span>
-                }
-                const addItem = <span class="cstat-no" title="statement not covered" >await CartServices.sendDataCart(items, req.cookies.token);</span>
-<span class="cstat-no" title="statement not covered" >                if (addItem.err) {</span>
-<span class="cstat-no" title="statement not covered" >                    throw new ItemAlreadyChosen();</span>
-                }
-<span class="cstat-no" title="statement not covered" >                res.redirect('/cart')</span>
-            } else {
-<span class="cstat-no" title="statement not covered" >                throw new ItemOutOfStock();</span>
-            }
-        
         } catch (err) { <span class="cstat-no" title="statement not covered" >next(err) </span>}
     }
 &nbsp;
@@ -367,7 +325,7 @@ module.exports = CartController;
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at Thu Feb 24 2022 14:33:30 GMT-0300 (Horário Padrão de Brasília)
+                at Thu Feb 24 2022 16:19:55 GMT-0300 (Horário Padrão de Brasília)
             </div>
         <script src="../../prettify.js"></script>
         <script>

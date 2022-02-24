@@ -80,5 +80,4 @@ describe('Routes', () => {
 
         expect(token).toContain('token')
     })
-
 })
