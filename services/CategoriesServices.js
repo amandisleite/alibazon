@@ -169,7 +169,7 @@ class CategoriesServices extends Services {
     static getVariantColors(product) {
         const allVariantsColors = [];
         for (let variantionAttributes of product.variation_attributes) {
-            if (variantionAttributes.id === 'color') {
+            if (variantionAttributes.name === 'color'  || variantionAttributes.name === 'Color') {
                 for (let variant of product.variants) {
                     for (let value of variantionAttributes.values) {
                         if (variant.variation_values.color === value.value) {
@@ -189,10 +189,10 @@ class CategoriesServices extends Services {
     static getVariantSizes(product) {
         const allVariantsSizes = [];
         for (let variantionAttributes of product.variation_attributes) {
-            if (variantionAttributes.id === 'size') {
+            if (variantionAttributes.name === 'size' || variantionAttributes.name === 'Size') {
                 for (let variant of product.variants) {
                     for (let value of variantionAttributes.values) {
-                        if (variant.variation_values.size === value.value) {
+                        if (variant.variation_values.size === value.value || variant.variation_values.accessorySize === value.value) {
                             allVariantsSizes.push({
                             name: value.name,
                             value: value.value
@@ -209,7 +209,7 @@ class CategoriesServices extends Services {
     static getVariantWidths(product) {
         const allVariantsWidths = [];
         for (let variantionAttributes of product.variation_attributes) {
-            if (variantionAttributes.id === 'width') {
+            if (variantionAttributes.name === 'width'  || variantionAttributes.name === 'Width') {
                 for (let variant of product.variants) {
                     for (let value of variantionAttributes.values) {
                         if (variant.variation_values.width === value.value) {

@@ -38,7 +38,6 @@ class CartController {
     static async addItemToCart(req, res, next) {
         const item = req.body;
         const { idProduct } = req.params;
-        
         try {
             const product = await CategoriesServices.getDataOneProduct(idProduct);
             const variantId = CartServices.discoveringVariantIt(item, product)
@@ -53,34 +52,34 @@ class CartController {
     }
 
     static async deleteItemFromCart(req, res, next) {
-      const variantId = req.body.variantId;
+        const variantId = req.body.variantId;
 
-      try {
-        const cart = await CartServices.getDataCart(req.cookies.token);
-        const cartProducts = CartServices.returnItemsFromRequest(cart);
-        const cartProductId = CartServices.checkIfVariantIdMatch(cartProducts, variantId);
-        const itemToBeDeleted = CartServices.deleteCartItem(cartProductId[0], variantId)
-        await CartServices.deleteDataCart(itemToBeDeleted, req.cookies.token);
+        try {
+            const cart = await CartServices.getDataCart(req.cookies.token);
+            const cartProducts = CartServices.returnItemsFromRequest(cart);
+            const cartProductId = CartServices.checkIfVariantIdMatch(cartProducts, variantId);
+            const itemToBeDeleted = CartServices.deleteCartItem(cartProductId[0], variantId)
+            await CartServices.deleteDataCart(itemToBeDeleted, req.cookies.token);
 
-        res.redirect('/cart')
-      
-      } catch (err) { next(err) }
+            res.redirect('/cart')
+        
+        } catch (err) { next(err) }
     }
 
     static async changeQuantityOfItemFromCart(req, res, next) {
-      const variantId = req.params.idVariant;
-      const quantity = req.body.quantity;
+        const variantId = req.params.idVariant;
+        const quantity = req.body.quantity;
 
-      try {
-        const cart = await CartServices.getDataCart(req.cookies.token);
-        const cartProducts = CartServices.returnItemsFromRequest(cart);
-        const cartProductId = CartServices.checkIfVariantIdMatch(cartProducts, variantId);
-        const itemToBeChanged = CartServices.cartItem(cartProductId[0], variantId, quantity)
-        await CartServices.changeQuantityCart(itemToBeChanged, req.cookies.token);
+        try {
+            const cart = await CartServices.getDataCart(req.cookies.token);
+            const cartProducts = CartServices.returnItemsFromRequest(cart);
+            const cartProductId = CartServices.checkIfVariantIdMatch(cartProducts, variantId);
+            const itemToBeChanged = CartServices.cartItem(cartProductId[0], variantId, quantity)
+            await CartServices.changeQuantityCart(itemToBeChanged, req.cookies.token);
 
-        res.redirect('/cart')
-      
-      } catch (err) { next(err) }
+            res.redirect('/cart')
+        
+        } catch (err) { next(err) }
     }
 }
    

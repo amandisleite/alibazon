@@ -44,60 +44,66 @@ class CartServices extends Services {
     }
 
     static checkIfVariantImageExists(listOfVariantsIds, listOfProducts, listOfColorsOfProducts) {
-        const namesProducts = []
-        let namesProductsWithoutRepeat = []
         const imagesLinks = [];
+        const list = []
 
         for (let i = 0; i < listOfVariantsIds.length; i++) {
             let product = listOfProducts[i]
             let nameProduct = product[0].name
             for (let image of product[0].image_groups) {
-                if (image.view_type === 'large') {
-                    if (image.images[0].alt.includes(nameProduct)) {
-                        namesProducts.push(nameProduct)
-                        namesProductsWithoutRepeat = [...new Set(namesProducts)]
-                        if (image.variation_value === listOfColorsOfProducts[i].color) {
-                            imagesLinks.push({
-                                nameProduct: nameProduct,
-                                link: image.images[0].link
-                            })
-                        } 
-                    }
-                } 
-            }
-        }
-        
-        const numberOfVariants = listOfVariantsIds.length
-        const numberOfImagesWithLink = imagesLinks.length
-        const numberOfImagesWithoutLink = numberOfVariants - numberOfImagesWithLink
-
-        if (numberOfImagesWithLink !== 0) {
-            let imagesWithLinks = []
-            let imagesWithoutLink = []
-            for (let eachImage of imagesLinks) {
-                imagesWithLinks.push(eachImage.nameProduct)
-                imagesWithLinks = [...new Set(imagesWithLinks)]
-                imagesWithoutLink = namesProductsWithoutRepeat.filter(val => !imagesWithLinks.includes(val));
-            }
-            for (let eachImageWithoutLink of imagesWithoutLink) {
-                const originalIndex = namesProductsWithoutRepeat.indexOf(eachImageWithoutLink)
-                const newImage = {
-                    nameProduct: eachImageWithoutLink,
-                    link: 'undefined'
-                }
-                imagesLinks.splice(originalIndex, 0, newImage)
-            }
-        } else {
-            for (let j = 0; j < numberOfImagesWithoutLink; j++) {
-                imagesLinks.push({
-                    nameProduct: namesProductsWithoutRepeat[j],
-                    link: 'undefined'
+                list.push({
+                    image: image,
+                    nameProduct: nameProduct,
+                    color: listOfColorsOfProducts[i].color,
+                    variantId: listOfVariantsIds[i]
                 })
             }
         }
-
-        return imagesLinks;
+        for (let j = 0; j < list.length; j++) {
+            const eachImage = list[j]
+            if (eachImage.image.view_type === 'large') {
+                if (eachImage.image.variation_value === eachImage.color) {
+                    imagesLinks.push({
+                        nameProduct: eachImage.nameProduct,
+                        link: eachImage.image.images[0].link,
+                        color: eachImage.color,
+                        variantId: eachImage.variantId
+                    })
+                } else if (eachImage.image.variation_value === eachImage.variantId) {
+                    imagesLinks.push({
+                        nameProduct: eachImage.nameProduct,
+                        link: eachImage.image.images[0].link,
+                        color: eachImage.color,
+                        variantId: eachImage.variantId
+                    })
+                } else if (eachImage.image.images[0].link.includes(eachImage.variantId)) {
+                    imagesLinks.push({
+                        nameProduct: eachImage.nameProduct,
+                        link: eachImage.image.images[0].link,
+                        color: eachImage.color,
+                        variantId: eachImage.variantId
+                    })
+                } else if (eachImage.image.images[0].link.includes(eachImage.color)) {
+                    imagesLinks.push({
+                        nameProduct: eachImage.nameProduct,
+                        link: eachImage.image.images[0].link,
+                        color: eachImage.color,
+                        variantId: eachImage.variantId
+                    })
+                } else {
+                    imagesLinks.push({
+                        nameProduct: eachImage.nameProduct,
+                        link: eachImage.image.images[0].link,
+                        color: eachImage.color.color,
+                        variantId: eachImage.variantId
+                    })
+                }
+            } 
+        }
+        const newimagesLinks = CategoriesServices.removeDuplicatesObjects(imagesLinks, 'variantId');
+        return newimagesLinks;
     }
+
 
     static totalPrice(prices) {
         let totalPrice = 0;
@@ -172,11 +178,19 @@ class CartServices extends Services {
         const colorProducts = [];
         for (let eachProduct of allProducts) {
             const variantId = eachProduct.variant.product_id
-            const colorProduct = eachProduct.variant.variation_values.color
-            colorProducts.push({
-                color: colorProduct,
-                variantId: variantId
-              })
+            if (eachProduct.variant.variation_values) {
+                const colorProduct = eachProduct.variant.variation_values.color
+                colorProducts.push({
+                    color: colorProduct,
+                    variantId: variantId
+                  })
+            } 
+            if (!eachProduct.variant.variation_values) {
+                colorProducts.push({
+                    color: 'undefined',
+                    variantId: variantId
+                  })
+            }
         }
         return colorProducts;
     }
@@ -220,7 +234,7 @@ class CartServices extends Services {
                 if (variant.product_id === variantsId[i]) {
                     itemVariantSize = variant.variation_values.size
                     for (let attributes of productData.variation_attributes) {
-                        if (attributes.id === 'size') {
+                        if (attributes.name === 'size' || attributes.name === 'Size') {
                             for (let values of attributes.values) {
                                 if (values.value === itemVariantSize) {
                                     itemVariantSize = values.name
@@ -270,7 +284,6 @@ class CartServices extends Services {
 
     static discoveringVariantIt(item, product) {
         let variantId = 0
-
         const productData = product.data[0]
         const productVariants = productData.variants
         for (let variant of productVariants) {
@@ -278,8 +291,13 @@ class CartServices extends Services {
             if (item.color) {
                 if (item.color === values.color && item.size === values.size && item.width === values.width) {
                     variantId = variant.product_id
+                }
             }
-          }
+            if (!item.color) {
+                if (item.size === values.size || item.size === values.accessorySize && item.width === values.width) {
+                    variantId = variant.product_id
+                }
+            }
         }
         if (variantId === 0 ) {
             throw new ItemOutOfStock();

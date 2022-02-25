@@ -12,7 +12,7 @@ describe('CartServices', () => {
         expect(cart.productId).toBe('25594785');
     })
 
-    it('should be creating link undefined for product without variantion image', () => {
+    it('should be returning first link of image for product without variantion image', () => {
         const productList = require('./factories/productList')
         
         const colorProducts = [
@@ -23,7 +23,7 @@ describe('CartServices', () => {
         const variantsIds = [ '883360544250', '701643843442', '793775370033-1-1' ]
 
         const imagesLinks = CartServices.checkIfVariantImageExists(variantsIds, productList, colorProducts)
-        expect(imagesLinks[2].link).toBe('undefined')
+        expect(imagesLinks[2].link).toBe("products/large/PG.949114314S.REDSI.PZ.jpg")
     
     })
 

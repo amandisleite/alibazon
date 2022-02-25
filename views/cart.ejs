@@ -42,7 +42,7 @@
                                             </div>
                                             <div class="col-md-7">
                                                 <p class="fs-6 fw-bold"><%= productNames[i] %></p>
-                                                    <% if (allColors[i] !== 0) { %>
+                                                    <% if (allColors[i] !== 0 && allColors[i].variantColor !== undefined) { %>
                                                     <p class="fs-6 text-muted">Color: <%= allColors[i].variantColor %></p>
                                                     <% } %>
 
