@@ -18,7 +18,7 @@ class UserServices extends Services {
 
     static async signIn(email, password) {
         const user = this.loginUser(email, password);
-        const userLogged = Services.sendData(`${api}auth/signin`, user)
+        const userLogged = await Services.sendData(`${api}auth/signin`, user)
         if (userLogged === 'Request failed with status code 400') {
             throw new CredentialsAreIncorrect();
         } else {
