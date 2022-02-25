@@ -5,7 +5,6 @@ class CartController {
     static async getCart(req, res, next) {
         try {
             const cart = await CartServices.getDataCart(req.cookies.token);
-
             const cartProducts = CartServices.returnItemsFromRequest(cart);
             const cartProductsId = CartServices.getProductsIds(cartProducts);
             const cartVariantsId = CartServices.getVariantsIds(cartProducts);
@@ -13,6 +12,7 @@ class CartController {
             const productsPrices = CartServices.getPrices(cartProducts);
             const colorProducts = CartServices.getColorOfProducts(cartProducts);
             const productList = await CartServices.getProductsByProductsIds(cartProductsId);
+            const productNames = await CartServices.getProductsNames(cartProductsId);
             const allColors = CartServices.getVariantColorInfo(productList, cartVariantsId)
             const allSizes = CartServices.getVariantSizeInfo(productList, cartVariantsId)
             const allWidths = CartServices.getVariantWidthInfo(productList, cartVariantsId)
@@ -27,7 +27,9 @@ class CartController {
                 imagesLinks,
                 allColors,
                 allSizes,
-                allWidths
+                allWidths,
+                productNames,
+                productsPrices
             })
         
         } catch (err) { next(err) }

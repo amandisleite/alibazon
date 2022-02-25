@@ -1,4 +1,4 @@
-<!-- <% var errMessage, productList, productsQuantities, totalPrice, cartVariantsId, imagesLinks, allColors, allSizes, allWidths %> -->
+<!-- <% var errMessage, productList, productsQuantities, totalPrice, cartVariantsId, imagesLinks, allColors, allSizes, allWidths, productNames, productsPrices %> -->
 <% var token = locals.token %>
 
 <!DOCTYPE html>
@@ -29,20 +29,19 @@
                             <div class="mx-5">
                                 <div>
                                     <% for (let i = 0; i < productList.length; i++) { %>
-                                        <% const productData = productList[i][0] %>
                                         <div class= "row g-0 py-3 border-bottom">
                                             <div class="col-md-5">
                                                 <% const eachImage = imagesLinks[i] %>
-                                                <% if (productData.name === eachImage.nameProduct) { %>
+                                                <% if (productNames[i] === eachImage.nameProduct) { %>
                                                     <% if (eachImage.link !== 'undefined') { %>
                                                         <img src="/images/<%= eachImage.link %>">
                                                     <% } else { %>
-                                                        <p class="fs-1 fw-light text-muted text-center px-5 py-5">Image not found of <%= productData.name %></p>
+                                                        <p class="fs-1 fw-light text-muted text-center px-5 py-5">Image not found of <%= productNames[i] %></p>
                                                     <% } %>
                                                 <% } %>
                                             </div>
                                             <div class="col-md-7">
-                                                <p class="fs-6 fw-bold"><%= productData.name %></p>
+                                                <p class="fs-6 fw-bold"><%= productNames[i] %></p>
                                                     <% if (allColors[i] !== 0) { %>
                                                     <p class="fs-6 text-muted">Color: <%= allColors[i].variantColor %></p>
                                                     <% } %>
@@ -60,8 +59,8 @@
                                                         <button class="btn btn-outline-secondary btn-sm col-3" type="submit">Change quantity</button>
                                                     </div>
                                                 </form>
-                                                <p class="fs-6 text-muted mt-3">Price per item: USD <%= productData.price.toFixed(2) %></p>
-                                                <p class="fs-6 fw-bold text-muted">Total price: USD <%= (productData.price * productsQuantities[i]).toFixed(2) %></p>
+                                                <p class="fs-6 text-muted mt-3">Price per item: USD <%= productsPrices[i].toFixed(2) %></p>
+                                                <p class="fs-6 fw-bold text-muted">Total price: USD <%= (productsPrices[i] * productsQuantities[i]).toFixed(2) %></p>
                                                 <form action="/cart/delete" method="post">
                                                     <input class="d-none" name="variantId" value="<%= cartVariantsId[i] %>">
                                                     <button class="btn btn-outline-secondary btn-sm col-3" type="submit">Remove item</label>

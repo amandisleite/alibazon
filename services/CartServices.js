@@ -66,19 +66,34 @@ class CartServices extends Services {
                 } 
             }
         }
+        
+        const numberOfVariants = listOfVariantsIds.length
+        const numberOfImagesWithLink = imagesLinks.length
+        const numberOfImagesWithoutLink = numberOfVariants - numberOfImagesWithLink
 
-        let imagesWithLinks = []
-        let imagesWithoutLink = []
-        for (let eachImage of imagesLinks) {
-            imagesWithLinks.push(eachImage.nameProduct)
-            imagesWithLinks = [...new Set(imagesWithLinks)]
-            imagesWithoutLink = namesProductsWithoutRepeat.filter(val => !imagesWithLinks.includes(val));
-        }
-        for (let eachImageWithoutLink of imagesWithoutLink) {
-            imagesLinks.push({
-                nameProduct: eachImageWithoutLink,
-                link: 'undefined'
-            })
+        if (numberOfImagesWithLink !== 0) {
+            let imagesWithLinks = []
+            let imagesWithoutLink = []
+            for (let eachImage of imagesLinks) {
+                imagesWithLinks.push(eachImage.nameProduct)
+                imagesWithLinks = [...new Set(imagesWithLinks)]
+                imagesWithoutLink = namesProductsWithoutRepeat.filter(val => !imagesWithLinks.includes(val));
+            }
+            for (let eachImageWithoutLink of imagesWithoutLink) {
+                const originalIndex = namesProductsWithoutRepeat.indexOf(eachImageWithoutLink)
+                const newImage = {
+                    nameProduct: eachImageWithoutLink,
+                    link: 'undefined'
+                }
+                imagesLinks.splice(originalIndex, 0, newImage)
+            }
+        } else {
+            for (let j = 0; j < numberOfImagesWithoutLink; j++) {
+                imagesLinks.push({
+                    nameProduct: namesProductsWithoutRepeat[j],
+                    link: 'undefined'
+                })
+            }
         }
 
         return imagesLinks;
@@ -99,6 +114,15 @@ class CartServices extends Services {
             productList.push(product.data)
         }
         return productList;
+    }
+
+    static async getProductsNames(productsIds) {
+        const productsNames = [];
+        for (let productId of productsIds) {
+            const product = await CategoriesServices.getDataOneProduct(productId);
+            productsNames.push(product.data[0].name)
+        }
+        return productsNames;
     }
 
     static returnItemsFromRequest(request) {
