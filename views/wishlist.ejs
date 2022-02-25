@@ -1,4 +1,4 @@
-<!-- <% var errMessage, productList, productsQuantities, totalPrice, wishlistVariantsId, imagesLinks, allColors, allSizes, allWidths %> -->
+<!-- <% var errMessage, productList, productsQuantities, totalPrice, wishlistVariantsId, imagesLinks, allColors, allSizes, allWidths, productNames %> -->
 <% var token = locals.token %>
 
 <!DOCTYPE html>
@@ -33,7 +33,7 @@
                                         <div class= "row g-0 py-3 border-bottom">
                                             <div class="col-md-5">
                                                 <% const eachImage = imagesLinks[i] %>
-                                                <% if (productData.name === eachImage.nameProduct) { %>
+                                                <% if (productNames[i] === eachImage.nameProduct) { %>
                                                     <% if (eachImage.link !== 'undefined') { %>
                                                         <img src="/images/<%= eachImage.link %>">
                                                     <% } else { %>
@@ -43,7 +43,7 @@
                                             </div>
                                             <div class="col-md-7">
                                                 <form action="/cart/addItem/<%= productData.id %>" method="post">
-                                                    <p class="fs-6 fw-bold"><%= productData.name %></p>
+                                                    <p class="fs-6 fw-bold"><%= productNames[i] %></p>
                                                     <% if (allColors[i] !== 0) { %>
                                                         <input class="d-none" name="color" value="<%= allColors[i].valueColor %>">
                                                         <p class="fs-6 text-muted">Color: <%= allColors[i].variantColor %></p>

@@ -28,8 +28,7 @@ class CartController {
                 allColors,
                 allSizes,
                 allWidths,
-                productNames,
-                productsPrices
+                productNames
             })
         
         } catch (err) { next(err) }

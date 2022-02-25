@@ -1,4 +1,4 @@
-<!-- <% var errMessage, productList, productsQuantities, totalPrice, cartVariantsId, imagesLinks, allColors, allSizes, allWidths, productNames, productsPrices %> -->
+<!-- <% var errMessage, productList, productsQuantities, totalPrice, cartVariantsId, imagesLinks, allColors, allSizes, allWidths, productNames %> -->
 <% var token = locals.token %>
 
 <!DOCTYPE html>
@@ -29,6 +29,7 @@
                             <div class="mx-5">
                                 <div>
                                     <% for (let i = 0; i < productList.length; i++) { %>
+                                        <% const productData = productList[i][0] %>
                                         <div class= "row g-0 py-3 border-bottom">
                                             <div class="col-md-5">
                                                 <% const eachImage = imagesLinks[i] %>
@@ -59,8 +60,8 @@
                                                         <button class="btn btn-outline-secondary btn-sm col-3" type="submit">Change quantity</button>
                                                     </div>
                                                 </form>
-                                                <p class="fs-6 text-muted mt-3">Price per item: USD <%= productsPrices[i].toFixed(2) %></p>
-                                                <p class="fs-6 fw-bold text-muted">Total price: USD <%= (productsPrices[i] * productsQuantities[i]).toFixed(2) %></p>
+                                                <p class="fs-6 text-muted mt-3">Price per item: USD <%= productData.price.toFixed(2) %></p>
+                                                <p class="fs-6 fw-bold text-muted">Total price: USD <%= (productData.price * productsQuantities[i]).toFixed(2) %></p>
                                                 <form action="/cart/delete" method="post">
                                                     <input class="d-none" name="variantId" value="<%= cartVariantsId[i] %>">
                                                     <button class="btn btn-outline-secondary btn-sm col-3" type="submit">Remove item</label>

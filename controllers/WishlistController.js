@@ -5,7 +5,6 @@ class WishlistController {
     static async getWishlist(req, res, next) {
         try {
             const wishlist = await WishlistServices.getDataWishlist(req.cookies.token);
-            
             const wishlistProducts = CartServices.returnItemsFromRequest(wishlist);
             const wishlistProductsId = CartServices.getProductsIds(wishlistProducts);
             const wishlistVariantsId = CartServices.getVariantsIds(wishlistProducts);
@@ -13,6 +12,7 @@ class WishlistController {
             const productsPrices = CartServices.getPrices(wishlistProducts);
             const colorProducts = CartServices.getColorOfProducts(wishlistProducts);
             const productList = await CartServices.getProductsByProductsIds(wishlistProductsId);
+            const productNames = await CartServices.getProductsNames(wishlistProductsId);
             const allColors = CartServices.getVariantColorInfo(productList, wishlistVariantsId)
             const allSizes = CartServices.getVariantSizeInfo(productList, wishlistVariantsId)
             const allWidths = CartServices.getVariantWidthInfo(productList, wishlistVariantsId)
@@ -27,7 +27,8 @@ class WishlistController {
                 imagesLinks,
                 allColors,
                 allSizes,
-                allWidths
+                allWidths,
+                productNames
             })
             
         } catch (err) { next(err) }

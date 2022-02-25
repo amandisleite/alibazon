@@ -23,16 +23,16 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">89.25% </span>
+                <span class="strong">92.56% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>108/121</span>
+                <span class='fraction'>112/121</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">71.73% </span>
+                <span class="strong">81.48% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>33/46</span>
+                <span class='fraction'>44/54</span>
             </div>
         
             
@@ -44,9 +44,9 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">89.07% </span>
+                <span class="strong">92.43% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>106/119</span>
+                <span class='fraction'>110/119</span>
             </div>
         
             
@@ -491,10 +491,10 @@
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">3x</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-yes">24x</span>
+<span class="cline-any cline-yes">6x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -528,10 +528,10 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">21x</span>
+<span class="cline-any cline-yes">21x</span>
+<span class="cline-any cline-yes">21x</span>
 <span class="cline-any cline-yes">7x</span>
-<span class="cline-any cline-yes">7x</span>
-<span class="cline-any cline-yes">7x</span>
-<span class="cline-any cline-yes">6x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -706,7 +706,7 @@ class CategoriesServices extends Services {
     static getVariantColors(product) {
         const allVariantsColors = [];
         for (let variantionAttributes of product.variation_attributes) {
-            if (variantionAttributes.id === 'color') {
+            if (variantionAttributes.name === 'color'  || variantionAttributes.name === 'Color') {
                 for (let variant of product.variants) {
                     for (let value of variantionAttributes.values) {
                         if (variant.variation_values.color === value.value) {
@@ -726,11 +726,11 @@ class CategoriesServices extends Services {
     static getVariantSizes(product) {
         const allVariantsSizes = [];
         for (let variantionAttributes of product.variation_attributes) {
-            <span class="missing-if-branch" title="if path not taken" >I</span>if (variantionAttributes.id === 'size') {
-<span class="cstat-no" title="statement not covered" >                for (let variant of product.variants) {</span>
-<span class="cstat-no" title="statement not covered" >                    for (let value of variantionAttributes.values) {</span>
-<span class="cstat-no" title="statement not covered" >                        if (variant.variation_values.size === value.value) {</span>
-<span class="cstat-no" title="statement not covered" >                            allVariantsSizes.push({</span>
+            if (variantionAttributes.name === 'size' || variantionAttributes.name === 'Size') {
+                for (let variant of product.variants) {
+                    for (let value of variantionAttributes.values) {
+                        if (variant.variation_values.size === value.value || variant.variation_values.accessorySize === value.value) {
+                            allVariantsSizes.push({
                             name: value.name,
                             value: value.value
                             })
@@ -746,7 +746,7 @@ class CategoriesServices extends Services {
     static getVariantWidths(product) {
         const allVariantsWidths = [];
         for (let variantionAttributes of product.variation_attributes) {
-            <span class="missing-if-branch" title="if path not taken" >I</span>if (variantionAttributes.id === 'width') {
+            <span class="missing-if-branch" title="if path not taken" >I</span>if (variantionAttributes.name === 'width'  || variantionAttributes.name === 'Width') {
 <span class="cstat-no" title="statement not covered" >                for (let variant of product.variants) {</span>
 <span class="cstat-no" title="statement not covered" >                    for (let value of variantionAttributes.values) {</span>
 <span class="cstat-no" title="statement not covered" >                        if (variant.variation_values.width === value.value) {</span>
@@ -778,7 +778,7 @@ module.exports = CategoriesServices;</pre></td></tr></table></pre>
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at Fri Feb 25 2022 09:05:16 GMT-0300 (Horário Padrão de Brasília)
+                at Fri Feb 25 2022 10:35:47 GMT-0300 (Horário Padrão de Brasília)
             </div>
         <script src="../../prettify.js"></script>
         <script>

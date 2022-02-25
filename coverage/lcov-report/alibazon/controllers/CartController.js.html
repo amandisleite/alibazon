@@ -149,8 +149,7 @@
 <a name='L84'></a><a href='#L84'>84</a>
 <a name='L85'></a><a href='#L85'>85</a>
 <a name='L86'></a><a href='#L86'>86</a>
-<a name='L87'></a><a href='#L87'>87</a>
-<a name='L88'></a><a href='#L88'>88</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">7x</span>
+<a name='L87'></a><a href='#L87'>87</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">7x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -190,7 +189,6 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -277,7 +275,6 @@ class CartController {
 <span class="fstat-no" title="function not covered" >    st</span>atic async addItemToCart(req, res, next) {
         const item = <span class="cstat-no" title="statement not covered" >req.body;</span>
         const { idProduct } = <span class="cstat-no" title="statement not covered" >req.params;</span>
-        
 <span class="cstat-no" title="statement not covered" >        try {</span>
             const product = <span class="cstat-no" title="statement not covered" >await CategoriesServices.getDataOneProduct(idProduct);</span>
             const variantId = <span class="cstat-no" title="statement not covered" >CartServices.discoveringVariantIt(item, product)</span>
@@ -292,34 +289,34 @@ class CartController {
     }
 &nbsp;
 <span class="fstat-no" title="function not covered" >    st</span>atic async deleteItemFromCart(req, res, next) {
-      const variantId = <span class="cstat-no" title="statement not covered" >req.body.variantId;</span>
+        const variantId = <span class="cstat-no" title="statement not covered" >req.body.variantId;</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >      try {</span>
-        const cart = <span class="cstat-no" title="statement not covered" >await CartServices.getDataCart(req.cookies.token);</span>
-        const cartProducts = <span class="cstat-no" title="statement not covered" >CartServices.returnItemsFromRequest(cart);</span>
-        const cartProductId = <span class="cstat-no" title="statement not covered" >CartServices.checkIfVariantIdMatch(cartProducts, variantId);</span>
-        const itemToBeDeleted = <span class="cstat-no" title="statement not covered" >CartServices.deleteCartItem(cartProductId[0], variantId)</span>
-<span class="cstat-no" title="statement not covered" >        await CartServices.deleteDataCart(itemToBeDeleted, req.cookies.token);</span>
+<span class="cstat-no" title="statement not covered" >        try {</span>
+            const cart = <span class="cstat-no" title="statement not covered" >await CartServices.getDataCart(req.cookies.token);</span>
+            const cartProducts = <span class="cstat-no" title="statement not covered" >CartServices.returnItemsFromRequest(cart);</span>
+            const cartProductId = <span class="cstat-no" title="statement not covered" >CartServices.checkIfVariantIdMatch(cartProducts, variantId);</span>
+            const itemToBeDeleted = <span class="cstat-no" title="statement not covered" >CartServices.deleteCartItem(cartProductId[0], variantId)</span>
+<span class="cstat-no" title="statement not covered" >            await CartServices.deleteDataCart(itemToBeDeleted, req.cookies.token);</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >        res.redirect('/cart')</span>
-      
-      } catch (err) { <span class="cstat-no" title="statement not covered" >next(err) </span>}
+<span class="cstat-no" title="statement not covered" >            res.redirect('/cart')</span>
+        
+        } catch (err) { <span class="cstat-no" title="statement not covered" >next(err) </span>}
     }
 &nbsp;
 <span class="fstat-no" title="function not covered" >    st</span>atic async changeQuantityOfItemFromCart(req, res, next) {
-      const variantId = <span class="cstat-no" title="statement not covered" >req.params.idVariant;</span>
-      const quantity = <span class="cstat-no" title="statement not covered" >req.body.quantity;</span>
+        const variantId = <span class="cstat-no" title="statement not covered" >req.params.idVariant;</span>
+        const quantity = <span class="cstat-no" title="statement not covered" >req.body.quantity;</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >      try {</span>
-        const cart = <span class="cstat-no" title="statement not covered" >await CartServices.getDataCart(req.cookies.token);</span>
-        const cartProducts = <span class="cstat-no" title="statement not covered" >CartServices.returnItemsFromRequest(cart);</span>
-        const cartProductId = <span class="cstat-no" title="statement not covered" >CartServices.checkIfVariantIdMatch(cartProducts, variantId);</span>
-        const itemToBeChanged = <span class="cstat-no" title="statement not covered" >CartServices.cartItem(cartProductId[0], variantId, quantity)</span>
-<span class="cstat-no" title="statement not covered" >        await CartServices.changeQuantityCart(itemToBeChanged, req.cookies.token);</span>
+<span class="cstat-no" title="statement not covered" >        try {</span>
+            const cart = <span class="cstat-no" title="statement not covered" >await CartServices.getDataCart(req.cookies.token);</span>
+            const cartProducts = <span class="cstat-no" title="statement not covered" >CartServices.returnItemsFromRequest(cart);</span>
+            const cartProductId = <span class="cstat-no" title="statement not covered" >CartServices.checkIfVariantIdMatch(cartProducts, variantId);</span>
+            const itemToBeChanged = <span class="cstat-no" title="statement not covered" >CartServices.cartItem(cartProductId[0], variantId, quantity)</span>
+<span class="cstat-no" title="statement not covered" >            await CartServices.changeQuantityCart(itemToBeChanged, req.cookies.token);</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >        res.redirect('/cart')</span>
-      
-      } catch (err) { <span class="cstat-no" title="statement not covered" >next(err) </span>}
+<span class="cstat-no" title="statement not covered" >            res.redirect('/cart')</span>
+        
+        } catch (err) { <span class="cstat-no" title="statement not covered" >next(err) </span>}
     }
 }
    
@@ -331,7 +328,7 @@ module.exports = CartController;
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at Fri Feb 25 2022 09:05:16 GMT-0300 (Horário Padrão de Brasília)
+                at Fri Feb 25 2022 10:35:47 GMT-0300 (Horário Padrão de Brasília)
             </div>
         <script src="../../prettify.js"></script>
         <script>
