@@ -3,12 +3,14 @@
 <!DOCTYPE html>
 <html lang="en">
 
-    <% parentResults.forEach((parent) => { %>
+    <% for (let parent of parentResults) { %>
     <head>
         <%- include('partials/head'); %>
-        <title><%= parent.page_title %></title>
+        <% if (parent.id.includes(mainCategory)) { %>
+            <title><%= parent.page_title %></title>
+        <% } %>
     </head>
-    <% }); %>
+    <% } %>
 
     <body class="container">
         <header>
